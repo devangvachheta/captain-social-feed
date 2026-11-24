@@ -1,7 +1,6 @@
 /* The .capsf-card-list grid itself lives in assets/css/frontend.css (shared). */
 
-.capsf-s1-card,
-.yt-card {
+.capsf-s1-card {
 	background: #ffffff;
 	border-radius: 14px;
 	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
@@ -16,22 +15,19 @@
 	position: relative;
 }
 
-.capsf-s1-card:hover,
-.yt-card:hover {
+.capsf-s1-card:hover {
 	transform: translateY(-6px);
 	box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
 }
 
-.capsf-s1-thumb-wrap,
-.yt-card-thumb-wrap {
+.capsf-s1-thumb-wrap {
 	position: relative;
 	overflow: hidden;
 	display: block;
 	line-height: 0;
 }
 
-.capsf-s1-thumbnail,
-.yt-card-thumbnail {
+.capsf-s1-thumbnail {
 	width: 100% !important;
 	height: 195px !important;
 	object-fit: cover;
@@ -39,13 +35,11 @@
 	transition: transform 0.4s ease;
 }
 
-.capsf-s1-card:hover .capsf-s1-thumbnail,
-.yt-card:hover .yt-card-thumbnail {
+.capsf-s1-card:hover .capsf-s1-thumbnail {
 	transform: scale(1.04);
 }
 
-.capsf-s1-play-btn,
-.yt-card-play-btn {
+.capsf-s1-play-btn {
 	position: absolute;
 	inset: 0;
 	display: flex;
@@ -56,40 +50,31 @@
 	transition: opacity 0.3s ease;
 }
 
-.capsf-s1-card:hover .capsf-s1-play-btn,
-.yt-card:hover .yt-card-play-btn {
+.capsf-s1-card:hover .capsf-s1-play-btn {
 	opacity: 1;
 }
 
-.capsf-s1-icon-pause,
-.yt-card-icon-pause { display: none; }
-.capsf-s1-thumb-wrap.capsf-is-playing .capsf-s1-icon-play,
-.yt-card-thumb-wrap.capsf-is-playing .yt-card-icon-play { display: none; }
-.capsf-s1-thumb-wrap.capsf-is-playing .capsf-s1-icon-pause,
-.yt-card-thumb-wrap.capsf-is-playing .yt-card-icon-pause { display: block; }
-.capsf-s1-thumb-wrap.capsf-is-playing .capsf-s1-play-btn,
-.yt-card-thumb-wrap.capsf-is-playing .yt-card-play-btn { opacity: 1; }
+.capsf-s1-icon-pause { display: none; }
+.capsf-s1-thumb-wrap.capsf-is-playing .capsf-s1-icon-play { display: none; }
+.capsf-s1-thumb-wrap.capsf-is-playing .capsf-s1-icon-pause { display: block; }
+.capsf-s1-thumb-wrap.capsf-is-playing .capsf-s1-play-btn { opacity: 1; }
 
-.capsf-s1-play-btn svg,
-.yt-card-play-btn svg {
+.capsf-s1-play-btn svg {
 	width: 52px;
 	height: 52px;
 	filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
 	transition: transform 0.2s ease;
 }
 
-.capsf-s1-card:hover .capsf-s1-play-btn svg,
-.yt-card:hover .yt-card-play-btn svg {
+.capsf-s1-card:hover .capsf-s1-play-btn svg {
 	transform: scale(1.1);
 }
 
-.capsf-s1-content,
-.yt-card-content {
+.capsf-s1-content {
 	padding: 14px 16px 16px;
 }
 
-.capsf-s1-title,
-.yt-card-title {
+.capsf-s1-title {
 	margin: 0 0 7px;
 	font-size: 15px;
 	color: #0f0f0f;
@@ -101,8 +86,7 @@
 	overflow: hidden;
 }
 
-.capsf-s1-duration,
-.yt-card-duration {
+.capsf-s1-duration {
 	position: absolute;
 	inset-inline-end: 8px;
 	bottom: 8px;
@@ -116,15 +100,13 @@
 	z-index: 2;
 }
 
-.capsf-s1-stats,
-.yt-card-stats {
+.capsf-s1-stats {
 	margin: 0 0 12px;
 	font-size: 12.5px;
 	color: #737373;
 }
 
-.capsf-s1-description,
-.yt-card-description {
+.capsf-s1-description {
 	margin: 0 0 12px;
 	font-size: 13px;
 	color: #737373;
@@ -135,8 +117,7 @@
 	overflow: hidden;
 }
 
-.capsf-s1-channel-info,
-.yt-channel-info {
+.capsf-s1-channel-info {
 	display: flex;
 	align-items: center;
 	gap: 8px;
@@ -144,8 +125,7 @@
 	border-top: 1px solid #f0f0f0;
 }
 
-.capsf-s1-channel-dot,
-.yt-channel-dot {
+.capsf-s1-channel-dot {
 	width: 28px;
 	height: 28px;
 	border-radius: 50%;
@@ -156,15 +136,13 @@
 	flex-shrink: 0;
 }
 
-.capsf-s1-channel-dot svg,
-.yt-channel-dot svg {
+.capsf-s1-channel-dot svg {
 	width: 13px;
 	height: 13px;
 	fill: #fff;
 }
 
-.capsf-s1-channel-name,
-.yt-channel-name {
+.capsf-s1-channel-name {
 	font-size: 13px;
 	color: #555;
 	font-weight: 500;
@@ -176,11 +154,7 @@
 /* Equal Card Height (Behaviors tab) - see the capsf-equal-h class added in
  * class-capsf-shortcode.php: equal-height cards per row, 2 title lines
  * reserved so the rows below line up, last row pinned to the card's bottom. */
-.capsf-equal-h .capsf-s1-card,
-.capsf-equal-h .yt-card { display: flex; flex-direction: column; }
-.capsf-equal-h .capsf-s1-content,
-.capsf-equal-h .yt-card-content { flex: 1 1 auto; display: flex; flex-direction: column; }
-.capsf-equal-h .capsf-s1-title,
-.capsf-equal-h .yt-card-title { min-height: 2.9em; /* 2 lines at line-height 1.45 */ }
-.capsf-equal-h .capsf-s1-content > :last-child,
-.capsf-equal-h .yt-card-content > :last-child { margin-top: auto; }
+.capsf-equal-h .capsf-s1-card { display: flex; flex-direction: column; }
+.capsf-equal-h .capsf-s1-content { flex: 1 1 auto; display: flex; flex-direction: column; }
+.capsf-equal-h .capsf-s1-title { min-height: 2.9em; /* 2 lines at line-height 1.45 */ }
+.capsf-equal-h .capsf-s1-content > :last-child { margin-top: auto; }

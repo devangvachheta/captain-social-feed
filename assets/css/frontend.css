@@ -84,7 +84,6 @@
 }
 
 /* Smaller logo inside the older designs' channel badges / name rows. */
-.yt-channel-dot .capsf-platform-icon,
 .capsf-card-badge .capsf-platform-icon,
 .capsf-s3-channel-badge .capsf-platform-icon,
 .capsf-reel-content .capsf-platform-icon {
@@ -475,16 +474,16 @@
 	border-radius: 50%;
 	object-fit: cover;
 }
-.yt-channel-dot .capsf-avatar {
+.capsf-s1-channel-dot .capsf-avatar {
 	width: 100%;
 	height: 100%;
 }
 /* Classic Card: platform logo pushed to the end of the name row. */
-.yt-channel-platform {
+.capsf-s1-channel-platform {
 	display: inline-flex;
 	margin-inline-start: auto;
 }
-.yt-channel-platform .capsf-platform-icon {
+.capsf-s1-channel-platform .capsf-platform-icon {
 	width: 18px;
 	height: 18px;
 }

@@ -154,8 +154,8 @@ if ( ! class_exists( 'Capsf_Posttype' ) ) {
 
 			// Feed name for title bar.
 			global $wpdb;
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-			$feed_name = $wpdb->get_var( $wpdb->prepare( "SELECT feed_name FROM {$wpdb->prefix}capsf_feeds WHERE id = %d", $feed_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- admin-only preview, plugin's own table, must be live.
+			$feed_name = $wpdb->get_var( $wpdb->prepare( "SELECT feed_name FROM {$wpdb->prefix}capsf_feeds WHERE id = %d", $feed_id ) );
 
 			$editor_url = admin_url( 'admin.php?page=captain-social-feed#/edit?id=' . absint( $feed_id ) );
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display flag only, admin-only page.
@@ -275,8 +275,8 @@ if ( ! class_exists( 'Capsf_Posttype' ) ) {
 				return array();
 			}
 			global $wpdb;
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-			$row = $wpdb->get_row( $wpdb->prepare( "SELECT settings FROM {$wpdb->prefix}capsf_feeds WHERE id = %d", $feed_id ), ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- admin-only preview, plugin's own table, must be live.
+			$row = $wpdb->get_row( $wpdb->prepare( "SELECT settings FROM {$wpdb->prefix}capsf_feeds WHERE id = %d", $feed_id ), ARRAY_A );
 			if ( empty( $row['settings'] ) ) {
 				return array();
 			}

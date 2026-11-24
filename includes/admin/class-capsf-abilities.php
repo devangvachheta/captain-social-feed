@@ -197,7 +197,7 @@ if ( ! class_exists( 'Capsf_Abilities' ) ) {
 					'equal_height'      => array( 'type' => 'boolean' ),
 					'video_play_mode'   => array(
 						'type' => 'string',
-						'enum' => array( 'platform', 'lightbox', 'inline', 'youtube' ),
+						'enum' => array( 'platform', 'lightbox', 'inline' ),
 					),
 					'style_preset'      => array(
 						'type' => 'string',

@@ -396,9 +396,9 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 				if ( ! $capsf_show_title || ! $capsf_show_channel || ! $capsf_show_desc ) {
 					$title_channel_sels = array(
 						'style-1'    => array(
-							'title'       => $scope . ' .capsf-s1-title,' . $scope . ' .yt-card-title',
-							'channel'     => $scope . ' .capsf-s1-channel-info,' . $scope . ' .yt-channel-info',
-							'description' => $scope . ' .capsf-s1-description,' . $scope . ' .yt-card-description',
+							'title'       => $scope . ' .capsf-s1-title',
+							'channel'     => $scope . ' .capsf-s1-channel-info',
+							'description' => $scope . ' .capsf-s1-description',
 						),
 						'style-2'    => array(
 							'title'   => $scope . ' .capsf-card-body h3',
@@ -1222,7 +1222,7 @@ JS;
 			$batch_size = min( $requested_count, $remaining );
 
 			// Platform APIs (Instagram/Facebook/Twitter/Threads/Pinterest) don't
-			// expose the same page-token cursor YouTube did, so Load More instead
+			// expose a page-token cursor, so Load More instead
 			// re-requests up to (already loaded + this batch) posts - cheap since
 			// get_platform_posts() caches per feed - and slices off just the new
 			// ones. Simpler and just as correct as cursor pagination for feed sizes
@@ -2027,9 +2027,9 @@ JS;
 
 		/**
 		 * Neutral round play + pause icons (pause shows while a video plays
-		 * inline). Replaces the old YouTube-style red play button.
+		 * inline).
 		 *
-		 * @param string $prefix Class prefix, e.g. 'yt-card' → yt-card-icon-play / yt-card-icon-pause.
+		 * @param string $prefix Class prefix, e.g. 'capsf-s1' gives capsf-s1-icon-play and capsf-s1-icon-pause.
 		 * @return string
 		 */
 		public static function play_icons( $prefix ) {
@@ -2148,7 +2148,7 @@ JS;
 		/**
 		 * Shorten plain text to a word-boundary-safe excerpt, used to derive
 		 * a pseudo "title" from a platform post's caption (which, unlike a
-		 * YouTube video, has no separate title field).
+		 * video platform, has no separate title field).
 		 *
 		 * @since 0.0.1
 		 * @param string $text   Source text.
@@ -2169,7 +2169,7 @@ JS;
 		}
 
 		/**
-		 * Format a large number the way YouTube's own UI does - e.g.
+		 * Format a large number in compact form - e.g.
 		 * 200000 -> "200K", 4500000 -> "4.5M", 950 -> "950".
 		 *
 		 * @since 1.2.4
@@ -2196,7 +2196,7 @@ JS;
 		 * Turn a video's publishedAt timestamp into a "1 week ago" style label.
 		 *
 		 * @since 1.2.5
-		 * @param string $published_at ISO 8601 timestamp from the YouTube API.
+		 * @param string $published_at ISO 8601 timestamp from the platform API.
 		 * @return string Empty string if the timestamp can't be parsed.
 		 */
 		public function capsf_time_ago( $published_at ) {

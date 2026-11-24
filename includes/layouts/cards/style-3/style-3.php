@@ -10,17 +10,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $capsf_s3_link_class     = isset( $capsf_link_class ) ? $capsf_link_class : ( isset( $link_class ) ? $link_class : '' );
-$capsf_s3_lightbox_href   = isset( $capsf_lightbox_href ) ? $capsf_lightbox_href : ( isset( $lightbox_href ) ? $lightbox_href : $video_link );
-$capsf_s3_link_target     = isset( $capsf_link_target ) ? $capsf_link_target : ( isset( $link_target ) ? $link_target : '_blank' );
+$capsf_s3_lightbox_href  = isset( $capsf_lightbox_href ) ? $capsf_lightbox_href : ( isset( $lightbox_href ) ? $lightbox_href : $video_link );
+$capsf_s3_link_target    = isset( $capsf_link_target ) ? $capsf_link_target : ( isset( $link_target ) ? $link_target : '_blank' );
 $capsf_s3_glightbox_attr = isset( $capsf_glightbox_attr ) ? $capsf_glightbox_attr : ( isset( $glightbox_attr ) ? $glightbox_attr : '' );
 $capsf_s3_item_class     = isset( $capsf_item_class ) ? $capsf_item_class : ( isset( $item_class ) ? $item_class : '' );
 $capsf_s3_item_attrs     = isset( $capsf_item_attrs ) ? $capsf_item_attrs : ( isset( $item_attrs ) ? $item_attrs : '' );
 
 // Determine href, target, class based on play mode.
-$capsf_s3_href    = 'capsf-glightbox' === $capsf_s3_link_class ? $capsf_s3_lightbox_href : $video_link;
-$capsf_s3_target  = '' !== $capsf_s3_link_target ? esc_attr( $capsf_s3_link_target ) : '_blank';
-$capsf_s3_class   = 'capsf-s3-card' . ( ! empty( $capsf_s3_link_class ) ? ' ' . esc_attr( $capsf_s3_link_class ) : '' ) . ( ! empty( $capsf_s3_item_class ) ? ' ' . esc_attr( $capsf_s3_item_class ) : '' );
-$capsf_s3_extra   = ! empty( $capsf_s3_glightbox_attr ) ? ' ' . $capsf_s3_glightbox_attr : '';
+$capsf_s3_href   = 'capsf-glightbox' === $capsf_s3_link_class ? $capsf_s3_lightbox_href : $video_link;
+$capsf_s3_target = '' !== $capsf_s3_link_target ? esc_attr( $capsf_s3_link_target ) : '_blank';
+$capsf_s3_class  = 'capsf-s3-card' . ( ! empty( $capsf_s3_link_class ) ? ' ' . esc_attr( $capsf_s3_link_class ) : '' ) . ( ! empty( $capsf_s3_item_class ) ? ' ' . esc_attr( $capsf_s3_item_class ) : '' );
+$capsf_s3_extra  = ! empty( $capsf_s3_glightbox_attr ) ? ' ' . $capsf_s3_glightbox_attr : '';
 ?>
 
 <a href="<?php echo esc_url( $capsf_s3_href ); ?>" class="<?php echo esc_attr( $capsf_s3_class ); ?>" target="<?php echo esc_attr( $capsf_s3_target ); ?>"<?php echo $capsf_s3_extra; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo $capsf_s3_item_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>

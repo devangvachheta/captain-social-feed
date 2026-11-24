@@ -181,10 +181,11 @@ if ( ! class_exists( 'Capsf_Dashboard_Ajax' ) ) {
 
 			$table_name = $wpdb->prefix . 'capsf_feeds';
 			$author     = get_current_user_id();
-			$count      = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$count      = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name}" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- plugin's own table, trusted prefix, live count needed.
 			/* translators: %d: auto-incremented feed number */
 			$feed_name = sprintf( esc_html__( 'social-feed-%d', 'captain-social-feed' ), $count + 1 );
 
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- writing to the plugin's own custom table.
 			$result = $wpdb->insert(
 				$table_name,
 				array(
@@ -224,7 +225,8 @@ if ( ! class_exists( 'Capsf_Dashboard_Ajax' ) ) {
 			}
 
 			$table_name = $wpdb->prefix . 'capsf_feeds';
-			$result     = $wpdb->update(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- writing to the plugin's own custom table.
+			$result = $wpdb->update(
 				$table_name,
 				array( 'feed_name' => $feed_name ),
 				array( 'id' => $feed_id ),
