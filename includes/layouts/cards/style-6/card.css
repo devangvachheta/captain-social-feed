@@ -1,0 +1,204 @@
+/* ── Style-6: Playlist Layout ───────────────────────────────────── */
+.capsf-s6-wrapper {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--capsf-card-bg, #ffffff);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--capsf-card-border, #e5e7eb);
+    box-shadow: var(--capsf-card-shadow, 0 2px 10px rgba(0,0,0,0.08));
+}
+
+/* Left: featured large video */
+.capsf-s6-featured {
+    flex: 0 0 65%;
+    min-width: 0;
+}
+
+.capsf-s6-featured-thumb {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: #1f2937;
+    text-decoration: none;
+}
+
+.capsf-s6-featured-thumb img {
+    width: 100% !important; height: 100% !important;
+    object-fit: cover; display: block;
+    transition: transform 0.3s;
+}
+.capsf-s6-featured-thumb:hover img { transform: scale(1.03); }
+
+.capsf-s6-featured-play {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.2s;
+    background: rgba(0,0,0,0.1);
+}
+.capsf-s6-featured-thumb:hover .capsf-s6-featured-play { opacity: 1; }
+
+.capsf-s6-featured-icon-pause { display: none; }
+.capsf-s6-featured-thumb.capsf-is-playing .capsf-s6-featured-icon-play { display: none; }
+.capsf-s6-featured-thumb.capsf-is-playing .capsf-s6-featured-icon-pause { display: block; }
+.capsf-s6-featured-thumb.capsf-is-playing .capsf-s6-featured-play { opacity: 1; }
+
+.capsf-s6-duration {
+    position: absolute; inset-inline-end: 8px; bottom: 8px;
+    background: rgba(0, 0, 0, 0.8); color: #fff;
+    font-size: 12px; font-weight: 600; line-height: 1;
+    padding: 3px 6px; border-radius: 4px; z-index: 2;
+}
+
+.capsf-s6-featured-info {
+    padding: 14px 16px 16px;
+}
+
+.capsf-s6-featured-title {
+    font-size: 16px; font-weight: 700;
+    color: var(--capsf-s6-title, #0f0f0f);
+    line-height: 1.4; margin: 0 0 10px;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+.capsf-s6-stats {
+    font-size: 12.5px; color: var(--capsf-s6-meta, #6b7280);
+    margin: -6px 0 8px;
+}
+
+.capsf-s6-featured-channel {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600;
+    color: var(--capsf-s6-meta, #6b7280);
+}
+.capsf-s6-featured-channel .capsf-platform-icon { width: 16px; height: 16px; }
+
+/* Right: column height is synced to .capsf-s6-featured's real height via JS (capsf-playlist.js) - list + Load More button scroll together inside it. The max-height below is just a pre-JS fallback. */
+.capsf-s6-list-col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    max-height: 480px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #e5e7eb transparent;
+}
+.capsf-s6-list-col::-webkit-scrollbar { width: 4px; }
+.capsf-s6-list-col::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 4px; }
+.capsf-s6-list {
+    flex-shrink: 0;
+    min-width: 0;
+    padding: 8px 8px 8px 0;
+}
+.capsf-s6-list-col .capsf-load-more-wrap { flex-shrink: 0; margin-top: 12px; padding: 0 8px 12px 0; }
+
+/* List item */
+.capsf-s6-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s;
+    position: relative;
+}
+.capsf-s6-item:hover { background: rgba(0,0,0,0.04); }
+
+.capsf-s6-thumb {
+    flex: 0 0 120px;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #b2bec3;
+}
+.capsf-s6-thumb img {
+    width: 100%; height: auto; display: block;
+    aspect-ratio: 16/9; object-fit: cover;
+}
+
+.capsf-s6-list-play {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.2s;
+    background: rgba(0,0,0,0.3);
+    border-radius: 6px;
+}
+.capsf-s6-item:hover .capsf-s6-list-play { opacity: 1; }
+
+.capsf-s6-list-duration {
+    position: absolute; inset-inline-end: 4px; bottom: 4px;
+    background: rgba(0, 0, 0, 0.8); color: #fff;
+    font-size: 10px; font-weight: 600; line-height: 1;
+    padding: 2px 4px; border-radius: 3px; z-index: 2;
+}
+
+.capsf-s6-list-icon-pause { display: none; }
+.capsf-s6-playlist-item.active .capsf-s6-list-play {
+    opacity: 1;
+    background: rgba(0,0,0,0.45);
+}
+.capsf-s6-playlist-item.active .capsf-s6-list-icon-play { display: none; }
+.capsf-s6-playlist-item.active .capsf-s6-list-icon-pause { display: block; }
+
+.capsf-s6-info { flex: 1; min-width: 0; padding-top: 2px; }
+
+.capsf-s6-title {
+    font-size: 12px; font-weight: 600;
+    color: var(--capsf-s6-title, #0f0f0f);
+    line-height: 1.4; margin: 0 0 5px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+.capsf-s6-ch {
+    font-size: 11px; color: var(--capsf-s6-meta, #6b7280);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    display: block;
+}
+
+.capsf-s6-list-stats {
+    font-size: 10.5px; color: var(--capsf-s6-meta, #6b7280);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    display: block; margin-top: 2px;
+}
+
+.capsf-s6-idx {
+    flex: 0 0 20px;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #9ca3af;
+}
+.capsf-s6-idx-play { display: none; }
+.capsf-s6-item.active .capsf-s6-idx-num { display: none; }
+.capsf-s6-item.active .capsf-s6-idx-play {
+    display: block;
+    color: var(--capsf-primary, #2271b1);
+}
+
+/* Responsive: stack on mobile */
+@media (max-width: 768px) {
+    .capsf-s6-wrapper { flex-direction: column; }
+    .capsf-s6-featured { flex: none; width: 100%; }
+    .capsf-s6-list-col { max-height: 320px !important; }
+    .capsf-s6-list { padding: 8px; }
+}
+
+
+/* Playlist - highlight the currently-playing item in the side list */
+.capsf-s6-item.active {
+    background: #eef3ff;
+    border-radius: 8px;
+}
+.capsf-s6-item.active .capsf-s6-title {
+    color: var(--capsf-primary, #2271b1);
+}

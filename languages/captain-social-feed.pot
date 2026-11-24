@@ -1,0 +1,4601 @@
+# Copyright (C) 2026 devangvachheta
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Captain Social Feed 0.3.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/captain-social-feed\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-24T04:01:44+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: captain-social-feed\n"
+
+#. Plugin Name of the plugin
+#: captain-social-feed.php
+#: includes/admin/class-capsf-abilities.php:80
+#: includes/admin/class-capsf-menu.php:64
+#: includes/admin/class-capsf-posttype.php:172
+#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:41
+#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:185
+#: includes/widgets/elementor/class-capsf-elementor-loader.php:97
+#: includes/widgets/gutenberg/class-capsf-gutenberg-feed-block.php:119
+#: includes/widgets/gutenberg/class-capsf-gutenberg-feed-block.php:146
+#: includes/widgets/gutenberg/class-capsf-gutenberg-loader.php:59
+#: includes/widgets/gutenberg/gutenberg-feed-block.js:17
+#: includes/widgets/gutenberg/gutenberg-feed-block.js:52
+#: src/page/edit_feed/edit_feed.jsx:2576
+#: src/page/navigation/navigation.jsx:172
+#: src/page/white_label/white_label.jsx:199
+msgid "Captain Social Feed"
+msgstr ""
+
+#. Description of the plugin
+#: captain-social-feed.php
+msgid "Display customizable Instagram, Facebook, Twitter, Threads and Pinterest feeds on your WordPress website."
+msgstr ""
+
+#. Author of the plugin
+#: captain-social-feed.php
+msgid "devangvachheta"
+msgstr ""
+
+#. Author URI of the plugin
+#: captain-social-feed.php
+msgid "https://profiles.wordpress.org/devangvachheta/"
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:81
+msgid "Create and manage social media feeds (Instagram, Facebook, X, Threads, Pinterest) on this site."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:216
+msgid "Common keys: columns / columns_tablet / columns_mobile (int), max_results (int, posts to show), layout_category (\"grid\", \"slider\", \"playlist\" or \"reel\"), card_style (e.g. \"social-2\" Social Post, \"social-1\" Image First, \"style-1\", \"style-2\", \"style-3\", \"style-6\", \"style-8\", \"reel-1\"), post_filter (\"all\", \"video\", \"photo\" or \"text\"), caption_mode (\"show_more\" or \"scroll\"), pagination_type (\"none\" or \"load_more\"), show_channel_name / show_description / show_view_count / show_date / equal_height (bool), video_play_mode (\"platform\" = open the original post, \"lightbox\" = popup, \"inline\"), style_preset (\"light\" or \"dark\"). Other keys are saved as-is after sanitizing."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:228
+msgid "Instagram: access_token + account_id. Facebook: access_token + page_id. X/Twitter: bearer_token + username. Threads: access_token + account_id. Pinterest: access_token + board_id."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:234
+msgid "List Social Feeds"
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:235
+msgid "Lists every social feed on this site with its ID, name, platform and status."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:277
+msgid "Get Social Feed"
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:278
+msgid "Returns the details and settings of one feed, plus its shortcode. Access tokens are masked."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:291
+msgid "The feed ID (see list-feeds)."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:305
+#: includes/admin/class-capsf-abilities.php:346
+#: includes/admin/class-capsf-abilities.php:468
+#: includes/admin/class-capsf-abilities.php:537
+#: includes/admin/class-capsf-abilities.php:598
+#: includes/admin/class-capsf-abilities.php:642
+msgid "No feed found with that ID."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:320
+msgid "Get Feed Shortcode"
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:321
+msgid "Returns the shortcode of a feed, to paste into a page or post."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:357
+msgid "Create Social Feed"
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:358
+msgid "Creates a new feed for one platform. Credentials:"
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:375
+msgid "Display settings."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:392
+#: includes/admin/class-capsf-dashboard-ajax.php:609
+#: includes/admin/class-capsf-shortcode.php:1403
+msgid "Unsupported platform."
+msgstr ""
+
+#. translators: 1: platform key, 2: auto-incremented feed number.
+#: includes/admin/class-capsf-abilities.php:407
+#, php-format
+msgid "%1$s-%2$d"
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:423
+msgid "Failed to create the feed."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:439
+msgid "Update Social Feed"
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:440
+msgid "Updates an existing feed. Omitted fields keep their value - settings are merged into the existing settings, not replaced."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:452
+msgid "Settings to change - only the keys you want to change. Call get-feed first if unsure."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:497
+msgid "Failed to update the feed."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:510
+msgid "Duplicate Social Feed"
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:511
+msgid "Creates a copy of an existing feed (same platform and settings) under a new name."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:554
+msgid "Failed to duplicate the feed."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:570
+msgid "Delete Social Feed"
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:571
+msgid "Permanently deletes a feed. This cannot be undone."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:595
+msgid "Failed to delete the feed."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:610
+msgid "Diagnose Social Feed"
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:611
+msgid "Checks why a feed might not be showing posts - tests its credentials against the platform and reports any problems found."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:651
+msgid "This feed is turned off (status: inactive) - it will not render on the site."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:656
+msgid "This feed is not connected to a supported platform."
+msgstr ""
+
+#: includes/admin/class-capsf-abilities.php:660
+msgid "The platform rejected this feed's credentials."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:72
+msgid "Invalid nonce."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:72
+msgid "The security check failed. Please refresh the page and try again."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:79
+msgid "Invalid Permission."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:79
+#: includes/admin/class-capsf-dashboard-ajax.php:87
+msgid "Something went wrong."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:87
+msgid "Invalid type."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:163
+msgid "Unsupported request."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:164
+msgid "This action is not available in your current version."
+msgstr ""
+
+#. translators: %d: auto-incremented feed number
+#: includes/admin/class-capsf-dashboard-ajax.php:186
+#, php-format
+msgid "social-feed-%d"
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:202
+msgid "Failed to create feed."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:205
+#: includes/admin/class-capsf-dashboard-ajax.php:340
+msgid "Feed created."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:223
+#: includes/admin/class-capsf-dashboard-ajax.php:415
+msgid "Invalid data."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:236
+#: includes/admin/class-capsf-dashboard-ajax.php:262
+#: includes/admin/class-capsf-dashboard-ajax.php:362
+#: includes/admin/class-capsf-dashboard-ajax.php:391
+#: includes/admin/class-capsf-dashboard-ajax.php:428
+#: includes/admin/class-capsf-dashboard-ajax.php:458
+#: includes/admin/class-capsf-dashboard-ajax.php:718
+#: includes/admin/class-capsf-dashboard-ajax.php:843
+msgid "DB Error."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:239
+msgid "Feed name updated."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:265
+#: includes/admin/class-capsf-dashboard-ajax.php:472
+#: includes/admin/class-capsf-dashboard-ajax.php:863
+msgid "Success."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:291
+msgid "Invalid platform."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:309
+msgid "Missing Fields."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:309
+msgid "feed_name and feed_title are required."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:316
+#: includes/admin/class-capsf-dashboard-ajax.php:462
+#: includes/admin/class-capsf-dashboard-ajax.php:508
+#: includes/admin/class-capsf-dashboard-ajax.php:643
+#: includes/admin/class-capsf-dashboard-ajax.php:693
+#: includes/admin/class-capsf-dashboard-ajax.php:779
+#: includes/admin/class-capsf-dashboard-ajax.php:829
+#: includes/admin/class-capsf-shortcode.php:1193
+#: src/page/edit_feed/edit_feed.jsx:1632
+msgid "Feed not found."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:335
+#: includes/admin/class-capsf-dashboard-ajax.php:724
+msgid "Feed updated."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:384
+#: includes/admin/class-capsf-dashboard-ajax.php:448
+#: includes/admin/class-capsf-dashboard-ajax.php:497
+#: includes/admin/class-capsf-dashboard-ajax.php:775
+msgid "Invalid Feed ID."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:396
+msgid "Feed deleted successfully."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:431
+msgid "Status updated."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:501
+msgid "Preview service unavailable."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:518
+msgid "No posts found for preview."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:552
+msgid "Preview posts loaded."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:604
+msgid "Missing platform."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:631
+#: includes/admin/class-capsf-dashboard-ajax.php:681
+#: includes/admin/class-capsf-dashboard-ajax.php:812
+msgid "Invalid feed ID."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:739
+#: includes/admin/class-capsf-dashboard-ajax.php:743
+msgid "Cache cleared successfully."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:786
+#: src/page/edit_feed/edit_feed.jsx:1612
+msgid "This feed's cache was cleared."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:852
+msgid "Settings auto-saved."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:891
+msgid "Invalid setting key."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:894
+msgid "Invalid setting value."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:910
+msgid "Setting saved."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1091
+#: includes/admin/class-capsf-dashboard-ajax.php:1162
+#: includes/admin/class-capsf-dashboard-ajax.php:1209
+msgid "Permission denied."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1091
+#: includes/admin/class-capsf-dashboard-ajax.php:1209
+msgid "You do not have permission to install plugins."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1099
+#: includes/admin/class-capsf-dashboard-ajax.php:1115
+#: includes/admin/class-capsf-dashboard-ajax.php:1119
+msgid "Invalid version."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1099
+msgid "The version number provided is not valid."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1115
+msgid "That version is not published on WordPress.org."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1134
+#: includes/admin/class-capsf-dashboard-ajax.php:1137
+#: includes/admin/class-capsf-dashboard-ajax.php:1276
+#: includes/admin/class-capsf-dashboard-ajax.php:1279
+msgid "Installation failed."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1137
+#: includes/admin/class-capsf-dashboard-ajax.php:1279
+msgid "Unknown error. Check file permissions."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1144
+#: includes/admin/class-capsf-dashboard-ajax.php:1289
+msgid "Installed but not activated."
+msgstr ""
+
+#. translators: %s: plugin version number e.g. 1.2.3
+#: includes/admin/class-capsf-dashboard-ajax.php:1148
+#, php-format
+msgid "Version %s installed and activated successfully."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1220
+msgid "Invalid plugin."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1239
+msgid "Plugin is already active."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1243
+msgid "Activation failed."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1245
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1268
+msgid "Could not find plugin on WordPress.org."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1284
+msgid "Installed, but could not determine plugin file to activate."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1292
+msgid "Plugin installed and activated successfully."
+msgstr ""
+
+#: includes/admin/class-capsf-dashboard-ajax.php:1406
+msgid "A database error occurred. Enable WP_DEBUG_LOG for details."
+msgstr ""
+
+#: includes/admin/class-capsf-menu.php:68
+#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:92
+#: src/page/create_page/create_page.jsx:158
+msgid "Social Feed"
+msgstr ""
+
+#: includes/admin/class-capsf-menu.php:76
+#: includes/admin/class-capsf-menu.php:77
+#: src/page/navigation/navigation.jsx:261
+#: src/page/navigation/navigation.jsx:413
+msgid "Dashboard"
+msgstr ""
+
+#: includes/admin/class-capsf-menu.php:85
+#: includes/admin/class-capsf-menu.php:86
+#: src/page/ai_tools/ai_tools.jsx:12
+#: src/page/create_page/create_page.jsx:365
+#: src/page/navigation/navigation.jsx:267
+#: src/page/navigation/navigation.jsx:419
+#: src/page/white_label/white_label.jsx:10
+#: src/services/dashboard/dashboardContent.jsx:269
+msgid "Create Feed"
+msgstr ""
+
+#: includes/admin/class-capsf-menu.php:93
+#: includes/admin/class-capsf-menu.php:94
+#: src/page/edit_feed/edit_feed.jsx:320
+#: src/page/navigation/navigation.jsx:274
+#: src/page/navigation/navigation.jsx:426
+#: src/page/settings/settings.jsx:189
+#: src/page/white_label/white_label.jsx:12
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class-capsf-menu.php:101
+#: includes/admin/class-capsf-menu.php:102
+#: src/page/ai_tools/ai_tools.jsx:94
+#: src/page/navigation/navigation.jsx:291
+#: src/page/navigation/navigation.jsx:445
+msgid "MCP"
+msgstr ""
+
+#: includes/admin/class-capsf-menu.php:109
+#: includes/admin/class-capsf-menu.php:110
+#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:105
+#: includes/widgets/gutenberg/gutenberg-feed-block.js:78
+#: src/page/docs/docs.jsx:50
+#: src/page/help/help.jsx:38
+#: src/page/navigation/navigation.jsx:297
+#: src/page/navigation/navigation.jsx:451
+#: src/page/white_label/white_label.jsx:11
+msgid "Documentation"
+msgstr ""
+
+#: includes/admin/class-capsf-menu.php:120
+#: includes/admin/class-capsf-menu.php:121
+#: src/components/pro_banner/pro_banner.jsx:49
+#: src/components/upgrade_pro_card/upgrade_pro_card.jsx:43
+#: src/page/upgrade/upgrade.jsx:54
+#: src/page/upgrade/upgrade.jsx:67
+#: src/page/upgrade/upgrade.jsx:73
+#: src/page/upgrade/upgrade.jsx:97
+msgid "Upgrade Now"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:67
+msgid "Social Feed Previews"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:146
+msgid "You must be logged in as an administrator to view this preview."
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:147
+msgid "Preview Restricted"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:172
+#: includes/admin/class-capsf-posttype.php:186
+msgid "Feed Preview"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:182
+msgid "Back to Editor"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:188
+msgid "LIVE PREVIEW"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:192
+msgid "Device preview"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:195
+#: src/page/edit_feed/controls/controls/DeviceSelect.jsx:35
+#: src/page/edit_feed/edit_feed.jsx:1520
+#: src/page/edit_feed/live_preview.jsx:27
+msgid "Desktop"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:199
+#: src/page/edit_feed/controls/controls/DeviceSelect.jsx:36
+#: src/page/edit_feed/live_preview.jsx:28
+msgid "Tablet"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:203
+#: src/page/edit_feed/controls/controls/DeviceSelect.jsx:37
+#: src/page/edit_feed/live_preview.jsx:29
+msgid "Mobile"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:208
+msgid "Close Preview"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:224
+msgid "No posts to display"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:226
+msgid "Go to the feed editor → Connect step → enter your platform credentials, then save."
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:228
+msgid "Your shortcode:"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:237
+msgid "Invalid feed ID"
+msgstr ""
+
+#: includes/admin/class-capsf-posttype.php:238
+msgid "Please open this preview from the feed editor."
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:850
+msgid "carousel"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:850
+#: includes/layouts/partials/x-profile.php:18
+#: src/page/edit_feed/edit_feed.jsx:921
+msgid "Posts"
+msgstr ""
+
+#. translators: %d: slide number. Keep "%d" as is - the script fills it in.
+#: includes/admin/class-capsf-shortcode.php:864
+#, php-format
+msgid "Slide %d"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:865
+msgid "Stop video"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:866
+#: includes/layouts/cards/style-8/style-8.php:97
+msgid "Video player"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:868
+msgid "Close"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:869
+msgid "Previous photo"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:870
+msgid "Next photo"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:871
+msgid "Previous post"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:872
+msgid "Next post"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:889
+msgid "Previous"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:889
+msgid "Next"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:1160
+msgid "Loading..."
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:1161
+msgid "Try again"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:1162
+#: src/page/edit_feed/edit_feed.jsx:249
+msgid "Load More"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:1176
+msgid "Invalid request."
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:1181
+msgid "Too many requests. Please wait a moment."
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:1197
+msgid "Feed is inactive."
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:1398
+msgid "This feed is not connected to a platform yet."
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:1773
+#: src/page/edit_feed/edit_feed.jsx:471
+#: src/page/edit_feed/edit_feed.jsx:2075
+#: src/page/edit_feed/edit_feed.jsx:2079
+#: src/page/edit_feed/edit_feed.jsx:2101
+msgid "Show More"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:1774
+#: src/page/edit_feed/edit_feed.jsx:471
+#: src/page/edit_feed/edit_feed.jsx:2105
+msgid "Show Less"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:1911
+msgctxt "post date without year"
+msgid "F j"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:1911
+msgctxt "post date with year"
+msgid "F j, Y"
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:2092
+msgid "Could not load more posts right now."
+msgstr ""
+
+#: includes/admin/class-capsf-shortcode.php:2217
+msgid "Just now"
+msgstr ""
+
+#. translators: %s: human-readable time difference, e.g. "1 week"
+#: includes/admin/class-capsf-shortcode.php:2221
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: includes/api/class-capsf-api-base.php:114
+msgid "Unexpected response from the API."
+msgstr ""
+
+#. translators: %d: HTTP status code returned by the platform API.
+#: includes/api/class-capsf-api-base.php:201
+#, php-format
+msgid "The platform API returned an error (HTTP %d)."
+msgstr ""
+
+#: includes/api/class-capsf-api-facebook.php:62
+msgid "Please enter both the Page Access Token and the Facebook Page ID."
+msgstr ""
+
+#. translators: %s: Facebook Page name.
+#: includes/api/class-capsf-api-facebook.php:80
+#, php-format
+msgid "Connected successfully to \"%s\"."
+msgstr ""
+
+#. translators: %s: Facebook Page name.
+#. translators: %s: Instagram username.
+#. translators: %s: Pinterest board name.
+#. translators: %s: Threads username.
+#: includes/api/class-capsf-api-facebook.php:80
+#: includes/api/class-capsf-api-instagram.php:72
+#: includes/api/class-capsf-api-pinterest.php:70
+#: includes/api/class-capsf-api-threads.php:70
+msgid "Connected successfully."
+msgstr ""
+
+#: includes/api/class-capsf-api-facebook.php:96
+msgid "Facebook Access Token or Page ID is missing."
+msgstr ""
+
+#: includes/api/class-capsf-api-factory.php:56
+#: src/page/create_page/create_page.jsx:24
+#: src/page/edit_feed/edit_feed.jsx:1745
+#: src/services/dashboard/dashboardContent.jsx:190
+msgid "Instagram"
+msgstr ""
+
+#: includes/api/class-capsf-api-factory.php:57
+#: src/page/create_page/create_page.jsx:30
+#: src/page/edit_feed/edit_feed.jsx:1746
+#: src/services/dashboard/dashboardContent.jsx:191
+msgid "Facebook"
+msgstr ""
+
+#: includes/api/class-capsf-api-factory.php:58
+msgid "X (Twitter)"
+msgstr ""
+
+#: includes/api/class-capsf-api-factory.php:59
+#: src/page/create_page/create_page.jsx:42
+#: src/page/edit_feed/edit_feed.jsx:1748
+#: src/services/dashboard/dashboardContent.jsx:193
+msgid "Threads"
+msgstr ""
+
+#: includes/api/class-capsf-api-factory.php:60
+#: src/page/create_page/create_page.jsx:48
+#: src/page/edit_feed/edit_feed.jsx:1749
+#: src/services/dashboard/dashboardContent.jsx:194
+msgid "Pinterest"
+msgstr ""
+
+#: includes/api/class-capsf-api-instagram.php:54
+msgid "Please enter both the Access Token and the Instagram Business Account ID."
+msgstr ""
+
+#. translators: %s: Instagram username.
+#. translators: %s: Threads username.
+#: includes/api/class-capsf-api-instagram.php:72
+#: includes/api/class-capsf-api-threads.php:70
+#, php-format
+msgid "Connected successfully as @%s."
+msgstr ""
+
+#: includes/api/class-capsf-api-instagram.php:88
+msgid "Instagram Access Token or Account ID is missing."
+msgstr ""
+
+#: includes/api/class-capsf-api-pinterest.php:52
+msgid "Please enter both the Access Token and the Board ID."
+msgstr ""
+
+#. translators: %s: Pinterest board name.
+#: includes/api/class-capsf-api-pinterest.php:70
+#, php-format
+msgid "Connected successfully to board \"%s\"."
+msgstr ""
+
+#: includes/api/class-capsf-api-pinterest.php:86
+msgid "Pinterest Access Token or Board ID is missing."
+msgstr ""
+
+#: includes/api/class-capsf-api-threads.php:52
+msgid "Please enter both the Access Token and the Threads User ID."
+msgstr ""
+
+#: includes/api/class-capsf-api-threads.php:86
+msgid "Threads Access Token or User ID is missing."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:142
+msgid "X rejected the Bearer Token (401 Unauthorized). In the X Developer Portal open your App → Keys and Tokens, click Regenerate next to Bearer Token, copy the whole token and paste it here."
+msgstr ""
+
+#. translators: %s: error message returned by X.
+#: includes/api/class-capsf-api-twitter.php:146
+#, php-format
+msgid "X did not allow reading posts with this App (%s). Reading posts needs X API access that includes post reads - check your plan / credits in the X Developer Portal."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:149
+msgid "X rate limit reached for this App. The feed will try again later."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:178
+msgid "Please enter the Bearer Token."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:187
+msgid "Please enter a #hashtag or search words."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:209
+msgid "Please paste at least one post link (https://x.com/name/status/...)."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:219
+msgid "Connected using X's free public embed (no API credits needed). Testimonials show the post text, author and date - photos, profile pictures and like counts need X API credits."
+msgstr ""
+
+#. translators: 1: posts found, 2: links pasted.
+#: includes/api/class-capsf-api-twitter.php:231
+#, php-format
+msgid "Connected - %1$d of %2$d posts found."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:239
+msgid "Please enter both the Bearer Token and the @Username."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:253
+msgid "Could not find that account."
+msgstr ""
+
+#. translators: %s: Twitter/X handle.
+#: includes/api/class-capsf-api-twitter.php:260
+#, php-format
+msgid "Connected successfully to @%s."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:278
+msgid "Twitter/X Bearer Token is missing."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:285
+msgid "Twitter/X hashtag or search words are missing."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:292
+msgid "No Twitter/X post links were added to this feed."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:304
+msgid "Twitter/X Bearer Token or Username is missing."
+msgstr ""
+
+#: includes/api/class-capsf-api-twitter.php:311
+msgid "Could not find that Twitter/X account."
+msgstr ""
+
+#: includes/class-capsf-token-refresh.php:172
+msgid "Captain Social Feed:"
+msgstr ""
+
+#: includes/class-capsf-token-refresh.php:173
+msgid "the access token could not be refreshed automatically for:"
+msgstr ""
+
+#: includes/class-capsf-token-refresh.php:174
+msgid "Please generate a new token and reconnect the feed before it expires."
+msgstr ""
+
+#. translators: %s: formatted like count, e.g. "1.8M"
+#: includes/layouts/cards/reel-1/reel-1.php:59
+#, php-format
+msgid "%s likes"
+msgstr ""
+
+#. translators: %s: formatted like count, e.g. "186"
+#: includes/layouts/cards/style-1/style-1.php:59
+#: includes/layouts/cards/style-2/style-2.php:65
+#: includes/layouts/cards/style-3/style-3.php:79
+#: includes/layouts/cards/style-6/style-6.php:53
+#: includes/layouts/cards/style-6/style-6.php:112
+#, php-format
+msgid "%s Likes"
+msgstr ""
+
+#. translators: %s: account name.
+#: includes/layouts/cards/style-8/style-8.php:25
+#, php-format
+msgid "Open post by %s"
+msgstr ""
+
+#: includes/layouts/cards/style-8/style-8.php:42
+#: includes/layouts/cards/style-8/style-8.php:44
+msgid "Album"
+msgstr ""
+
+#: includes/layouts/cards/style-8/style-8.php:47
+#: includes/layouts/cards/style-8/style-8.php:49
+msgid "Video"
+msgstr ""
+
+#: includes/layouts/cards/style-8/style-8.php:76
+#: includes/layouts/partials/x-profile.php:40
+#: src/page/edit_feed/edit_feed.jsx:918
+msgid "Follow"
+msgstr ""
+
+#. translators: %s: platform name, e.g. Instagram.
+#. translators: %s: platform name, e.g. "Facebook".
+#: includes/layouts/cards/style-8/style-8.php:83
+#: includes/layouts/partials/author.php:33
+#, php-format
+msgid "View on %s"
+msgstr ""
+
+#: includes/layouts/cards/style-8/style-8.php:102
+msgid "Play video on the original post"
+msgstr ""
+
+#: includes/layouts/cards/style-8/style-8.php:116
+#: includes/layouts/partials/stats.php:31
+#: includes/layouts/partials/x-tweet.php:107
+#: src/page/edit_feed/edit_feed.jsx:776
+msgid "likes"
+msgstr ""
+
+#: includes/layouts/cards/style-8/style-8.php:117
+#: includes/layouts/partials/stats.php:37
+msgid "comments"
+msgstr ""
+
+#: includes/layouts/cards/style-8/style-8.php:118
+msgid "Link copied"
+msgstr ""
+
+#: includes/layouts/cards/style-8/style-8.php:120
+#: includes/layouts/partials/x-tweet.php:113
+#: src/page/edit_feed/edit_feed.jsx:887
+msgid "Share"
+msgstr ""
+
+#: includes/layouts/partials/caption.php:20
+#: src/page/edit_feed/edit_feed.jsx:450
+msgid "Post caption"
+msgstr ""
+
+#: includes/layouts/partials/media.php:25
+#: includes/layouts/partials/x-tweet.php:73
+msgid "Play video"
+msgstr ""
+
+#: includes/layouts/partials/media.php:25
+#: includes/layouts/partials/x-tweet.php:83
+msgid "Open post"
+msgstr ""
+
+#: includes/layouts/partials/stats.php:47
+msgid "shares"
+msgstr ""
+
+#: includes/layouts/partials/x-profile.php:19
+#: src/page/edit_feed/edit_feed.jsx:922
+msgid "Following"
+msgstr ""
+
+#: includes/layouts/partials/x-profile.php:20
+#: src/page/edit_feed/edit_feed.jsx:923
+msgid "Followers"
+msgstr ""
+
+#: includes/layouts/partials/x-profile.php:33
+#: includes/layouts/partials/x-tweet.php:25
+msgid "Verified account"
+msgstr ""
+
+#. translators: %s: name of the account that reposted the post.
+#: includes/layouts/partials/x-tweet.php:33
+#: src/page/edit_feed/edit_feed.jsx:857
+#, php-format,js-format
+msgid "%s Reposted"
+msgstr ""
+
+#: includes/layouts/partials/x-tweet.php:55
+msgid "View on X"
+msgstr ""
+
+#: includes/layouts/partials/x-tweet.php:61
+msgid "5 out of 5 stars"
+msgstr ""
+
+#: includes/layouts/partials/x-tweet.php:81
+msgid "Open photo"
+msgstr ""
+
+#: includes/layouts/partials/x-tweet.php:97
+msgid "replies"
+msgstr ""
+
+#: includes/layouts/partials/x-tweet.php:102
+msgid "reposts"
+msgstr ""
+
+#: includes/layouts/partials/x-tweet.php:118
+msgid "Share on Facebook"
+msgstr ""
+
+#: includes/layouts/partials/x-tweet.php:122
+msgid "Share on X"
+msgstr ""
+
+#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:84
+#: includes/widgets/gutenberg/gutenberg-feed-block.js:63
+msgid "Feed Settings"
+msgstr ""
+
+#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:119
+msgid "If you have not created any feeds yet, create one first from the plugin dashboard."
+msgstr ""
+
+#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:122
+#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:188
+#: includes/widgets/gutenberg/class-capsf-gutenberg-feed-block.php:149
+#: includes/widgets/gutenberg/gutenberg-feed-block.js:54
+#: includes/widgets/gutenberg/gutenberg-feed-block.js:87
+msgid "Create a Feed"
+msgstr ""
+
+#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:141
+#: includes/widgets/gutenberg/gutenberg-feed-block.js:30
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:18
+#: src/page/edit_feed/edit_feed.jsx:248
+msgid "None"
+msgstr ""
+
+#. translators: %d: feed ID number
+#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:158
+#: includes/widgets/gutenberg/class-capsf-gutenberg-feed-block.php:183
+#, php-format
+msgid "Feed #%d"
+msgstr ""
+
+#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:186
+msgid "Select a Feed from the widget settings panel on the left."
+msgstr ""
+
+#: includes/widgets/gutenberg/class-capsf-gutenberg-feed-block.php:147
+msgid "Please select a feed in the block settings panel."
+msgstr ""
+
+#: includes/widgets/gutenberg/gutenberg-feed-block.js:53
+msgid "Select a Feed from the block settings panel on the right."
+msgstr ""
+
+#: includes/widgets/gutenberg/gutenberg-feed-block.js:67
+#: includes/widgets/gutenberg/gutenberg-feed-block.js:96
+msgid "Feed"
+msgstr ""
+
+#: includes/widgets/gutenberg/gutenberg-feed-block.js:82
+msgid "If you haven't created any feeds yet, create one first from the plugin dashboard."
+msgstr ""
+
+#: src/components/color_picker/color_picker.jsx:232
+msgid "Pick a color"
+msgstr ""
+
+#: src/components/color_picker/color_picker.jsx:247
+msgid "Color picker"
+msgstr ""
+
+#: src/components/color_picker/color_picker.jsx:286
+msgid "HEX"
+msgstr ""
+
+#: src/components/multi_select/multi_select.jsx:94
+msgid "Remove"
+msgstr ""
+
+#: src/components/pro_banner/pro_banner.jsx:10
+msgid "More layout & style options"
+msgstr ""
+
+#: src/components/pro_banner/pro_banner.jsx:11
+msgid "White Label - your own branding"
+msgstr ""
+
+#: src/components/pro_banner/pro_banner.jsx:12
+msgid "Hide menu items from the sidebar"
+msgstr ""
+
+#: src/components/pro_banner/pro_banner.jsx:13
+msgid "Priority support"
+msgstr ""
+
+#: src/components/pro_banner/pro_banner.jsx:30
+msgid "CAPTAIN SOCIAL FEED - PRO"
+msgstr ""
+
+#: src/components/pro_banner/pro_banner.jsx:32
+msgid "Unlock every layout, every option."
+msgstr ""
+
+#: src/components/pro_banner/pro_banner.jsx:35
+msgid "Get more layout styles, white labeling, and priority support - everything you need to make your feeds truly yours."
+msgstr ""
+
+#: src/components/pro_banner/pro_banner.jsx:52
+msgid "Compare Free vs Pro"
+msgstr ""
+
+#: src/components/upgrade_pro_card/upgrade_pro_card.jsx:35
+#: src/page/white_label/white_label.jsx:163
+msgid "Upgrade to Pro"
+msgstr ""
+
+#: src/components/upgrade_pro_card/upgrade_pro_card.jsx:38
+msgid "Unlock Unlimited Power"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:8
+msgid "List Feeds"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:8
+msgid "See every feed on this site. Read-only."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:9
+msgid "Get Feed"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:9
+msgid "Read one feed's full settings - read-only."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:10
+msgid "Get Shortcode"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:10
+msgid "Fetch the embeddable shortcode for a feed. Read-only."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:11
+msgid "Diagnose Feed"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:11
+msgid "Check why a feed isn't showing posts - read-only."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:12
+msgid "Create a brand new feed."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:13
+msgid "Update Feed"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:13
+msgid "Change an existing feed's settings."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:14
+msgid "Duplicate Feed"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:14
+msgid "Copy an existing feed under a new name."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:15
+msgid "Delete Feed"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:15
+msgid "Permanently remove a feed. Cannot be undone."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:80
+msgid "Turn this on first to unlock individual abilities"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:96
+msgid "Let AI assistants like Claude or Cursor create and manage your social feeds through natural language, via the WordPress Abilities API."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:98
+msgid "Read the full guide"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:107
+msgid "Requires WordPress 6.9 or newer."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:108
+msgid "This site's WordPress version doesn't include the Abilities API yet. Update WordPress to use MCP. Nothing else in the plugin is affected."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:115
+msgid "Abilities are registered and ready."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:117
+msgid "To connect Claude, Cursor, or another AI client, install an MCP bridge plugin. The easiest option, "
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:118
+msgid "Easy MCP AI"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:119
+msgid ", installs normally from the WordPress.org plugin directory and works with any plugin's registered abilities, including this one. Alternatively, the official "
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:120
+msgid "WordPress MCP Adapter"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:121
+msgid " isn't on WordPress.org yet - download it from GitHub Releases and upload it under Plugins → Add New → Upload Plugin. Either way, this plugin doesn't bundle one, so it stays optional."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:129
+msgid "MCP active"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:130
+msgid "The MCP Adapter is installed. Any connected AI client can already use the abilities enabled below."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:146
+msgid "AI Access"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:147
+msgid "Master switch for every ability below. Turn this off to fully block AI clients from this plugin."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:153
+msgid "Enable AI Abilities"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:154
+msgid "Only logged-in users with the \"manage_options\" capability can ever be acted on behalf of, same as this Settings page."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:178
+msgid "Abilities"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:179
+msgid "Turn individual abilities on or off. Read-only abilities (List, Get, Get Shortcode, Diagnose) are on by default, since they can't change anything. Write and Destructive abilities (Create, Update, Duplicate, Delete) are off by default and only take effect once you switch them on here."
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:189
+msgid "Read-only"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:190
+msgid "Write"
+msgstr ""
+
+#: src/page/ai_tools/ai_tools.jsx:191
+msgid "Destructive"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:25
+msgid "Display your latest posts, reels, and photos from an Instagram Business or Creator account."
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:31
+msgid "Display recent posts from a Facebook Page - photos, updates, and links."
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:36
+#: src/page/edit_feed/edit_feed.jsx:1747
+#: src/services/dashboard/dashboardContent.jsx:192
+msgid "Twitter / X"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:37
+msgid "Display recent posts from any public Twitter (X) account by @username."
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:43
+msgid "Display recent threads/posts from a Threads account."
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:49
+msgid "Display pins from any public Pinterest board."
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:56
+msgid "Connect Instagram"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:57
+msgid "Connect your Instagram Business or Creator account"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:58
+#: src/page/create_page/create_page.jsx:82
+#: src/page/create_page/create_page.jsx:90
+msgid "ACCESS TOKEN"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:58
+#: src/page/create_page/create_page.jsx:82
+#: src/page/edit_feed/edit_feed.jsx:1745
+#: src/page/edit_feed/edit_feed.jsx:1748
+msgid "Enter your long-lived Access Token"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:59
+msgid "INSTAGRAM BUSINESS ACCOUNT ID"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:59
+#: src/page/create_page/create_page.jsx:83
+msgid "e.g. 17841400000000000"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:61
+msgid "How to get an Instagram Access Token?"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:64
+msgid "Connect Facebook"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:65
+msgid "Connect your Facebook Page"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:66
+msgid "PAGE ACCESS TOKEN"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:66
+#: src/page/edit_feed/edit_feed.jsx:1746
+msgid "Enter your Page Access Token"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:67
+msgid "FACEBOOK PAGE ID"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:67
+msgid "e.g. 100000000000000"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:69
+msgid "How to get a Facebook Page Access Token?"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:72
+msgid "Connect Twitter / X"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:73
+msgid "Connect a public Twitter (X) account"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:74
+msgid "BEARER TOKEN"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:74
+#: src/page/edit_feed/edit_feed.jsx:1747
+msgid "Enter your API v2 Bearer Token"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:75
+msgid "@USERNAME"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:75
+msgid "e.g. wordpress"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:77
+msgid "How to get a Twitter/X Bearer Token?"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:80
+msgid "Connect Threads"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:81
+msgid "Connect your Threads account"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:83
+msgid "THREADS USER ID"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:85
+msgid "How to get a Threads Access Token?"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:88
+msgid "Connect Pinterest"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:89
+msgid "Connect a Pinterest board"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:90
+#: src/page/edit_feed/edit_feed.jsx:1749
+msgid "Enter your Access Token"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:91
+msgid "BOARD ID"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:91
+msgid "e.g. 549755885175"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:93
+msgid "How to get a Pinterest Access Token?"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:160
+msgid "Create a New Feed"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:161
+msgid "Choose a platform to get started. You'll connect your account on the next screen."
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:165
+#: src/page/create_page/create_page.jsx:276
+#: src/page/edit_feed/edit_feed.jsx:1789
+msgid "Platform"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:170
+#: src/page/create_page/create_page.jsx:281
+msgid "Connect"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:214
+msgid "Please fill in all required fields."
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:250
+msgid "Something went wrong while saving."
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:253
+msgid "Network error. Please try again."
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:272
+msgid "Enter your credentials to start pulling in posts."
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:290
+msgid "Add Source"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:322
+msgid "Need help connecting?"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:325
+msgid "Learn more →"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:354
+#: src/page/edit_feed/edit_feed.jsx:389
+msgid "Back"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:357
+msgid "Step"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:357
+msgid "of"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:365
+msgid "Creating…"
+msgstr ""
+
+#: src/page/create_page/create_page.jsx:365
+msgid "Continue"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:25
+msgid "Customization"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:29
+msgid "Customize Your Feed"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:32
+msgid "Every feed is built in four steps: Connect, Select Layout, Settings and Insert Code. This guide covers the design choices in steps 2 and 3 and the plugin-wide cache settings."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:36
+msgid "Step 2: Select Layout"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:38
+msgid "Pick a category"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:39
+msgid "Grid shows a card grid (Social Post, Social Post - Image First, Classic Card, Professional, Dark Cinematic, Simple Grid). Playlist shows one featured post with a scrollable list. Single shows one centered card. Reel shows portrait cards."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:40
+msgid "Social Post:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:40
+msgid "account header (picture, name, time, platform logo), caption, image, then likes / comments / shares - like the post on the platform."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:41
+msgid "Simple Grid:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:41
+msgid "square pictures; hovering shows the likes, comments and caption, and a corner icon marks albums and videos. Clicking opens the post in a popup - every photo of an album as a slider, videos with their player, likes, comments, caption and date, plus previous / next post."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:42
+msgid "Social Post - Image First:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:42
+msgid "image on top, then the caption, the account row and likes / comments / shares."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:44
+msgid "Turn on Slider (Grid and Reel)"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:45
+msgid "Switch on \"Slider\" next to the categories and pick a style:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:46
+msgid "Style 1 - Equal Cards:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:46
+msgid "cards of equal size, arrows on both sides and dots below."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:47
+msgid "Style 2 - Spotlight:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:47
+msgid "the active card is enlarged in the center while the cards beside it peek in."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:48
+msgid "Style 3 - Carousel:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:48
+msgid "a counter (\"01 / 05\") and arrows above the cards, with a progress bar below."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:50
+msgid "Select a design"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:51
+msgid "Each row previews your real posts in that design. Click \"Select\" to use it."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:56
+msgid "Twitter / X Feeds"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:58
+msgid "What to Show (Step 1)"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:59
+msgid "Profile Timeline:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:59
+msgid "your profile header (banner, picture, name, Follow button, post / follower counts) with your latest posts in a scrolling list."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:60
+msgid "Tweets Grid:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:60
+msgid "your latest posts as cards in a masonry grid."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:61
+msgid "Hashtag Feed:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:61
+msgid "recent posts from anyone with a #hashtag or search words. X only searches the last 7 days."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:62
+msgid "Testimonials:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:62
+msgid "paste the links of posts about you (one per line); they show in that order with 5 stars. Add a Section Title such as \"What our clients tweet about us\"."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:63
+msgid "Sidebar Widget:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:63
+msgid "a compact profile timeline that fits a sidebar."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:65
+msgid "Two X designs (Step 2)"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:66
+msgid "X feeds use their own designs: Profile Timeline and Tweets Grid. Each card shows the author with the verified badge, the text with links, up to 4 photos or a video, reply / repost / like counts and a Share menu (Facebook, X). Reposts carry a \"Reposted\" label."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:68
+msgid "X Options (Step 3)"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:69
+msgid "Show or hide the profile header, reposts and replies. Profile Timeline, Tweets Grid, Sidebar Widget and Hashtag Feed read posts with X API credits; Testimonials also work for free (text only). Docs → Twitter / X Feeds explains the token, the cost and every error message."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:76
+msgid "Step 3: Settings"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:78
+msgid "Layout tab"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:79
+msgid "Columns per screen size (for a Slider: how many slides are visible), Max Posts, which card details to show (account name, title, description, likes, date) and the Click Action."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:80
+msgid "Show Posts picks which posts the feed lists: All, only Videos, only Photos (albums included) or Text Only (posts without a photo or video). The feed still fills its Max Posts with matching posts."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:81
+msgid "For the Social Post designs, Caption sets how long captions behave: \"Show More\" cuts them after a number of characters with a Show More / Show Less link (both texts can be changed), \"Scroll\" shows them in a fixed-height box with a scrollbar."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:83
+msgid "Behaviors tab"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:84
+msgid "Equal Card Height for grids (cards in a row get the same height and their header, caption, image and likes line up; turned off, every card keeps its own height), Auto Slide, Infinite Loop and arrow offsets for sliders, and Pagination (Load More with Initial Posts and Posts Per Click). Only the options that apply to your layout are shown."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:86
+msgid "Styles tab"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:87
+msgid "Color Mode (Light or Dark) sets the starting colors of the cards. Then: card background (solid or gradient), border, margin, padding, shadow and gaps; color and typography for the title (account name on Social Post), caption and stats; border and shadow for the image. Social Post also gets the Show More / Less link color and typography, or in Scroll mode the box height and the scrollbar width, radius and colors. The Playlist layout has its own panels for the featured post and the list. Every row has a reset icon."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:89
+#: src/page/edit_feed/edit_feed.jsx:1994
+#: src/page/edit_feed/live_preview.jsx:61
+msgid "Live Preview"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:90
+msgid "The Live Preview tab (next to Layout, Behaviors and Styles) saves your changes and shows the real feed inside your theme, as visitors will see it. Switch between Desktop, Tablet and Mobile to check the columns on each screen size, and use Refresh after more changes."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:99
+msgid "Click Action:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:100
+msgid "\"Open in Popup\" shows photos and videos in a lightbox on your site. \"Play Inline on Page\" plays videos inside the card. Videos use the direct video file when the platform provides one, otherwise the platform's own embeddable player (Facebook, X, Pinterest). Videos that can be played neither way, and text-only posts, open the original post, because social networks do not allow their normal pages to be shown inside another site."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:107
+msgid "Caching"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:109
+msgid "Cache Duration"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:110
+msgid "Settings → Cache Management → API Cache Duration sets how long posts are kept before the platform is asked again. Longer durations mean fewer API calls."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:112
+#: src/page/settings/settings.jsx:242
+msgid "Cache Storage"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:113
+msgid "\"WordPress transients\" is the default. Choose \"Plugin database table\" if another plugin, an object cache or your host keeps clearing transients. Switching clears the cache once."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:115
+#: src/page/settings/settings.jsx:270
+msgid "Fallback Cache"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:116
+msgid "When on (default), the last successful posts are kept in the plugin table and shown if a platform request fails, for example an expired token or a rate limit, so visitors never see an empty feed."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:118
+msgid "Clearing the cache"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:119
+msgid "Use \"Clear Cache\" in Settings to refresh every feed, or \"Clear This Feed Cache\" in Step 4 (Insert Code) of a feed to refresh just that one. Changing the settings of a feed also refreshes its cache."
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:127
+msgid "Tip:"
+msgstr ""
+
+#: src/page/docs/customize-feed/customize-feed.jsx:127
+msgid "Changes are saved automatically while you edit. Reload the page that shows the feed to see them on your site."
+msgstr ""
+
+#: src/page/docs/docs.jsx:16
+msgid "How to Use (Shortcode / Elementor / Gutenberg)"
+msgstr ""
+
+#: src/page/docs/docs.jsx:17
+msgid "Customize Your Feed (Layouts, Sliders, Styles, Cache)"
+msgstr ""
+
+#: src/page/docs/docs.jsx:18
+msgid "Instagram Access Token"
+msgstr ""
+
+#: src/page/docs/docs.jsx:19
+msgid "Facebook Page Access Token"
+msgstr ""
+
+#: src/page/docs/docs.jsx:20
+msgid "Twitter / X Feeds (Token, Free vs Paid)"
+msgstr ""
+
+#: src/page/docs/docs.jsx:21
+msgid "Threads Access Token"
+msgstr ""
+
+#: src/page/docs/docs.jsx:22
+msgid "Pinterest Access Token"
+msgstr ""
+
+#: src/page/docs/docs.jsx:23
+#: src/page/docs/mcp-integration/mcp-integration.jsx:17
+msgid "Connecting AI Assistants (MCP)"
+msgstr ""
+
+#: src/page/docs/docs.jsx:31
+msgid "Guides"
+msgstr ""
+
+#: src/page/docs/docs.jsx:51
+msgid "Everything you need to set up and use Captain Social Feed."
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:14
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:14
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:14
+#: src/page/docs/threads-access-token/threads-access-token.jsx:14
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:19
+msgid "Copied!"
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:14
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:14
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:14
+#: src/page/docs/threads-access-token/threads-access-token.jsx:14
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:19
+msgid "Copy"
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:27
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:27
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:27
+#: src/page/docs/threads-access-token/threads-access-token.jsx:27
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:82
+msgid "Setup Guide"
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:31
+msgid "How to Get a Facebook Page Access Token"
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:34
+msgid "Captain Social Feed uses the Facebook Graph API to fetch posts from a Facebook Page. You need a Page Access Token and your Facebook Page ID - you must be an admin of the Page."
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:42
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:57
+msgid "Create a Meta App"
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:43
+msgid "Go to Meta for Developers and create a new app (type \"Business\")."
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:54
+msgid "Open Graph API Explorer"
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:55
+msgid "Select your app and Page from the dropdowns, then add the \"pages_read_engagement\" and \"pages_show_list\" permissions."
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:66
+msgid "Generate a Page Access Token"
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:67
+msgid "Generate a User Access Token first, then query \"/me/accounts\" to get a Page Access Token for your specific Page."
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:77
+msgid "Extend the Token to a Long-Lived One"
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:78
+msgid "Page Access Tokens generated from a long-lived User Token don't expire. Use the Access Token Debugger to confirm."
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:83
+msgid "Never share your Page Access Token publicly - anyone with it can read/post to your Page depending on permissions granted."
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:91
+msgid "Find Your Page ID"
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:92
+msgid "Your Page ID is shown on your Page's \"About\" tab, or in the same \"/me/accounts\" response as the token."
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:99
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:106
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:87
+#: src/page/docs/threads-access-token/threads-access-token.jsx:87
+msgid "Add Both to the Plugin"
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:100
+msgid "In WordPress admin, go to Captain Social Feed → Create Feed → Facebook, then paste your Page Access Token and Facebook Page ID."
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:109
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:116
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:97
+#: src/page/docs/threads-access-token/threads-access-token.jsx:97
+msgid "Done!"
+msgstr ""
+
+#: src/page/docs/facebook-access-token/facebook-access-token.jsx:109
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:116
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:97
+#: src/page/docs/threads-access-token/threads-access-token.jsx:97
+msgid "Use \"Test Connection\" in the plugin to confirm it works before moving on."
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:11
+msgid "Usage Guide"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:15
+msgid "How to Add a Feed to Your Site"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:18
+msgid "Once you have created a feed from \"Create Feed\", there are three ways to place it on your website: paste the shortcode, drag the widget in Elementor, or drag the block in Gutenberg. Pick whichever matches the page builder you use."
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:23
+msgid "Method 1: Using the Shortcode"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:30
+msgid "Open the Dashboard"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:31
+msgid "Go to the plugin's \"Dashboard\" screen where all your created feeds are listed in a table."
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:38
+msgid "Copy the Shortcode"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:39
+msgid "Each row shows a ready-made shortcode for that feed. Click the copy icon next to it to copy it to your clipboard."
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:49
+msgid "Paste It Anywhere"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:50
+msgid "Paste the shortcode into any WordPress page, post, or a Shortcode/HTML block in any page builder. The feed will render there on the front end."
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:59
+msgid "Method 2: Using the Elementor Widget"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:66
+msgid "Edit a Page with Elementor"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:67
+msgid "Open the page you want to add the feed to and click \"Edit with Elementor\"."
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:74
+msgid "Search for \"Captain Social Feed\""
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:75
+msgid "In the Elementor widget panel on the left, search for \"Captain Social Feed\". It appears as its own widget."
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:82
+msgid "Drag It onto the Page"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:83
+msgid "Drag the widget onto any section of the page, just like any other Elementor widget."
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:90
+msgid "Select the Feed"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:91
+msgid "In the widget's settings panel, choose which of your created feeds to display from the dropdown, then update the page."
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:100
+msgid "Method 3: Using the Gutenberg Block"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:107
+msgid "Open the Block Editor"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:108
+msgid "Edit the page or post using the default WordPress block editor (Gutenberg)."
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:115
+msgid "Add the \"Captain Social Feed\" Block"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:116
+msgid "Click the \"+\" button to add a new block, search for \"Captain Social Feed\", and select it - or drag it into place from the block inserter."
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:123
+msgid "Select the Feed from the Panel"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:124
+msgid "With the block selected, use the \"Feed Settings\" panel on the right to choose which feed to display, then publish or update the page."
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:135
+msgid "Pro tip:"
+msgstr ""
+
+#: src/page/docs/how-to-use/how-to-use.jsx:135
+msgid "All three methods display the exact same feed and settings - pick whichever fits your workflow. Any changes you make later to the feed in \"Create Feed\" will automatically reflect everywhere it is placed."
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:31
+msgid "How to Get an Instagram Access Token"
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:34
+msgid "Captain Social Feed uses the Instagram Graph API to fetch your posts. This requires an Instagram Business or Creator account connected to a Facebook Page, plus a long-lived Access Token and your Instagram Business Account ID."
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:41
+msgid "Your Instagram account must be a Business or Creator account, and it must be linked to a Facebook Page. Personal Instagram accounts cannot use the Graph API."
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:49
+msgid "Switch to a Business or Creator Account"
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:50
+msgid "In the Instagram app, go to Settings → Account type and tools → Switch to professional account, then choose Business or Creator. Link it to a Facebook Page when prompted."
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:58
+msgid "Go to Meta for Developers and create a new app (type \"Business\"). Add the \"Instagram Graph API\" product to it."
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:69
+msgid "Generate a User Access Token"
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:70
+msgid "In Graph API Explorer, select your app, add the permissions \"instagram_basic\" and \"pages_show_list\", then generate a User Access Token."
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:81
+msgid "Exchange It for a Long-Lived Token"
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:82
+msgid "Short-lived tokens expire in about an hour. Exchange yours for a long-lived token (valid ~60 days) using the Access Token Debugger or the token exchange endpoint."
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:87
+#: src/page/docs/threads-access-token/threads-access-token.jsx:68
+msgid "Long-lived tokens still expire after ~60 days and need refreshing periodically."
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:95
+msgid "Find Your Instagram Business Account ID"
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:96
+msgid "In Graph API Explorer, query your linked Facebook Page with field \"instagram_business_account\" to get the numeric ID."
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:98
+msgid "GET /{page-id}?fields=instagram_business_account"
+msgstr ""
+
+#: src/page/docs/instagram-access-token/instagram-access-token.jsx:107
+msgid "In WordPress admin, go to Captain Social Feed → Create Feed → Instagram, then paste your Access Token and Instagram Business Account ID."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:13
+msgid "MCP Guide"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:20
+msgid "Captain Social Feed can let AI assistants like Claude, Cursor, or ChatGPT create and manage your feeds through natural language, using WordPress's own Model Context Protocol (MCP) support. This page explains what that means, what it needs, and how to connect."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:28
+msgid "This entire feature is optional. If you never connect an AI assistant, nothing about it affects the rest of the plugin. Every setting, feed type, and shortcode works exactly the same either way."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:35
+msgid "How It Works"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:38
+msgid "Captain Social Feed does not run its own MCP server, and it does not require any dedicated bridge app made specifically for this plugin. Instead, it registers its feed actions (list, create, update, duplicate, delete, and diagnose) as WordPress \"Abilities\", using the Abilities API that's built into WordPress core."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:41
+msgid "A separate, general-purpose \"MCP bridge\" plugin then exposes those abilities to any AI client. That bridge plugin isn't specific to Captain Social Feed - the same one works for every plugin on your site that registers abilities, so you only ever connect Claude to your site once, not once per plugin."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:48
+msgid "Why this matters:"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:48
+msgid "You're never locked into a connector built and maintained by this plugin alone. You can swap the bridge plugin at any time, and any other WordPress plugin you install that also supports the Abilities API will show up in the same AI connection automatically."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:54
+msgid "Requirements"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:61
+msgid "WordPress 6.9 or newer"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:62
+msgid "The Abilities API shipped in WordPress core with version 6.9. On older WordPress versions, the MCP page will show a compatibility notice and no abilities are registered. Everything else in the plugin is unaffected. Check your version under Dashboard → Updates, and update WordPress if needed."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:69
+msgid "An MCP bridge plugin"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:70
+msgid "Captain Social Feed doesn't bundle one, so you'll install one separately (see below). This is a one-time setup for your whole site."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:77
+msgid "An admin account"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:78
+msgid "Every ability requires the \"manage_options\" capability, the same permission level needed to use this plugin's Settings page. AI assistants can never act as a user with less access than that."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:86
+msgid "Which Bridge Plugin Should I Use?"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:89
+msgid "Any plugin that supports the WordPress Abilities API will work. Two common options:"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:96
+msgid "Easy MCP AI (recommended)"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:97
+msgid "Available directly from the WordPress.org plugin directory. Install and activate it like any other plugin, no separate download needed. It includes a built-in OAuth 2.1 connector, so connecting Claude Desktop is just pasting a URL and clicking Approve: no config files, no passwords, no command line."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:104
+msgid "Official WordPress MCP Adapter (GitHub only)"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:106
+msgid "Maintained by the WordPress core team, but not yet listed on WordPress.org, it's installed from its "
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:107
+msgid "GitHub Releases page"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:108
+msgid " instead (Plugins → Add New → Upload Plugin). It connects using a WordPress Application Password, pasted into Claude Desktop's own MCP config file."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:118
+msgid "This guide is not affiliated with either bridge plugin. Both are independent, general-purpose WordPress plugins. Captain Social Feed simply registers its abilities in the standard way any of them can pick up."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:124
+msgid "How to Connect (Easy MCP AI)"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:131
+msgid "Install Easy MCP AI"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:132
+msgid "In your WordPress admin, go to Plugins → Add New, search for \"Easy MCP AI\", then install and activate it."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:139
+msgid "Turn on the abilities you want"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:140
+msgid "On this plugin's "
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:140
+msgid "MCP page"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:140
+msgid ", make sure the master switch is on. Read-only abilities (List, Get, Get Shortcode, Diagnose) are on by default. Create, Update, Duplicate, and Delete are all off by default. Switch on only the ones you actually want AI assistants to be able to do."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:147
+msgid "Copy your MCP server URL"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:148
+msgid "Go to Easy MCP AI → Dashboard and copy the MCP server URL shown there."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:155
+msgid "Add it as a connector in Claude"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:156
+msgid "In Claude Desktop, go to Settings → Connectors → Add custom connector, and paste the URL. Approve the permissions screen when it appears. That's the whole connection, no config file editing needed."
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:163
+msgid "Try it out"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:164
+msgid "Start a new chat and ask something like:"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:166
+msgid "List my social feeds"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:176
+msgid "Using the official Adapter instead?"
+msgstr ""
+
+#: src/page/docs/mcp-integration/mcp-integration.jsx:176
+msgid "Steps 1 and 3-4 differ slightly: you'll upload the plugin from its GitHub Releases zip instead of searching WordPress.org, generate a WordPress Application Password under your user profile, and paste both the site's MCP endpoint and that password into Claude Desktop's MCP config file (Settings → Developer → Edit Config) rather than a Connectors screen."
+msgstr ""
+
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:31
+msgid "How to Get a Pinterest Access Token"
+msgstr ""
+
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:34
+msgid "Captain Social Feed uses Pinterest API v5 to fetch pins from a board. You need an Access Token and the Board ID."
+msgstr ""
+
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:42
+msgid "Create a Pinterest App"
+msgstr ""
+
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:43
+msgid "Go to the Pinterest Developers portal, sign in, and create a new app."
+msgstr ""
+
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:54
+msgid "Authorize with the \"boards:read\" and \"pins:read\" Scopes"
+msgstr ""
+
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:55
+msgid "Use Pinterest's OAuth flow to log in and authorize your app for these two read scopes."
+msgstr ""
+
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:62
+msgid "Get Your Access Token"
+msgstr ""
+
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:63
+msgid "After authorizing, exchange the authorization code for an Access Token via Pinterest's token endpoint."
+msgstr ""
+
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:68
+msgid "Keep your Access Token private - never share it publicly."
+msgstr ""
+
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:76
+msgid "Find Your Board ID"
+msgstr ""
+
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:77
+msgid "Query \"/v5/boards\" with your Access Token to list your boards and their IDs, or open the board on Pinterest.com and check its URL/settings."
+msgstr ""
+
+#: src/page/docs/pinterest-access-token/pinterest-access-token.jsx:88
+msgid "In WordPress admin, go to Captain Social Feed → Create Feed → Pinterest, then paste your Access Token and Board ID."
+msgstr ""
+
+#: src/page/docs/threads-access-token/threads-access-token.jsx:31
+msgid "How to Get a Threads Access Token"
+msgstr ""
+
+#: src/page/docs/threads-access-token/threads-access-token.jsx:34
+msgid "Captain Social Feed uses the official Threads API (by Meta) to fetch your posts. You need a long-lived Access Token and your Threads User ID."
+msgstr ""
+
+#: src/page/docs/threads-access-token/threads-access-token.jsx:42
+msgid "Create a Meta App with the Threads Use Case"
+msgstr ""
+
+#: src/page/docs/threads-access-token/threads-access-token.jsx:43
+msgid "Go to Meta for Developers, create a new app, and add the \"Threads API\" use case to it."
+msgstr ""
+
+#: src/page/docs/threads-access-token/threads-access-token.jsx:54
+msgid "Authorize Your Threads Account"
+msgstr ""
+
+#: src/page/docs/threads-access-token/threads-access-token.jsx:55
+msgid "Use the Threads API's OAuth authorization flow to log in with your Threads account and grant the \"threads_basic\" permission."
+msgstr ""
+
+#: src/page/docs/threads-access-token/threads-access-token.jsx:62
+msgid "Exchange for a Long-Lived Token"
+msgstr ""
+
+#: src/page/docs/threads-access-token/threads-access-token.jsx:63
+msgid "The initial token is short-lived. Exchange it for a long-lived token (valid ~60 days) via the token exchange endpoint."
+msgstr ""
+
+#: src/page/docs/threads-access-token/threads-access-token.jsx:76
+msgid "Find Your Threads User ID"
+msgstr ""
+
+#: src/page/docs/threads-access-token/threads-access-token.jsx:77
+msgid "Query the \"/me\" endpoint with your access token to get your numeric Threads User ID."
+msgstr ""
+
+#: src/page/docs/threads-access-token/threads-access-token.jsx:88
+msgid "In WordPress admin, go to Captain Social Feed → Create Feed → Threads, then paste your Access Token and Threads User ID."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:58
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:116
+#: src/page/edit_feed/edit_feed.jsx:137
+#: src/page/edit_feed/edit_feed.jsx:147
+msgid "Profile Timeline"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:58
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:59
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:60
+msgid "Bearer Token + @username"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:58
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:59
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:60
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:61
+msgid "X API credits"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:59
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:119
+#: src/page/edit_feed/edit_feed.jsx:138
+#: src/page/edit_feed/edit_feed.jsx:154
+msgid "Tweets Grid"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:60
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:128
+#: src/page/edit_feed/edit_feed.jsx:141
+msgid "Sidebar Widget"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:61
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:122
+#: src/page/edit_feed/edit_feed.jsx:139
+msgid "Hashtag Feed"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:61
+msgid "Bearer Token + #hashtag or search words"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:62
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:125
+#: src/page/edit_feed/edit_feed.jsx:140
+msgid "Testimonials"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:62
+msgid "Post links (Bearer Token optional)"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:62
+msgid "Free (text only) - credits add photos, pictures and counts"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:66
+msgid "X rejected the Bearer Token (401 Unauthorized)"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:66
+msgid "The token is wrong, cut short or was regenerated. Regenerate it in the Developer Console and paste the whole token again (it is long and contains % characters)."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:67
+msgid "X did not allow reading posts with this App (credits depleted)"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:67
+msgid "The token is fine, but your X developer account has no credits left. Buy credits in the Developer Console. Testimonials keep working in free mode meanwhile."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:68
+msgid "X did not allow reading posts with this App (403 / client-not-enrolled)"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:68
+msgid "The App is not inside a Project or has no API access. In the Developer Console, make sure the App belongs to a Project and API access is turned on."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:69
+msgid "X rate limit reached for this App"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:69
+msgid "Too many requests in a short time (often while testing). Wait 15 minutes. Raise the cache duration in Settings so the feed asks X less often."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:70
+msgid "Could not find that Twitter/X account"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:70
+msgid "Check the @username spelling. Protected (private) and suspended accounts cannot be shown."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:71
+msgid "No posts found"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:71
+msgid "Hashtag Feed: X only searches the last 7 days - try a busier hashtag. Profile feeds: turn on Show Reposts / Show Replies if the account mostly reposts or replies. Show Posts (Settings) may also be filtering them out."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:86
+msgid "Twitter / X Feeds - Complete Guide"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:89
+msgid "Everything you need for an X feed: what each \"What to Show\" option needs, what is free and what needs X API credits, where to get the Bearer Token and post links, the settings, and what every error message means."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:93
+msgid "1. What to Show - what each option needs"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:94
+msgid "Pick it in Step 1 of the feed editor. It decides which fields you fill in and the starting design (you can still switch between the two X designs in Step 2)."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:99
+#: src/page/edit_feed/edit_feed.jsx:1800
+msgid "What to Show"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:100
+msgid "You need"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:101
+msgid "Free or paid"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:117
+msgid "Your profile header (banner, picture, name, verified badge, Follow on X button, Posts / Following / Followers) with your latest posts in a scrolling list."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:120
+msgid "Your latest posts as cards in a masonry grid - photos (up to 4), videos, reply / repost / like counts and a Share menu."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:123
+msgid "Recent posts from anyone that use a #hashtag or contain your search words. X only searches the last 7 days."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:126
+msgid "Posts you pick yourself (for example customers praising you), shown in the order you paste them, with 5 stars and a heading such as \"What our clients tweet about us\". Works for free - see section 2."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:129
+msgid "A compact Profile Timeline that fits a sidebar or a narrow column."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:136
+msgid "2. Free or paid? (X API credits)"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:139
+msgid "X charges for reading posts through its API. There is no monthly plan any more: you buy credits in the X Developer Console and every request uses some of them (pay-per-use). Captain Social Feed itself is not charging anything - the cost is X's."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:142
+msgid "Needs credits: Profile Timeline, Tweets Grid, Sidebar Widget, Hashtag Feed"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:143
+msgid "These read posts through the X API, so they only work while your X developer account has credits. Without credits X answers \"credits depleted\" and the feed stays empty."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:145
+msgid "Free: Testimonials"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:146
+msgid "Without a token or without credits, Testimonials read your pasted posts from X's free public embed. You get the post text, links, author name, @username and date. Photos, videos, profile pictures and reply / repost / like counts are not available this way - they appear automatically once the feed has a Bearer Token with credits."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:148
+msgid "What does it cost?"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:149
+msgid "At the time of writing X charges about $0.005 per post read and $0.010 per profile read. Prices change - check X's pricing page:"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:151
+msgid "Example: a Profile Timeline with 6 posts reads 6 posts + 1 profile ≈ $0.04 each time it refreshes. The plugin keeps the posts in its cache, so X is only asked again when the cache runs out: with a 1-hour cache that is up to 24 refreshes a day (≈ $1 a day); with a 12-hour cache only 2 (≈ $0.08 a day). Hashtag Feed always reads at least 10 posts per refresh."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:156
+msgid "Keep the cost low:"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:156
+msgid "raise Settings → Cache Management → API Cache Duration (12 or 24 hours), keep Max Posts small, and keep the Fallback Cache on so visitors still see the last posts if your credits run out."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:162
+msgid "3. Get your Bearer Token"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:163
+msgid "Only the Bearer Token is needed. Consumer Key / Secret, Access Token / Secret and OAuth 2.0 Client ID are for apps that post or log users in - the plugin does not use them."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:165
+msgid "Open the X Developer Console"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:166
+msgid "Sign in with the X account that should own the App (it does not have to be the account you show)."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:169
+msgid "Create a Project and an App"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:170
+msgid "Follow the sign-up questions, then create a Project and an App inside it. Apps outside a Project cannot read posts."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:172
+msgid "Copy the Bearer Token"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:173
+msgid "Open your App → \"Keys and tokens\" → \"Bearer Token\" → Generate (or Regenerate). Copy the whole token - it is long, starts with several \"A\"s and contains % characters. X shows it only once."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:175
+msgid "Buy credits"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:176
+msgid "In the Developer Console open Billing / Purchase credits and add credits (not needed for free Testimonials)."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:178
+msgid "Paste it in the plugin"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:179
+msgid "Feed editor → Step 1 → Bearer Token, then click \"Test Connection\". \"Connected successfully\" means the token works and has credits."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:184
+msgid "Treat the token like a password: never share it in chats, emails or screenshots. Regenerating it makes the old one stop working - paste the new one in every feed that used it."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:190
+msgid "4. Fill in the second field"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:192
+msgid "@Username (Profile Timeline, Tweets Grid, Sidebar Widget)"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:193
+msgid "The handle from the profile address, with or without @. For https://x.com/captaininfokit type:"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:195
+msgid "The account must be public. Reposts and replies are hidden unless you turn them on in Step 3."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:197
+msgid "Hashtag or Search Words (Hashtag Feed)"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:198
+msgid "One word becomes a hashtag automatically (\"WordPress\" → #WordPress). Several words, quotes or X search operators are used as typed, for example:"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:201
+msgid "X only returns posts from the last 7 days."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:203
+msgid "Post Links (Testimonials)"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:204
+msgid "Open the post on X → click the Share icon → \"Copy link\" (or copy the address bar). Paste one link per line, up to 20 for the free mode (100 with a token). x.com and twitter.com links both work; the posts show in the order you paste them."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:212
+msgid "5. Designs and settings"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:214
+msgid "Step 2 - two X designs"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:215
+msgid "Profile Timeline (profile header + scrolling list) and Tweets Grid (masonry cards). X feeds only use these two; the other designs stay for the other platforms."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:217
+msgid "Step 3 - X Options"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:218
+msgid "Show Profile Header (Profile Timeline / Sidebar), Show Reposts (with a \"Reposted\" label and the original author), Show Replies."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:220
+msgid "Step 3 - everything else"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:221
+msgid "Section Title (heading above the feed), Columns (Tweets Grid), Max Posts, Show Posts (all / videos / photos / text), Click Action (open on X, popup or play inline), Dark Mode and the Styles tab."
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:228
+msgid "6. Error messages and how to fix them"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:233
+msgid "Message"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:234
+msgid "What to do"
+msgstr ""
+
+#: src/page/docs/twitter-bearer-token/twitter-bearer-token.jsx:249
+msgid "After fixing the token or adding credits, open the feed and click \"Test Connection\" - saving the feed also refreshes its posts. Settings → Clear Cache refreshes every feed."
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BackgroundControl.jsx:42
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:19
+msgid "Solid"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BackgroundControl.jsx:45
+msgid "Gradient"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BackgroundControl.jsx:50
+#: src/page/edit_feed/controls/controls/ShadowControl.jsx:36
+msgid "Color"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BackgroundControl.jsx:56
+msgid "Color 1"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BackgroundControl.jsx:60
+msgid "Color 2"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BackgroundControl.jsx:64
+msgid "Angle"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:20
+msgid "Dashed"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:21
+msgid "Dotted"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:22
+msgid "Double"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:46
+#: src/page/edit_feed/controls/controls/BoxControl.jsx:48
+msgid "Link sides"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:86
+msgid "Border Type"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:94
+msgid "Border Color"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:98
+msgid "Border Width"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:101
+#: src/page/edit_feed/controls/controls/BoxControl.jsx:57
+msgid "Top"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:101
+#: src/page/edit_feed/controls/controls/BoxControl.jsx:58
+msgid "Right"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:101
+#: src/page/edit_feed/controls/controls/BoxControl.jsx:59
+msgid "Bottom"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:101
+#: src/page/edit_feed/controls/controls/BoxControl.jsx:60
+msgid "Left"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:105
+msgid "Border Radius"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:108
+msgid "TL"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:108
+msgid "TR"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:108
+msgid "BR"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/BorderControl.jsx:108
+msgid "BL"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CaptionScrollStyle.jsx:17
+msgid "Box Height"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CaptionScrollStyle.jsx:18
+msgid "Scrollbar Width"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CaptionScrollStyle.jsx:19
+msgid "Scrollbar Radius"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CaptionScrollStyle.jsx:23
+msgid "Scrollbar Color"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CaptionScrollStyle.jsx:24
+msgid "Track Color"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CaptionScrollStyle.jsx:34
+msgid "Caption Scroll Box"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CardBackgroundStyle.jsx:45
+#: src/page/edit_feed/controls/controls/CardBackgroundStyle.jsx:55
+msgid "Background"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CardBackgroundStyle.jsx:46
+msgid "Column Gap"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CardBackgroundStyle.jsx:46
+msgid "Row Gap"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CardBackgroundStyle.jsx:56
+#: src/page/edit_feed/controls/controls/CardImageStyle.jsx:27
+msgid "Border"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CardBackgroundStyle.jsx:57
+msgid "Margin"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CardBackgroundStyle.jsx:58
+msgid "Padding"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CardBackgroundStyle.jsx:59
+#: src/page/edit_feed/controls/controls/CardImageStyle.jsx:28
+msgid "Shadow"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CardImageStyle.jsx:26
+msgid "Image"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/CardTextStyle.jsx:60
+#: src/page/edit_feed/controls/controls/CardTextStyle.jsx:62
+msgid "Typography"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/ResetButton.jsx:44
+#: src/page/edit_feed/controls/controls/ResetButton.jsx:45
+msgid "Reset"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/ShadowControl.jsx:40
+msgid "Horizontal"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/ShadowControl.jsx:44
+msgid "Vertical"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/ShadowControl.jsx:48
+msgid "Blur"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/ShadowControl.jsx:52
+msgid "Spread"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:21
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:29
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:35
+#: src/page/edit_feed/edit_feed.jsx:2571
+msgid "Default"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:22
+msgid "400 (Normal)"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:23
+msgid "500 (Medium)"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:24
+msgid "600 (Semi Bold)"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:25
+msgid "700 (Bold)"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:26
+msgid "800 (Extra Bold)"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:30
+msgid "Uppercase"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:31
+msgid "Lowercase"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:32
+msgid "Capitalize"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:36
+msgid "Italic"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:61
+msgid "Size"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:65
+msgid "Weight"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:71
+msgid "Transform"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:77
+#: src/page/edit_feed/edit_feed.jsx:1111
+msgid "Style"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:83
+msgid "Line Height"
+msgstr ""
+
+#: src/page/edit_feed/controls/controls/TypographyControl.jsx:87
+msgid "Letter Spacing"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:32
+msgid "Light Mode"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:47
+msgid "Dark Mode"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:75
+msgid "Social Post"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:76
+msgid "Account header, caption, image, then likes / comments / shares - like the post on the platform"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:82
+msgid "Social Post - Image First"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:83
+msgid "Image on top, caption and account below, then likes / comments / shares"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:89
+msgid "Simple Grid"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:90
+msgid "Square pictures - likes, comments and caption on hover; opens the post in a popup"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:96
+msgid "Classic Card"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:97
+msgid "Image on top, title, caption and account below"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:103
+msgid "Professional"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:104
+msgid "Clean horizontal account badge with arrow CTA"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:110
+msgid "Dark Cinematic"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:111
+msgid "Full overlay on thumbnail with gradient"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:117
+#: src/page/edit_feed/edit_feed.jsx:230
+msgid "Playlist"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:118
+msgid "Featured post on the left, scrollable list on the right"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:124
+msgid "Reel Card"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:125
+msgid "Portrait image with caption and likes - Reels-style browse card"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:137
+msgid "Your profile header (picture, name, follower counts, Follow button) with your latest posts in a scrolling list."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:138
+msgid "Your latest posts as cards in a grid."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:139
+msgid "Recent posts (last 7 days) with a #hashtag or search words, from anyone."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:140
+msgid "Hand-picked posts about you, shown with 5 stars - paste their links."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:141
+msgid "A compact profile timeline that fits a sidebar."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:148
+msgid "Profile header with a scrolling list of posts"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:155
+msgid "Post cards in a masonry grid - photos, videos, likes and Share"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:164
+msgid "Hashtag or Search Words"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:164
+msgid "e.g. #WordPress"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:164
+msgid "One word becomes a #hashtag. X only searches posts from the last 7 days."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:165
+msgid "Post Links"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:165
+msgid "One link per line. Open a post on X and copy its address."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:166
+#: src/page/edit_feed/edit_feed.jsx:1747
+msgid "@Username"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:229
+msgid "Grid"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:231
+msgid "Single"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:232
+msgid "Reel"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:250
+msgid "Infinity Load (Coming Soon)"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:283
+msgid "All"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:283
+msgid "Every post: photos, videos and text."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:284
+msgid "Videos"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:284
+msgid "Only video posts and reels."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:285
+msgid "Photos"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:285
+msgid "Only posts with a photo (albums included)."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:286
+msgid "Text Only"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:286
+msgid "Only posts without a photo or video - just the caption."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:296
+msgid "Open Original Post"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:297
+msgid "Clicking opens the post on the original platform in a new tab."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:298
+msgid "Open Post"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:303
+msgid "Open in Popup"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:304
+msgid "Photos and videos open in a popup lightbox. Other posts open the original post."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:305
+#: src/page/edit_feed/edit_feed.jsx:2120
+msgid "Popup"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:310
+msgid "Play Inline on Page"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:311
+msgid "Videos play right inside the card. Photos and other posts open the original post."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:312
+msgid "Inline"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:318
+msgid "Connect Channel"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:319
+#: src/page/edit_feed/edit_feed.jsx:1062
+msgid "Select Layout"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:321
+msgid "Insert Code"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:345
+#: src/page/edit_feed/edit_feed.jsx:1529
+msgid "Available on Pro"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:346
+msgid "Custom"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:387
+#: src/page/white_label/white_label.jsx:283
+msgid "Saving…"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:582
+#: src/page/edit_feed/edit_feed.jsx:633
+#: src/page/edit_feed/edit_feed.jsx:675
+#: src/page/edit_feed/edit_feed.jsx:801
+#: src/page/edit_feed/edit_feed.jsx:824
+msgid "Likes"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:844
+msgid "Real preview data could not be loaded. Check the credentials in Step 1."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:845
+msgid "No posts found for this feed yet."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:969
+#: src/page/edit_feed/edit_feed.jsx:1072
+msgid "Layout:"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:973
+msgid "MOST POPULAR"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:982
+msgid "✓ Selected"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:982
+msgid "Select"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:989
+msgid "Loading your posts…"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1063
+msgid "Choose how your posts will be displayed on your website."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1103
+msgid "Slider"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1114
+msgid "Slider style"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1118
+msgid "Style 1 - Equal Cards"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1119
+msgid "Style 2 - Spotlight"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1120
+msgid "Style 3 - Carousel"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1166
+#: src/page/edit_feed/edit_feed.jsx:1915
+#: src/page/edit_feed/edit_feed.jsx:2428
+msgid "Saving..."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1166
+msgid "Next: Settings"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1428
+msgid "Could not reach the server. Please try again."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1521
+msgid "Tablet ≤1024px"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1522
+msgid "Mobile ≤640px"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1588
+msgid "Default (1 Hour)"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1591
+msgid "Active (1 Hour)"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1591
+#, js-format
+msgid "Active (%d Hours)"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1593
+#, js-format
+msgid "Active (%d Minutes)"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1595
+msgid "platform"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1613
+#: src/page/edit_feed/edit_feed.jsx:1617
+#: src/page/settings/settings.jsx:111
+#: src/page/white_label/white_label.jsx:104
+#: src/page/white_label/white_label.jsx:107
+#: src/page/white_label/white_label.jsx:133
+#: src/page/white_label/white_label.jsx:136
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1627
+msgid "Loading feed…"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1633
+msgid "← Dashboard"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1675
+msgid "Show Account Name"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1675
+msgid "Display the account name on each card."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1676
+msgid "Show Title"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1676
+msgid "Display the post caption (shortened) as the card title."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1677
+msgid "Show Description"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1677
+msgid "Display the full caption on card styles that support it."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1678
+msgid "Show Likes"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1678
+msgid "Display the like count when the platform provides it."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1679
+msgid "Show Date"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1679
+msgid "Display how long ago each post was published."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1745
+#: src/page/edit_feed/edit_feed.jsx:1748
+#: src/page/edit_feed/edit_feed.jsx:1749
+msgid "Access Token"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1745
+msgid "Instagram Business Account ID"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1746
+msgid "Page Access Token"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1746
+msgid "Facebook Page ID"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1747
+msgid "Bearer Token"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1748
+msgid "Threads User ID"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1749
+msgid "Board ID"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1762
+#, js-format
+msgid "Connect Your %s Account"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1763
+msgid "Enter your credentials to fetch posts for this feed."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1769
+msgid "Feed Name"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1773
+msgid "My Social Feed"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1808
+msgid "What our clients tweet about us"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1825
+msgid "(optional)"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1828
+msgid "How to get this? →"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1849
+#: src/page/edit_feed/edit_feed.jsx:1850
+msgid "Hide"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1849
+#: src/page/edit_feed/edit_feed.jsx:1850
+msgid "Show"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1871
+msgid "Testing…"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1871
+msgid "Test Connection"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1913
+msgid "Fill in both fields to continue"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1915
+msgid "Next: Select Layout"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1963
+msgid "Layout"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1974
+msgid "Behaviors"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:1985
+msgid "Styles"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2010
+msgid "Layout & Display"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2012
+#, js-format
+msgid "%s Cols"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2019
+msgid "Visible Slides"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2019
+msgid "Columns"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2031
+msgid "All screens"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2032
+msgid "≤ 1024px"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2033
+msgid "≤ 640px"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2041
+#: src/page/edit_feed/edit_feed.jsx:2679
+msgid "Max Posts"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2060
+msgid "Card Display Options"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2062
+#, js-format
+msgid "%1$d of %2$d Active"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2074
+#: src/page/edit_feed/edit_feed.jsx:2077
+#: src/page/edit_feed/edit_feed.jsx:2403
+msgid "Caption"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2075
+#: src/page/edit_feed/edit_feed.jsx:2080
+msgid "Scroll"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2089
+msgid "Fixed-height box with a scrollbar - style it in the Styles tab."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2090
+msgid "Long captions are cut with a Show More / Show Less link."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2096
+msgid "Characters before Show More"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2100
+msgid "\"Show More\" Text"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2104
+msgid "\"Show Less\" Text"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2118
+#: src/page/edit_feed/edit_feed.jsx:2126
+msgid "Click Action"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2124
+msgid "Simple Grid always opens the post in a popup: the photo (or every photo of an album, as a slider), the video, likes, comments, caption and date, with a link to the original post."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2159
+#: src/page/edit_feed/edit_feed.jsx:2162
+msgid "Show Posts"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2177
+msgid "X Options"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2180
+msgid "Show Profile Header"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2180
+msgid "Banner, picture, name, Follow button and post / follower counts above the posts."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2181
+msgid "Show Reposts"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2181
+msgid "Include posts reposted by the account, with a \"Reposted\" label."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2182
+msgid "Show Replies"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2182
+msgid "Include replies to other posts."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2190
+msgid "Section Title"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2191
+msgid "On"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2191
+msgid "Off"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2194
+msgid "Heading"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2200
+msgid "e.g. What our clients tweet about us"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2204
+msgid "Optional heading shown above the feed. Leave empty for none."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2222
+msgid "Card Alignment"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2224
+msgid "Equal Card Height"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2224
+msgid "Keep every card in a row the same height, even when some captions take two lines and others only one."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2232
+msgid "Slider Options"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2235
+msgid "Auto Slide"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2235
+msgid "Automatically advance to the next slide every few seconds. Paused on hover, on keyboard focus and for visitors who prefer reduced motion."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2236
+msgid "Infinite Loop"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2236
+msgid "Loop back to the first slide after the last one (and vice versa)."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2241
+msgid "Arrow Vertical Offset"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2241
+msgid "Positive moves the arrows down, negative moves them up."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2242
+msgid "Arrow Horizontal Offset"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2242
+msgid "Positive moves the arrows outward, negative moves them inward."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2267
+msgid "Load Behavior"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2273
+msgid "Pagination Type"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2290
+msgid "Initial Posts"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2305
+msgid "Posts Per Click"
+msgstr ""
+
+#. translators: 1: Initial Posts count, 2: Max Posts count.
+#: src/page/edit_feed/edit_feed.jsx:2321
+#, js-format
+msgid "The Load More button will not show: Initial Posts (%1$d) is not lower than Max Posts (%2$d), so there is nothing left to load."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2342
+#: src/page/edit_feed/edit_feed.jsx:2345
+msgid "Color Mode"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2359
+msgid "Sets the card, text and border colors. The panels below fine-tune them."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2366
+msgid "Featured Title"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2366
+#: src/page/edit_feed/edit_feed.jsx:2374
+#: src/page/edit_feed/edit_feed.jsx:2391
+msgid "Title Color"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2369
+msgid "Featured Image"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2374
+msgid "List Item Title"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2375
+msgid "List Item Stats"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2375
+#: src/page/edit_feed/edit_feed.jsx:2396
+msgid "Stats Color"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2378
+msgid "List Item Image"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2390
+msgid "Account Name"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2390
+msgid "Card Title"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2391
+msgid "Name Color"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2396
+msgid "Stats"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2403
+msgid "Description"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2404
+msgid "Caption Color"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2404
+msgid "Description Color"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2410
+msgid "Show More / Less Link"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2410
+msgid "Link Color"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2428
+msgid "Save and get code"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2446
+#, js-format
+msgid "Feed #%s Generated Successfully"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2447
+#: src/page/our-products/our-products.jsx:94
+#: src/page/our-products/our-products.jsx:202
+#: src/services/dashboard/dashboardContent.jsx:347
+msgid "Active"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2449
+msgid "Your social feed is ready to be added to your WordPress site."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2452
+#, js-format
+msgid "ID: feed_%s"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2459
+msgid "Embed Code"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2463
+#: src/page/edit_feed/edit_feed.jsx:2576
+#: src/page/edit_feed/edit_feed.jsx:2600
+msgid "Shortcode"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2467
+msgid "PHP Snippet"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2473
+msgid "1-Click Ready"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2475
+msgid "Direct Template"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2491
+msgid "Copied to Clipboard!"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2496
+msgid "Copy Shortcode"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2504
+msgid "Standard WordPress embed shortcode for pages, widgets, and posts."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2508
+msgid "Syntax Validated"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2518
+msgid "functions.php"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2524
+msgid "Copied PHP Code!"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2529
+msgid "Copy PHP Code"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2539
+msgid "Paste into your child theme's functions.php, then call"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2541
+msgid "from any template file."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2545
+msgid "PHP 7.4 - 8.3 Ready"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2556
+msgid "Multi-Platform Embedding Hub"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2557
+msgid "Select how you want to embed this feed into your WordPress setup"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2559
+msgid "3 Integration Methods"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2573
+msgid "WordPress Block Editor"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2574
+msgid "Gutenberg Native"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2576
+msgid "Add a"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2576
+#: src/page/edit_feed/edit_feed.jsx:2600
+#: src/page/edit_feed/edit_feed.jsx:2621
+msgid "or"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2576
+msgid "block anywhere in your block editor and publish."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2581
+msgid "Copied - opening new page…"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2583
+msgid "Copy & Create New Page"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2595
+msgid "Builder"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2597
+msgid "Elementor Page Builder"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2598
+msgid "Drag & Drop Widget"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2600
+msgid "Search for"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2600
+msgid "\"Captain Social Feed\""
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2600
+msgid "widget in Elementor panel and drag into layout."
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2605
+msgid "Open in Elementor"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2616
+msgid "Developer"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2618
+msgid "PHP / Theme Template"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2619
+msgid "Direct Template Code"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2621
+msgid "Insert feed directly into PHP template files like"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2638
+msgid "View PHP Function"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2653
+msgid "Feed Diagnostic & Cache Status"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2655
+#, js-format
+msgid "Auto-sync active with the %s API"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2660
+msgid "Health Status"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2664
+msgid "Connection Issue"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2669
+#: src/page/our-products/our-products.jsx:174
+msgid "Checking…"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2674
+msgid "OK (Connected)"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2682
+#, js-format
+msgid "%d posts configured"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2686
+msgid "Cache Lifetime"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2693
+msgid "Last Synchronized"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2709
+#: src/page/white_label/white_label.jsx:291
+msgid "Clearing…"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2709
+msgid "Purge Feed Cache"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2718
+msgid "Clearing cache forces a fresh pull for the latest posts"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2726
+msgid "Back to Feed Customizer"
+msgstr ""
+
+#: src/page/edit_feed/edit_feed.jsx:2729
+msgid "Finish & Go to Dashboard"
+msgstr ""
+
+#: src/page/edit_feed/live_preview.jsx:62
+msgid "Screen size"
+msgstr ""
+
+#: src/page/edit_feed/live_preview.jsx:78
+msgid "Refresh"
+msgstr ""
+
+#: src/page/edit_feed/live_preview.jsx:80
+msgid "Close preview"
+msgstr ""
+
+#: src/page/edit_feed/live_preview.jsx:86
+msgid "Loading preview…"
+msgstr ""
+
+#: src/page/edit_feed/live_preview.jsx:92
+msgid "Feed preview"
+msgstr ""
+
+#: src/page/help/help.jsx:9
+msgid "How do I create a feed?"
+msgstr ""
+
+#: src/page/help/help.jsx:10
+msgid "Go to \"Create Feed\" from the sidebar, choose a platform (Instagram, Facebook, Twitter/X, Threads, or Pinterest), enter that platform's Access Token and account/page/board ID, configure the display settings and click Save."
+msgstr ""
+
+#: src/page/help/help.jsx:13
+msgid "Where do I get my Access Token and account ID?"
+msgstr ""
+
+#: src/page/help/help.jsx:14
+msgid "Each platform has its own setup guide linked right from the Connect step - see the Documentation page for step-by-step instructions for Instagram, Facebook, Twitter/X, Threads, and Pinterest."
+msgstr ""
+
+#: src/page/help/help.jsx:17
+msgid "How do I use the shortcode?"
+msgstr ""
+
+#: src/page/help/help.jsx:18
+msgid "Copy the shortcode from the Dashboard listing (e.g. [captain-social-feed id=\"1\"]) and paste it into any page, post, or Feed area on your site."
+msgstr ""
+
+#: src/page/help/help.jsx:21
+msgid "Why is my feed showing as INACTIVE?"
+msgstr ""
+
+#: src/page/help/help.jsx:22
+msgid "An INACTIVE status means the feed has been disabled. Go to the edit screen for that feed and toggle the status to Active to start displaying it on your site."
+msgstr ""
+
+#: src/page/help/help.jsx:29
+msgid "Help & Support"
+msgstr ""
+
+#: src/page/help/help.jsx:30
+msgid "Find answers to common questions and get started quickly."
+msgstr ""
+
+#: src/page/help/help.jsx:39
+msgid "Read our full plugin documentation to learn all available features."
+msgstr ""
+
+#: src/page/help/help.jsx:40
+msgid "View Docs →"
+msgstr ""
+
+#: src/page/help/help.jsx:47
+#: src/page/upgrade/upgrade.jsx:23
+msgid "Support"
+msgstr ""
+
+#: src/page/help/help.jsx:48
+msgid "Open a support ticket and our team will get back to you quickly."
+msgstr ""
+
+#: src/page/help/help.jsx:49
+msgid "Get Support →"
+msgstr ""
+
+#: src/page/help/help.jsx:56
+msgid "Rate Us"
+msgstr ""
+
+#: src/page/help/help.jsx:57
+msgid "Enjoying the plugin? Leave us a 5-star review on WordPress.org!"
+msgstr ""
+
+#: src/page/help/help.jsx:58
+msgid "Rate Plugin →"
+msgstr ""
+
+#: src/page/help/help.jsx:63
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:104
+#: src/page/navigation/navigation.jsx:105
+msgid "Switch to Light Mode"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:104
+#: src/page/navigation/navigation.jsx:105
+msgid "Switch to Dark Mode"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:151
+#: src/page/white_label/white_label.jsx:152
+msgid "PRO"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:216
+#: src/page/navigation/navigation.jsx:369
+msgid "Toggle navigation menu"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:218
+msgid "Close Menu"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:218
+msgid "Menu"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:235
+#: src/page/navigation/navigation.jsx:236
+#: src/page/navigation/navigation.jsx:387
+#: src/page/navigation/navigation.jsx:388
+msgid "Expand sidebar"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:248
+#: src/page/navigation/navigation.jsx:249
+#: src/page/navigation/navigation.jsx:400
+#: src/page/navigation/navigation.jsx:401
+msgid "Collapse sidebar"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:283
+#: src/page/navigation/navigation.jsx:436
+msgid "General"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:309
+#: src/page/navigation/navigation.jsx:464
+msgid "Extra Options"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:317
+#: src/page/navigation/navigation.jsx:473
+#: src/page/white_label/white_label.jsx:13
+msgid "Help"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:323
+#: src/page/navigation/navigation.jsx:479
+#: src/page/white_label/white_label.jsx:14
+msgid "Roll Back"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:329
+#: src/page/navigation/navigation.jsx:485
+#: src/page/white_label/white_label.jsx:16
+#: src/page/white_label/white_label.jsx:145
+#: src/page/white_label/white_label.jsx:174
+msgid "White Label"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:336
+#: src/page/navigation/navigation.jsx:492
+#: src/page/our-products/our-products.jsx:184
+#: src/page/white_label/white_label.jsx:15
+msgid "Our Products"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:342
+#: src/page/navigation/navigation.jsx:498
+msgid "Upgrade"
+msgstr ""
+
+#: src/page/navigation/navigation.jsx:355
+#: src/page/navigation/navigation.jsx:512
+msgid "VERSION"
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:83
+msgid "A powerful Elementor addon with 50+ creative widgets to build stunning WordPress websites without coding."
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:84
+#: src/page/our-products/our-products.jsx:104
+#: src/page/our-products/our-products.jsx:114
+#: src/page/upgrade/upgrade.jsx:80
+msgid "Free"
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:93
+msgid "Display beautifully customizable Instagram, Facebook, Twitter/X, Threads and Pinterest feeds on your WordPress website."
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:103
+msgid "Display stunning social reviews from Google, Facebook, Yelp, Trustpilot, Tripadvisor, and 6 more platforms - fetched live via official APIs."
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:113
+msgid "Add powerful multi-condition filtering - search, tags, categories, price range and more - to any WordPress list or archive."
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:175
+#: src/page/rollback/rollback.jsx:78
+msgid "Installing…"
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:176
+msgid "Activate"
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:177
+#: src/page/rollback/rollback.jsx:80
+msgid "Failed - Retry"
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:178
+msgid "Install Plugin"
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:185
+msgid "Explore our collection of free WordPress plugins."
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:223
+msgid "View on WordPress.org"
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:227
+msgid "Rate Plugin"
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:244
+msgid "Need Help?"
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:245
+msgid "Open a support ticket on WordPress.org and our team will get back to you quickly."
+msgstr ""
+
+#: src/page/our-products/our-products.jsx:249
+msgid "Get Support"
+msgstr ""
+
+#: src/page/rollback/rollback.jsx:32
+msgid "Could not fetch version list. Please check your internet connection."
+msgstr ""
+
+#. translators: %s: Plugin version number
+#: src/page/rollback/rollback.jsx:42
+#, js-format
+msgid ""
+"This will install and activate version %s of Captain Social Feed.\n"
+"\n"
+"Your feeds and settings will not be affected.\n"
+"\n"
+"Continue?"
+msgstr ""
+
+#: src/page/rollback/rollback.jsx:77
+msgid "Current Version"
+msgstr ""
+
+#: src/page/rollback/rollback.jsx:79
+msgid "Installed! Reloading…"
+msgstr ""
+
+#: src/page/rollback/rollback.jsx:81
+msgid "Install & Activate"
+msgstr ""
+
+#: src/page/rollback/rollback.jsx:97
+msgid "Rollback"
+msgstr ""
+
+#: src/page/rollback/rollback.jsx:99
+msgid "Downgrade or re-install a previous version of Captain Social Feed. Your feeds and settings will remain intact."
+msgstr ""
+
+#: src/page/rollback/rollback.jsx:109
+msgid "Currently installed:"
+msgstr ""
+
+#: src/page/rollback/rollback.jsx:118
+msgid "Rolling back will replace the current plugin files. We recommend creating a backup before proceeding."
+msgstr ""
+
+#: src/page/rollback/rollback.jsx:123
+msgid "Available Versions"
+msgstr ""
+
+#: src/page/rollback/rollback.jsx:128
+msgid "Fetching versions from WordPress.org…"
+msgstr ""
+
+#: src/page/rollback/rollback.jsx:153
+msgid "Latest"
+msgstr ""
+
+#: src/page/rollback/rollback.jsx:156
+msgid "Installed"
+msgstr ""
+
+#: src/page/settings/settings.jsx:7
+msgid "Every 30 minutes"
+msgstr ""
+
+#: src/page/settings/settings.jsx:8
+msgid "Every 1 hour"
+msgstr ""
+
+#: src/page/settings/settings.jsx:9
+msgid "Every 6 hours"
+msgstr ""
+
+#: src/page/settings/settings.jsx:10
+msgid "Every 12 hours"
+msgstr ""
+
+#: src/page/settings/settings.jsx:11
+msgid "Every 24 hours"
+msgstr ""
+
+#: src/page/settings/settings.jsx:15
+msgid "WordPress transients (default)"
+msgstr ""
+
+#: src/page/settings/settings.jsx:16
+msgid "Plugin database table"
+msgstr ""
+
+#: src/page/settings/settings.jsx:108
+msgid "Cache cleared successfully!"
+msgstr ""
+
+#: src/page/settings/settings.jsx:129
+msgid "Cache storage saved. Existing cache was cleared."
+msgstr ""
+
+#: src/page/settings/settings.jsx:130
+#: src/page/settings/settings.jsx:134
+#: src/page/settings/settings.jsx:158
+#: src/page/settings/settings.jsx:161
+msgid "Failed to save."
+msgstr ""
+
+#: src/page/settings/settings.jsx:157
+msgid "Cache duration saved!"
+msgstr ""
+
+#: src/page/settings/settings.jsx:190
+msgid "Manage your plugin preferences and performance options."
+msgstr ""
+
+#: src/page/settings/settings.jsx:205
+msgid "Cache Management"
+msgstr ""
+
+#: src/page/settings/settings.jsx:206
+msgid "Control how long platform API responses are cached and clear existing cache."
+msgstr ""
+
+#: src/page/settings/settings.jsx:215
+msgid "API Cache Duration"
+msgstr ""
+
+#: src/page/settings/settings.jsx:216
+msgid "How long platform API responses are cached before refreshing. Longer durations reduce API calls."
+msgstr ""
+
+#: src/page/settings/settings.jsx:243
+msgid "Where cached posts are kept. Use the plugin table if another plugin or your host keeps wiping transients."
+msgstr ""
+
+#: src/page/settings/settings.jsx:272
+msgid "Keeps a copy of the last successful posts in the plugin table and shows it when a platform request fails (expired token, rate limit, outage), instead of an empty feed."
+msgstr ""
+
+#. translators: 1: number of cached entries, 2: size, e.g. "12 KB".
+#: src/page/settings/settings.jsx:276
+#, js-format
+msgid "Table now holds %1$d entries (%2$s)."
+msgstr ""
+
+#: src/page/settings/settings.jsx:298
+msgid "Clear Plugin Cache"
+msgstr ""
+
+#: src/page/settings/settings.jsx:299
+msgid "Removes all cached API responses and WordPress transients. Feeds will re-fetch fresh data on next load."
+msgstr ""
+
+#: src/page/settings/settings.jsx:324
+msgid "Clearing..."
+msgstr ""
+
+#: src/page/settings/settings.jsx:325
+msgid "Cleared!"
+msgstr ""
+
+#: src/page/settings/settings.jsx:326
+msgid "Failed"
+msgstr ""
+
+#: src/page/settings/settings.jsx:327
+msgid "Clear Cache"
+msgstr ""
+
+#: src/page/settings/settings.jsx:351
+msgid "Plugin Data"
+msgstr ""
+
+#: src/page/settings/settings.jsx:352
+msgid "Control what happens to your data when the plugin is deactivated or uninstalled."
+msgstr ""
+
+#: src/page/settings/settings.jsx:361
+msgid "Preserve settings if plugin is removed"
+msgstr ""
+
+#: src/page/settings/settings.jsx:362
+msgid "This will make sure that all of your feeds and settings are still saved even if the plugin is uninstalled."
+msgstr ""
+
+#: src/page/settings/settings.jsx:377
+msgid "Clear all data on uninstall"
+msgstr ""
+
+#: src/page/settings/settings.jsx:379
+msgid "When enabled, all plugin database tables, feeds, settings, and transients will be permanently deleted when the plugin is uninstalled. "
+msgstr ""
+
+#: src/page/settings/settings.jsx:380
+#: src/services/dashboard/dashboardContent.jsx:49
+msgid "This action cannot be undone."
+msgstr ""
+
+#: src/page/settings/settings.jsx:387
+msgid "All data will be deleted on uninstall!"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:14
+msgid "Instagram, Facebook, X (Twitter), Threads & Pinterest feeds"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:15
+msgid "Multiple card layouts (Social Post, Simple Grid, Classic, Reel, Playlist)"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:16
+msgid "Elementor widget & Gutenberg block"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:17
+msgid "Click Action (Open Post, Lightbox Popup, Inline Player)"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:18
+msgid "Responsive controls & styling (Desktop, Tablet, Mobile)"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:19
+msgid "Automatic token refresh for Instagram & Threads"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:20
+msgid "White Label - custom plugin name & menu icons"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:21
+msgid "Hide menu items from the dashboard sidebar"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:22
+msgid "Hide plugin from the Plugins list"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:23
+msgid "WordPress.org"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:23
+msgid "Priority Support"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:56
+msgid "You’re already on Pro - thanks for supporting the plugin!"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:69
+msgid "Here’s exactly what changes if you upgrade - nothing hidden."
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:79
+msgid "Feature"
+msgstr ""
+
+#: src/page/upgrade/upgrade.jsx:81
+msgid "Pro"
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:102
+msgid "White label settings saved."
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:131
+msgid "White label settings cleared."
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:147
+#: src/page/white_label/white_label.jsx:176
+msgid "Rename the plugin, set custom menu icons, and control what’s visible."
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:153
+msgid "White Label is a Pro feature"
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:155
+msgid "Upgrade to Captain Social Feed Pro to replace the plugin name and menu icons with your own branding, hide the menu items your clients shouldn’t see, and even hide the plugin from the Plugins list."
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:187
+msgid "Branding"
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:188
+msgid "Change how the plugin appears in your WordPress admin."
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:194
+msgid "Plugin Display Name"
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:204
+msgid "Replaces the plugin name shown throughout the admin menu."
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:210
+msgid "Menu Icon URL ( Light Mode )"
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:220
+msgid "Used when the dashboard is in light mode."
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:225
+msgid "Menu Icon URL ( Dark Mode )"
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:235
+msgid "Used when the dashboard is in dark mode. Leave either blank to fall back to the default mark."
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:247
+msgid "Menu Visibility"
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:248
+msgid "Choose which menu items to hide from the dashboard sidebar."
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:257
+msgid "Select menu items to hide…"
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:261
+msgid "Hidden items can still be accessed directly. They are just hidden from the sidebar."
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:273
+msgid "Hide plugin from the Plugins list ( Plugins → Installed Plugins )"
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:276
+msgid "Hides both the free and Pro versions of this plugin from the WordPress Plugins screen."
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:283
+msgid "Save Changes"
+msgstr ""
+
+#: src/page/white_label/white_label.jsx:291
+msgid "Clear"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:30
+#: src/services/dashboard/dashboardContent.jsx:371
+msgid "Last Modified"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:39
+msgid "Confirm Delete"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:46
+msgid "Delete Feed?"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:48
+msgid "Are you sure you want to delete"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:53
+msgid "Cancel"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:56
+msgid "Yes, Delete"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:210
+msgid "FEED NAME"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:211
+msgid "TYPE"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:212
+msgid "SHORTCODE"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:213
+msgid "STATUS"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:214
+msgid "ACTIONS"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:224
+#: src/services/dashboard/dashboardContent.jsx:260
+#: src/services/dashboard/dashboardContent.jsx:288
+msgid "Your Feeds"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:261
+#: src/services/dashboard/dashboardContent.jsx:289
+msgid "+ Create Feed"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:267
+msgid "No feeds yet"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:268
+msgid "Create your first social feed. Select a platform, fill in the details, and embed it anywhere on your site using a shortcode."
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:305
+msgid "Edit Feed"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:329
+msgid "Copy shortcode"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:344
+msgid "Click to deactivate"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:344
+msgid "Click to activate"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:347
+msgid "Inactive"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:355
+msgid "Edit"
+msgstr ""
+
+#: src/services/dashboard/dashboardContent.jsx:383
+msgid "Delete"
+msgstr ""

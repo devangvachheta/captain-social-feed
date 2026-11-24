@@ -1,0 +1,51 @@
+@use '/src/style/variables.scss' as *;
+
+.capsf-secondary-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    background-color: var(--capsf-bg-primary);
+    color: var(--capsf-text-secondary);
+    padding: 8px 14px;
+    border: 1.5px solid var(--capsf-border);
+    border-radius: $rs_medium;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: $transition;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    letter-spacing: 0.01em;
+
+    // Back arrow icon if any SVG is passed
+    svg {
+        width: 14px;
+        height: 14px;
+        color: var(--capsf-text-muted);
+        transition: transform 0.18s ease, color 0.18s ease;
+        flex-shrink: 0;
+    }
+
+    &:hover {
+        background-color: var(--capsf-bg-hover);
+        border-color: var(--capsf-border-hover);
+        color: var(--capsf-text-primary);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+        svg {
+            transform: translateX(-2px);
+            color: var(--capsf-text-secondary);
+        }
+    }
+
+    &:active {
+        transform: translateY(1px);
+        box-shadow: none;
+    }
+
+    &:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+}

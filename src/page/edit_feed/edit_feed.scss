@@ -1,0 +1,4989 @@
+@use '../../style/variables.scss' as *;
+
+/* ══════════════════════════════════════════════════════════════════════
+   Captain Feed - Wizard Edit Page
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Wrapper ─────────────────────────────────────────────────────────── */
+.capsf-wiz-wrapper {
+    display: flex;
+    flex-direction: column;
+    background: var(--capsf-bg-secondary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    // No overflow here - .capsf-wiz-progress needs the real window
+    // scroll as its sticky reference frame (see the note on
+    // .capsf-app-main-content in global.scss for why).
+    overflow: visible;
+}
+
+/* ── Loading ─────────────────────────────────────────────────────────── */
+.capsf-wiz-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    min-height: 40vh;
+    color: var(--capsf-text-secondary);
+    font-size: 14px;
+}
+
+/* ── Top Bar ─────────────────────────────────────────────────────────── */
+.capsf-saving-indicator {
+    font-size: 12px;
+    color: var(--capsf-text-muted);
+}
+
+/* ── Progress Bar ────────────────────────────────────────────────────── */
+/* ── Progress bar - trustindex style, sticky to the top of the scroll
+   area so the steps stay visible on long pages (e.g. Settings). ─────── */
+.capsf-wiz-progress {
+    display: flex;
+    align-items: center;
+    background: var(--capsf-bg-primary);
+    border-bottom: 1px solid var(--capsf-border);
+    padding: 10px 20px;
+    gap: 4px;
+    overflow-x: auto;
+    flex-shrink: 0;
+    position: sticky;
+    // top:0 sticks at the very top of the *viewport* once stuck - which is
+    // behind/under the WP admin bar (position:fixed, top:0, way-higher
+    // z-index), not below it. Offsetting by the admin bar's own height
+    // (same var the sidebar/hamburger already use) stops it right under
+    // the admin bar instead of sliding underneath it on scroll.
+    top: var(--capsf-adminbar-h, 32px);
+    z-index: 999;
+}
+
+/* Right side of progress bar */
+.capsf-wiz-progress-end {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+/* Back button - inside progress bar */
+.capsf-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--capsf-text-secondary);
+    background: var(--capsf-bg-secondary);
+    border: 1px solid var(--capsf-border);
+    cursor: pointer;
+    padding: 6px 16px;
+    border-radius: $rs_small;
+    transition: $transition;
+    white-space: nowrap;
+    &:hover {
+        background: var(--capsf-bg-hover);
+        color: var(--capsf-text-primary);
+        border-color: var(--capsf-text-muted);
+    }
+}
+
+/* Holds whichever step's Next button is portaled in - see NextPortal in
+   edit_feed.jsx. The button itself brings its own size/color, this just
+   keeps it aligned with Back on the same row. */
+.capsf-wiz-progress-next-slot {
+    display: flex;
+    align-items: center;
+
+    .capsf-wiz-btn-primary {
+        padding: 8px 20px;
+        font-size: 13px;
+        border-radius: $rs_small; // match the Back button beside it
+    }
+}
+
+.capsf-wiz-arrow {
+    flex-shrink: 0;
+    margin: 0 4px;
+    opacity: 0.5;
+}
+
+/* rtlcss can only flip CSS *properties* - it has no way to know a raw
+   <polyline> in an inline SVG visually points right. This wizard-step
+   chevron is the one place in the app that draws direction via path data
+   instead of a CSS property, so it needs an explicit mirror for RTL
+   locales (Arabic, Hebrew, Urdu, ...). */
+html[dir="rtl"] .capsf-wiz-arrow {
+    transform: scaleX(-1);
+}
+
+.capsf-wiz-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border: none;
+    background: none;
+    cursor: default;
+    white-space: nowrap;
+    border-radius: $rs_small;
+    transition: $transition;
+
+    &.clickable { cursor: pointer; }
+    &.clickable:hover { background: var(--capsf-bg-hover); }
+
+    /* WordPress admin/the browser both apply a default focus ring/box-
+     * shadow to <button> elements - since navigating steps (e.g. clicking
+     * "Next") leaves the newly-active step focused, that showed up as an
+     * unwanted gray highlight box behind the step, which isn't part of
+     * this design (the circle + bold label alone should read as "active"). */
+    &:focus, &:focus-visible {
+        outline: none;
+        box-shadow: none;
+        background: none;
+    }
+
+    /* Active step */
+    &.active {
+        .capsf-wiz-step-num {
+            background: var(--capsf-primary);
+            color: var(--capsf-text-inverse);
+            border-color: var(--capsf-primary);
+            /* Soft glow ring, brand color - plain box-shadow (no blurred
+             * pseudo-element) so it can't get clipped by an ancestor's
+             * overflow, and can't be overdrawn by the hover background. */
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--capsf-primary) 20%, transparent),
+                        0 0 12px 2px color-mix(in srgb, var(--capsf-primary) 28%, transparent);
+        }
+        .capsf-wiz-step-label {
+            color: var(--capsf-text-primary);
+            font-weight: 700;
+        }
+    }
+
+    /* Completed step */
+    &.done {
+        .capsf-wiz-step-num {
+            background: var(--capsf-success-text);
+            border-color: var(--capsf-success-text);
+            color: var(--capsf-text-inverse);
+        }
+        .capsf-wiz-step-label {
+            color: var(--capsf-text-secondary);
+            font-weight: 500;
+        }
+    }
+
+    /* Not applicable to the current feed type (e.g. Layout Mode for Embed Video) */
+    &--disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+
+        .capsf-wiz-step-label { text-decoration: line-through; }
+    }
+}
+
+.capsf-wiz-step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid var(--capsf-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--capsf-text-muted);
+    flex-shrink: 0;
+    transition: $transition;
+    background: var(--capsf-bg-primary);
+}
+
+.capsf-wiz-step-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--capsf-text-muted);
+    transition: $transition;
+}
+
+/* ── Body ────────────────────────────────────────────────────────────── */
+.capsf-wiz-body {
+    flex: 1;
+    padding: 15px 30px 60px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.capsf-wiz-step-body {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+
+    &--center {
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.capsf-wiz-step-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    margin: 0;
+}
+
+.capsf-wiz-step-desc {
+    font-size: 14px;
+    color: var(--capsf-text-secondary);
+    margin: -20px 0 0;
+    line-height: 1.6;
+}
+
+/* ── Actions ─────────────────────────────────────────────────────────── */
+.capsf-wiz-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--capsf-info-text) 0%, var(--capsf-info-text) 100%);
+    color: var(--capsf-text-inverse);
+    border: none;
+    border-radius: 10px;
+    padding: 11px 26px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(34,113,177,0.35);
+    letter-spacing: 0.1px;
+
+    &:hover {
+        background: linear-gradient(135deg, var(--capsf-info-text) 0%, var(--capsf-info-text) 100%);
+        box-shadow: 0 6px 16px rgba(34,113,177,0.45);
+        transform: translateY(-1px);
+    }
+    &:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(34,113,177,0.3); }
+    &:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+}
+
+
+/* ── Step 1: Validation & Info ───────────────────────────────────────── */
+.capsf-wiz-required {
+    color: var(--capsf-error-text);
+    margin-left: 2px;
+    font-weight: 700;
+}
+
+.capsf-wiz-input--warn {
+    border-color: var(--capsf-warning-text) !important;
+    background: var(--capsf-warning-bg) !important;
+}
+
+.capsf-wiz-field-hint {
+    font-size: 12px;
+    color: var(--capsf-text-muted);
+    margin-top: 2px;
+    a {
+        color: var(--capsf-primary);
+        text-decoration: none;
+        &:hover { text-decoration: underline; }
+    }
+
+    &--warn {
+        color: var(--capsf-danger, #d63638);
+        display: block;
+    }
+}
+
+// Warning variant of the hint - e.g. Load More that can't show because
+// Initial Videos >= Max Videos.
+.capsf-wiz-field-hint--warning {
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid #f5c26b;
+    border-left-width: 3px;
+    border-radius: 8px;
+    background: #fff8e6;
+    color: #7a4b00;
+    font-size: 12.5px;
+    line-height: 1.5;
+}
+[data-capsf-theme="dark"] .capsf-wiz-field-hint--warning {
+    background: rgba(245, 194, 107, 0.12);
+    border-color: rgba(245, 194, 107, 0.5);
+    color: #f5d79b;
+}
+
+/* Info box */
+.capsf-s1-infobox {
+    background: var(--capsf-info-bg);
+    border: 1px solid var(--capsf-info-border);
+    border-radius: $rs_medium;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--capsf-info-text);
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-s1-infobox-header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: var(--capsf-info-text);
+}
+
+.capsf-s1-infobox-list {
+    margin: 0;
+    padding: 0 0 0 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    list-style: disc;
+
+    li {
+        line-height: 1.5;
+        color: var(--capsf-info-text);
+    }
+
+    a {
+        color: var(--capsf-info-text);
+        text-decoration: none;
+        font-weight: 600;
+        &:hover { text-decoration: underline; }
+    }
+}
+
+/* Disabled primary button */
+.capsf-wiz-btn-primary:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Spinner shown in a Next/Back/Select button while navPending (waiting on
+ * a pending settings save before advancing steps) - see goNextSafely() in
+ * edit_feed.jsx. Uses currentColor so it automatically matches whichever
+ * button (and text color) it's placed in - no separate light/dark variant
+ * needed. */
+.capsf-btn-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    animation: capsf-btn-spin 0.7s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes capsf-btn-spin {
+    to { transform: rotate(360deg); }
+}
+
+
+.capsf-wiz-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_large;
+    padding: 24px;
+}
+
+.capsf-wiz-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+// A field's own label row when it needs something (like the responsive
+// device tabs) sitting to the right of the label, inside a grouped
+// accordion card - see "Layout & Display" and "Load Behavior" in Step 4
+// Settings, which merge what used to be several one-field cards into one.
+.capsf-wiz-field-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.capsf-wiz-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--capsf-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+// Small hover/focus "i" icon next to a field label - see InfoTip in
+// edit_feed.jsx. The tooltip itself is the app's shared bubble (see
+// useGlobalTooltip), so this only needs to style the icon's resting/hover
+// appearance.
+.capsf-info-tip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--capsf-text-muted);
+    cursor: help;
+    text-transform: none;
+    letter-spacing: 0;
+
+    &:hover,
+    &:focus-visible {
+        color: var(--capsf-primary);
+    }
+}
+
+a.capsf-wiz-field-link {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--capsf-primary);
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: 0;
+    &:hover { text-decoration: underline; }
+}
+
+a.capsf-wiz-field-video-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #d3232f;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: 0;
+
+    svg { width: 11px; height: 11px; flex-shrink: 0; }
+    &:hover { text-decoration: underline; }
+}
+
+.capsf-wiz-input {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--capsf-text-primary);
+    background: var(--capsf-bg-input);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_small;
+    outline: none;
+    box-sizing: border-box;
+    transition: $transition;
+    &:focus { border-color: var(--capsf-primary); background: var(--capsf-bg-primary); }
+    &:focus-visible { outline: 2px solid var(--capsf-primary); outline-offset: 2px; }
+}
+
+.capsf-token-test-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+
+    .capsf-wiz-input { flex: 1; min-width: 0; }
+}
+
+.capsf-token-input-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+
+    .capsf-wiz-input { width: 100%; padding-right: 40px; }
+}
+
+.capsf-token-eye-btn {
+    position: absolute;
+    top: 50%; right: 10px;
+    transform: translateY(-50%);
+    display: flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 5px;
+    color: var(--capsf-text-secondary);
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover { color: var(--capsf-primary); background: var(--capsf-bg-secondary); }
+}
+
+/* ── Tag Multi-Select (Video Filters) ────────────────────────────── */
+.capsf-tag-select {
+    position: relative;
+}
+.capsf-tag-select-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    min-height: 42px;
+    padding: 6px 8px;
+    background: var(--capsf-bg-input);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_small;
+    cursor: text;
+    transition: $transition;
+    &:focus-within {
+        border-color: var(--capsf-primary);
+        background: var(--capsf-bg-primary);
+    }
+    &:has(:focus-visible) {
+        outline: 2px solid var(--capsf-primary);
+        outline-offset: 2px;
+    }
+}
+.capsf-tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    max-width: 260px;
+    padding: 3px 6px 3px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--capsf-primary);
+    background: color-mix(in srgb, var(--capsf-primary) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--capsf-primary) 30%, transparent);
+    border-radius: 999px;
+}
+.capsf-tag-chip-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.capsf-tag-chip-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1;
+    color: inherit;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.7;
+    &:hover { opacity: 1; background: color-mix(in srgb, var(--capsf-primary) 25%, transparent); }
+}
+.capsf-tag-select-input {
+    flex: 1;
+    min-width: 90px;
+    padding: 4px 2px;
+    font-size: 14px;
+    color: var(--capsf-text-primary);
+    background: transparent;
+    border: none !important; // beat the global dark-mode input[type=text] border-color !important rule
+    outline: none !important;
+    box-shadow: none !important; // beat WP core's focus box-shadow ring - the outer box already shows focus
+    &:focus { border: none !important; outline: none !important; box-shadow: none !important; }
+}
+.capsf-tag-select-dropdown {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 6px;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_small;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.capsf-tag-select-dropdown-label {
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--capsf-text-muted);
+}
+.capsf-tag-select-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 6px 8px;
+    font-size: 13px;
+    text-align: left;
+    color: var(--capsf-text-primary);
+    background: transparent;
+    border: none;
+    border-radius: $rs_small;
+    cursor: pointer;
+    &:hover { background: color-mix(in srgb, var(--capsf-primary) 12%, transparent); }
+}
+.capsf-tag-select-option-thumb {
+    flex-shrink: 0;
+    width: 40px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: var(--capsf-bg-input);
+}
+.capsf-tag-select-option-title {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+button.capsf-token-test-btn {
+    flex-shrink: 0;
+    padding: 0 18px;
+    min-height: 42px;
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_small;
+    background: var(--capsf-bg-component);
+    color: var(--capsf-primary);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+
+    &:hover:not(:disabled) { background: var(--capsf-primary); color: var(--capsf-text-inverse); }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+.capsf-token-test-result {
+    margin-top: 8px;
+    padding: 10px 14px;
+    border-radius: $rs_small;
+    font-size: 13px;
+    line-height: 1.5;
+
+    &--success { background: var(--capsf-success-bg); color: var(--capsf-success-text); }
+    &--error   { background: var(--capsf-error-bg);   color: var(--capsf-error-text); }
+}
+[data-capsf-theme="dark"] .capsf-token-test-result--success {
+    background: #2a2f45;
+    color: #fff;
+}
+
+.capsf-wiz-select {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--capsf-text-primary);
+    -webkit-text-fill-color: var(--capsf-text-primary);
+    background: var(--capsf-bg-input);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_small;
+    outline: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: $transition;
+    &:focus { border-color: var(--capsf-primary); }
+    &:focus-visible { outline: 2px solid var(--capsf-primary); outline-offset: 2px; }
+}
+
+.capsf-wiz-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-family: 'Courier New', monospace;
+    color: var(--capsf-text-primary);
+    background: var(--capsf-bg-input);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_small;
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: $transition;
+    &:focus { border-color: var(--capsf-primary); }
+    &:focus-visible { outline: 2px solid var(--capsf-primary); outline-offset: 2px; }
+}
+
+/* ── Step 2: Layout ──────────────────────────────────────────────────── */
+.capsf-step2-body { gap: 24px; }
+
+.capsf-step2-title-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.capsf-step2-desc {
+    font-size: 14px;
+    color: var(--capsf-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Filter bar */
+.capsf-layout-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 14px 18px;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_large;
+}
+
+// Modifier: chips on the left, an extra control (e.g. the "Slider style"
+// dropdown) pinned to the top-right corner of the same bar.
+.capsf-layout-filter-bar--spread {
+    justify-content: space-between;
+}
+
+.capsf-layout-filter-chips {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.capsf-layout-filter-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--capsf-text-secondary);
+    margin-right: 4px;
+}
+
+.capsf-layout-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 2px solid var(--capsf-border);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--capsf-text-secondary);
+    cursor: pointer;
+    transition: $transition;
+    background: var(--capsf-bg-secondary);
+    input { display: none; }
+    &:hover { border-color: var(--capsf-primary); color: var(--capsf-primary); }
+    &.active { border-color: var(--capsf-primary); background: var(--capsf-primary); color: var(--capsf-text-inverse); font-weight: 600; }
+}
+
+/* Vertical divider between the category pills and the Slider toggle */
+.capsf-layout-filter-divider {
+    width: 1px;
+    align-self: stretch;
+    background: var(--capsf-border);
+    margin: 2px 2px;
+}
+
+/* "Style" label + dropdown, grouped and visually separated (via the parent
+   bar's space-between) from the category pills / Slider toggle on the left. */
+.capsf-layout-slider-style-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+// Slider "Style" dropdown - the shared Select, given the Layout pills'
+// rounded, 2px-border look so it sits naturally next to them.
+.capsf-layout-slider-style-group .capsf-select {
+    flex: 0 0 auto;
+    width: 190px;
+
+    .capsf-select-box {
+        min-height: 40px;
+        padding-left: 16px;
+        border: 2px solid var(--capsf-border);
+        border-radius: 999px;
+        background: var(--capsf-bg-primary);
+    }
+
+    .capsf-select-box-label {
+        font-weight: 600;
+    }
+}
+
+/* ── Layout Rows ─────────────────────────────────────────────────────── */
+.capsf-layout-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.capsf-layout-row {
+    background: var(--capsf-bg-primary);
+    border: 2px solid var(--capsf-border);
+    border-radius: $rs_large;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+
+    &:hover:not(.selected) { border-color: var(--capsf-info-border); }
+    &.selected {
+        border-color: var(--capsf-primary);
+        box-shadow: 0 0 0 3px rgba(34,113,177,0.12);
+    }
+    // While any row's Select click is saving/navigating, dim every row and
+    // block further clicks (see the `navPending ? undefined : onSelect`
+    // guard in LayoutRow) so a second click can't fire mid-save.
+    &.capsf-layout-row--pending {
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+}
+
+.capsf-layout-row-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--capsf-border);
+    background: var(--capsf-bg-primary);
+}
+
+.capsf-layout-row-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.capsf-layout-row-label {
+    font-size: 14px;
+    color: var(--capsf-text-secondary);
+    strong { color: var(--capsf-text-primary); font-weight: 700; font-size: 15px; }
+}
+
+.capsf-layout-popular-badge {
+    background: var(--capsf-error-text);
+    color: var(--capsf-text-inverse);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+/* Pro-locked design (e.g. Short Style 2) - same badge shape as "MOST
+ * POPULAR" but in the brand gold/amber used for Pro elsewhere, so it
+ * reads as a distinct signal at a glance. The row itself stays fully
+ * visible/legible (not grayed out) - free users should still be able to
+ * see what they'd be getting, they just can't select it (see the
+ * "🔒 Unlock" button below and the click-gate in Step2Layout). */
+.capsf-layout-pro-badge {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+.capsf-layout-row--pro-locked .capsf-layout-select-btn {
+    border-color: #d97706;
+    color: #d97706;
+    &:hover { background: #d97706; color: #fff; }
+}
+
+.capsf-layout-row-desc {
+    font-size: 12px;
+    color: var(--capsf-text-muted);
+}
+
+.capsf-layout-select-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: $rs_small;
+    border: 2px solid var(--capsf-primary);
+    background: transparent;
+    color: var(--capsf-primary);
+    cursor: pointer;
+    transition: $transition;
+    white-space: nowrap;
+    flex-shrink: 0;
+    &:hover   { background: var(--capsf-primary); color: var(--capsf-text-inverse); }
+    &.selected { background: var(--capsf-primary); color: var(--capsf-text-inverse); }
+}
+
+/* ── Layout Row Preview - each MockCard handles its own internal grid ─── */
+.capsf-layout-row-preview {
+    padding: 20px 20px 24px;
+    background: var(--capsf-bg-secondary);
+}
+
+/* "Single" category: only 1 card shown (matches how a Single Videos feed
+ * with 1 video actually renders - a single centered card, see
+ * $capsf_single_as_centered in class-capsf-shortcode.php), centered
+ * and width-capped instead of stretching the grid's 3-column layout. */
+.capsf-layout-row-preview.capsf-single-card-preview {
+    .capsf-mc-grid3 { display: flex; justify-content: center; }
+    .capsf-mc-s1-card,
+    .capsf-mc-s2-wrap,
+    .capsf-mc-card-wrap.s3 { width: 100%; max-width: 340px; }
+}
+
+/* Same fix, applied to Step 3's (Light/Dark Mode) preview wrapper. */
+.capsf-style-row-cards.capsf-single-card-preview {
+    .capsf-mc-grid3 { display: flex; justify-content: center; }
+    .capsf-mc-s1-card,
+    .capsf-mc-s2-wrap,
+    .capsf-mc-card-wrap.s3 { width: 100%; max-width: 340px; }
+}
+
+/* ── Mock Cards ──────────────────────────────────────────────────────── */
+
+/* Real thumbnail image - covers the gradient bg */
+.capsf-mc-real-thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    z-index: 0;
+}
+
+/* Thumbbox inner sits above the image */
+.capsf-mc-thumbbox-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+/* s2 real thumb */
+.capsf-mc-s2-thumbbox {
+    position: relative;
+    width: 100%;
+    background: linear-gradient(135deg, var(--capsf-text-muted) 0%, var(--capsf-text-secondary) 100%);
+    &::before { content: ''; display: block; padding-top: 56.25%; }
+
+    .capsf-mc-real-thumb {
+        position: absolute;
+        inset: 0; width: 100%; height: 100%;
+        object-fit: cover; z-index: 0;
+    }
+}
+
+/* Loading state */
+.capsf-mc-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 32px;
+    color: var(--capsf-text-secondary);
+    font-size: 13px;
+    font-family: -apple-system, sans-serif;
+    width: 100%;
+}
+
+.capsf-mc-spinner {
+    width: 24px; height: 24px;
+    animation: capsf-spin 1s linear infinite;
+    flex-shrink: 0;
+}
+
+.capsf-mc-empty {
+    min-height: 180px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 28px;
+    color: var(--capsf-text-secondary);
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.5;
+    background: rgba(255,255,255,0.72);
+    border: 1px dashed var(--capsf-border-hover);
+    border-radius: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    svg {
+        color: var(--capsf-text-muted);
+    }
+}
+
+@keyframes capsf-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* ── Channel Profile card - mirrors includes/layouts/channel-profile/channel-profile.css
+ * so the wizard preview is a true match of the live frontend card. ────── */
+.capsf-layout-row-preview.capsf-channel-profile-preview {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.capsf-channel-profile {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    border: 1px solid var(--capsf-border, #e5e7eb);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+.capsf-chp-banner {
+    width: 100%;
+    aspect-ratio: 1707 / 350;
+    background: #0f0f0f;
+    overflow: hidden;
+}
+
+.capsf-chp-banner--mock {
+    background: linear-gradient(115deg, #1e1b4b 0%, #4c1d95 45%, #7c3aed 100%);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+}
+
+.capsf-chp-status {
+    padding: 10px 20px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.capsf-chp-status--loading {
+    color: var(--capsf-text-secondary, #6b7280);
+    background: #f8f9fa;
+}
+
+.capsf-chp-status--error {
+    color: #92400e;
+    background: #fffbeb;
+    border-top: 1px solid #fde68a;
+}
+
+/* Dark Mode variant - used both in the Step 3 (Mode) preview row and as the
+ * class the frontend card gets when style_preset is saved as 'dark' (see
+ * includes/layouts/channel-profile/channel-profile.css for the live version). */
+.capsf-channel-profile--dark {
+    .capsf-chp-avatar--mock { background: rgba(255,255,255,0.08); color: #f87171; }
+    .capsf-chp-status--loading { background: transparent; }
+}
+
+.capsf-chp-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    background: #f8f9fa;
+}
+
+.capsf-chp-identity {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.capsf-chp-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #e5e7eb;
+}
+
+.capsf-chp-avatar--mock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.capsf-chp-avatar--square {
+    border-radius: 10px;
+}
+
+.capsf-chp-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.capsf-chp-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #0f0f0f;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.capsf-chp-stats {
+    font-size: 13px;
+    color: #606060;
+}
+
+.capsf-chp-subscribe {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background: #cc0000;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    border-radius: 4px;
+}
+
+.capsf-mc-thumbbox {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    background: linear-gradient(135deg, var(--capsf-text-muted) 0%, var(--capsf-text-secondary) 100%);
+
+    /* Enforce 16:9 ratio without aspect-ratio property */
+    &::before {
+        content: '';
+        display: block;
+        padding-top: 56.25%; /* 16:9 */
+    }
+
+    &.dark {
+        background: linear-gradient(160deg, var(--capsf-text-primary) 0%, var(--capsf-text-secondary) 60%, var(--capsf-text-secondary) 100%);
+    }
+
+    &.shorts::before {
+        padding-top: 177.78%; /* 9:16 */
+    }
+    &.shorts {
+        background: linear-gradient(160deg, #a29bfe 0%, #6c5ce7 50%, #fd79a8 100%);
+    }
+
+    /* Reel Card uses regular 16:9 video thumbnails (not native 9:16 Shorts
+       thumbnails) cropped into a 3:4 portrait box - matches the live site
+       exactly (see includes/layouts/cards/reel-1/card.css). Deliberately
+       NOT reusing .shorts above: that's a taller 9:16 box with Shorts'
+       purple/pink placeholder gradient, which doesn't match Reel Card's
+       3:4 ratio or black placeholder background. */
+    &.reel::before {
+        padding-top: 133.33%; /* 3:4 */
+    }
+    &.reel {
+        background: #000;
+    }
+}
+
+.capsf-mc-thumbbox-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Play icon */
+.capsf-mc-play-icon {
+    width: 40px; height: 40px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Play circle (for popup style) */
+.capsf-mc-play-circle {
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.92);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Duration badge */
+.capsf-mc-dur {
+    position: absolute;
+    bottom: 6px; right: 7px;
+    background: rgba(0,0,0,0.85); color: var(--capsf-text-inverse);
+    font-size: 10px; font-weight: 700;
+    padding: 2px 6px; border-radius: 3px;
+    font-family: -apple-system, sans-serif;
+
+    &.capsf-mc-dur--sm {
+        bottom: 3px; right: 3px;
+        font-size: 8.5px;
+        padding: 1px 4px;
+    }
+}
+
+/* Views / time-ago line - shown under the title when "Show View Count" /
+ * "Show Date" (Step 4) are on. Mirrors .capsf-mc-sub styling. */
+.capsf-mc-stats {
+    font-size: 9.5px;
+    color: var(--capsf-text-secondary);
+    margin-top: 2px;
+    font-family: -apple-system, sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &.capsf-mc-stats--white { color: rgba(255,255,255,0.75); }
+}
+
+/* Popup badge */
+.capsf-mc-popup-tag {
+    position: absolute;
+    top: 7px; right: 7px;
+    background: rgba(0,0,0,0.75); color: var(--capsf-text-inverse);
+    font-size: 8px; font-weight: 700;
+    padding: 2px 7px; border-radius: 4px;
+    font-family: -apple-system, sans-serif;
+}
+
+/* ── Shorts card (Step 2 mock) - mirrors the real frontend card 1:1:
+ * includes/layouts/shorts/style-1/style-1.css (.capsf-short-card-*).
+ * Kept as its own set of classes (capsf-mc-short-*, singular) rather
+ * than reusing capsf-mc-thumbbox/capsf-mc-shorts-badge so the whole
+ * card - badge, duration, play button, bottom gradient with title/
+ * channel/stats - can be a near-exact visual copy of the live site,
+ * instead of the old white-caption-box-below-the-thumbnail layout. ── */
+.capsf-mc-short-card {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #0f0f0f;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    aspect-ratio: 9 / 16;
+}
+
+.capsf-mc-short-thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+.capsf-mc-short-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #ff0000;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 3px 7px 3px 5px;
+    border-radius: 20px;
+    line-height: 1;
+    z-index: 3;
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-mc-short-dur {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1;
+    padding: 3px 6px;
+    border-radius: 4px;
+    z-index: 3;
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-mc-short-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 38px;
+    height: 38px;
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    backdrop-filter: blur(2px);
+}
+
+.capsf-mc-short-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 26px 8px 8px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
+    z-index: 2;
+}
+
+.capsf-mc-short-title {
+    margin: 0 0 3px;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: -apple-system, sans-serif;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.capsf-mc-short-channel {
+    display: block;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.75);
+    font-family: -apple-system, sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Views + time-ago - deliberately NOT nowrap/ellipsis like the channel
+ * line above: this can be the longest line in the overlay (e.g. "272.9K
+ * Views • 22 hours ago"), so it needs to wrap onto a second line instead
+ * of getting clipped. */
+.capsf-mc-short-stats {
+    display: block;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.75);
+    font-family: -apple-system, sans-serif;
+    white-space: normal;
+    line-height: 1.35;
+    margin-top: 2px;
+}
+
+/* ── Shorts Style 2 ("Carousel Style") card (Step 2 mock) - mirrors
+ * Pro's includes/layouts/shorts/style-2/style-2.css 1:1. Avatar + handle row,
+ * title, likes/comments stats row - all inside the bottom gradient,
+ * distinct from Style 1's simpler channel+views/time overlay. ── */
+.capsf-mc-short2-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #0f0f0f;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    aspect-ratio: 9 / 16;
+}
+
+.capsf-mc-short2-thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+.capsf-mc-short2-vignette {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 28%, transparent 55%, rgba(0,0,0,0.92) 100%);
+    z-index: 1;
+}
+
+.capsf-mc-short2-top {
+    position: absolute;
+    top: 8px; left: 8px; right: 8px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 3;
+}
+
+.capsf-mc-short2-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: #ff0000; color: #fff;
+    font-size: 8.5px; font-weight: 700; letter-spacing: 0.04em;
+    padding: 3px 7px 3px 5px; border-radius: 20px; line-height: 1;
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-mc-short2-dur {
+    background: rgba(0, 0, 0, 0.8); color: #fff;
+    font-size: 8.5px; font-weight: 600; line-height: 1;
+    padding: 3px 6px; border-radius: 4px;
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-mc-short2-play {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px; height: 32px;
+    background: rgba(34, 113, 177, 0.75);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 3;
+}
+
+.capsf-mc-short2-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 20px 8px 8px;
+    z-index: 2;
+}
+
+.capsf-mc-short2-channel-row {
+    display: flex; align-items: center; gap: 5px;
+    margin-bottom: 4px;
+}
+
+.capsf-mc-short2-avatar {
+    width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--capsf-primary, #2271b1);
+    color: #fff; font-size: 8px; font-weight: 700;
+    font-family: -apple-system, sans-serif;
+    text-transform: uppercase;
+}
+
+.capsf-mc-short2-handle {
+    font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.92);
+    font-family: -apple-system, sans-serif;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.capsf-mc-short2-title {
+    font-size: 10px; font-weight: 700; color: #fff;
+    line-height: 1.3; margin-bottom: 5px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    font-family: -apple-system, sans-serif;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.capsf-mc-short2-stats {
+    display: flex; align-items: center; gap: 10px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    font-size: 8.5px; font-weight: 600;
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-mc-short2-stat {
+    display: inline-flex; align-items: center; gap: 3px;
+    color: rgba(255,255,255,0.88);
+}
+.capsf-mc-short2-stat:first-child svg { color: #ff4d4d; }
+
+/* ── Shorts preview - dedicated 6-col grid ────────────────
+ * Shorts cards are tall/portrait (9:16), so reusing the shared
+ * 3-col grid above made each card look oversized with stretched
+ * thumbnails. This shows up to 6 smaller, more realistic cards
+ * instead - see MockCardShorts. */
+.capsf-mc-shorts-grid6 {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+}
+
+/* ── Reel Card mock - portrait thumbnail, title + menu row, views line ── */
+.capsf-mc-reel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+.capsf-mc-reel-card {
+    display: flex;
+    flex-direction: column;
+}
+.capsf-mc-reel-card .capsf-mc-thumbbox { border-radius: 8px; }
+.capsf-mc-reel-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 6px;
+    margin-top: 6px;
+}
+.capsf-mc-reel-title {
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--capsf-text-primary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.capsf-mc-reel-menu {
+    flex-shrink: 0;
+    color: var(--capsf-text-secondary);
+    margin-top: 2px;
+}
+.capsf-mc-reel-views {
+    font-size: 11px;
+    color: var(--capsf-text-secondary);
+    margin-top: 2px;
+}
+
+/* ── Shared 3-col grid wrapper ──────────────────────────── */
+.capsf-mc-grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+/* Individual card wrap */
+.capsf-mc-card-wrap {
+    background: var(--capsf-bg-primary);
+    border-radius: 10px;
+    border: 1px solid var(--capsf-border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    overflow: hidden;
+
+    &.s3 {
+        border-color: var(--capsf-text-primary);
+        background: var(--capsf-text-primary);
+    }
+}
+
+/* ── Shared text elements ───────────────────────────────── */
+.capsf-mc-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, #fd7272, var(--capsf-warning-text));
+    flex-shrink: 0;
+    &.sm    { width: 16px; height: 16px; }
+    &.white { background: rgba(255,255,255,0.7); }
+}
+
+.capsf-mc-ttl {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    &.white { color: var(--capsf-text-inverse); }
+}
+
+.capsf-mc-sub {
+    font-size: 9.5px;
+    color: var(--capsf-text-secondary);
+    margin-top: 3px;
+    font-family: -apple-system, sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Style-1 - exact frontend match ─────────────────────── */
+.capsf-mc-s1-card {
+    background: var(--capsf-bg-primary);
+    border-radius: 12px;
+    border: 1px solid var(--capsf-border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    overflow: hidden;
+}
+
+.capsf-mc-s1-thumb-wrap { position: relative; width: 100%; }
+
+/* Embed Video Step 2 preview - a real, live YouTube iframe instead of a
+   static mock thumbnail, since we know the real video ID up front. */
+.capsf-mc-s1-thumb-wrap--live {
+    aspect-ratio: 16 / 9;
+    border-radius: $rs_medium;
+    overflow: hidden;
+    background: #000;
+}
+
+.capsf-mc-live-iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+.capsf-mc-s1-play {
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.92;
+}
+
+.capsf-mc-s1-content {
+    padding: 10px 12px 13px;
+    display: flex; flex-direction: column; gap: 5px;
+}
+
+.capsf-mc-s1-title {
+    font-size: 11px; font-weight: 700; color: var(--capsf-text-primary);
+    line-height: 1.4;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-mc-s1-desc {
+    font-size: 10px; color: var(--capsf-text-secondary); line-height: 1.4;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-mc-s1-channel { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+
+.capsf-mc-s1-dot {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #ff0000; color: var(--capsf-text-inverse);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+
+.capsf-mc-s1-chname {
+    font-size: 10px; color: var(--capsf-text-secondary);
+    font-family: -apple-system, sans-serif;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.capsf-mc-info {
+    flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0;
+}
+
+/* ── Style-8: Social Card - mock preview ────────────────── */
+.capsf-mc-s8-card {
+    background: var(--capsf-bg-primary);
+    border-radius: 12px;
+    border: 1px solid var(--capsf-border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    overflow: hidden;
+}
+
+.capsf-mc-s8-content {
+    padding: 10px 12px 12px;
+    display: flex; flex-direction: column; gap: 8px;
+}
+
+.capsf-mc-s8-title {
+    font-size: 10.5px; font-weight: 400; color: var(--capsf-text-secondary);
+    line-height: 1.4;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-mc-s8-meta-row { display: flex; align-items: center; gap: 8px; }
+
+.capsf-mc-s8-avatar-wrap { position: relative; flex-shrink: 0; width: 22px; height: 22px; }
+
+.capsf-mc-s8-avatar-wrap .capsf-mc-avatar { width: 22px; height: 22px; }
+
+.capsf-mc-s8-avatar-img {
+    width: 22px; height: 22px; border-radius: 50%; object-fit: cover; display: block;
+}
+
+.capsf-mc-s8-badge {
+    position: absolute; right: -2px; bottom: -2px;
+}
+
+.capsf-mc-s8-meta-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+
+.capsf-mc-s8-chname {
+    font-size: 10px; font-weight: 700; color: var(--capsf-text-primary);
+    font-family: -apple-system, sans-serif;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.capsf-mc-s8-time {
+    font-size: 9px; color: var(--capsf-text-secondary);
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-mc-s8-stats-row {
+    display: flex; align-items: center; gap: 10px;
+    padding-top: 7px;
+    border-top: 1px solid var(--capsf-border);
+}
+
+.capsf-mc-s8-stat {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 9.5px; font-weight: 500; color: var(--capsf-text-secondary);
+    font-family: -apple-system, sans-serif;
+    white-space: nowrap;
+}
+
+/* ── Style-2 - exact frontend match ─────────────────────── */
+
+/* 3-col grid */
+.capsf-mc-s2-wrap {
+    background: var(--capsf-bg-primary);
+    border-radius: 12px;
+    border: 1px solid var(--capsf-border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    overflow: hidden;
+}
+
+/* Thumbnail box */
+.capsf-mc-s2-thumb {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.capsf-mc-s2-thumbbox {
+    width: 100%;
+    background: linear-gradient(135deg, var(--capsf-text-muted) 0%, var(--capsf-text-secondary) 100%);
+    /* 16:9 ratio via padding trick */
+    &::before {
+        content: '';
+        display: block;
+        padding-top: 56.25%;
+    }
+}
+
+/* YouTube red play button - centered over thumb */
+.capsf-mc-s2-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.92;
+}
+
+/* Card body */
+.capsf-mc-s2-body {
+    padding: 12px 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Channel badge: YT icon + channel name - red pill */
+.capsf-mc-s2-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--capsf-error-bg);
+    border: 1px solid var(--capsf-error-bg);
+    border-radius: 20px;
+    padding: 4px 10px 4px 6px;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    font-family: -apple-system, sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: min-content;
+    margin-bottom: 9px;
+}
+
+/* Title */
+.capsf-mc-s2-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    line-height: 1.4;
+    margin: 0 0 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.capsf-mc-s2-desc {
+    margin: -4px 0 10px;
+    font-size: 10px;
+    line-height: 1.45;
+    color: var(--capsf-text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Footer: channel name left, arrow right */
+.capsf-mc-s2-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2px;
+    border-top: 1px solid var(--capsf-bg-secondary);
+    padding-top: 9px;
+}
+
+.capsf-mc-s2-chname {
+    font-size: 9.5px;
+    color: var(--capsf-text-secondary);
+    font-family: -apple-system, sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 130px;
+}
+
+/* Arrow circle - exact match to frontend */
+.capsf-mc-s2-arrow {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--capsf-border);
+    background: var(--capsf-bg-primary);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--capsf-text-primary);
+    flex-shrink: 0;
+}
+
+
+/* ── Style-3 overlay ────────────────────────────────────── */
+.capsf-mc-s3-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.88) 40%, rgba(0,0,0,0.05) 100%);
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    padding: 8px;
+}
+
+.capsf-mc-s3-top {
+    display: flex; align-items: center; gap: 5px;
+}
+
+.capsf-mc-s3-ch {
+    font-size: 8.5px; font-weight: 600;
+    color: rgba(255,255,255,0.88);
+    font-family: -apple-system, sans-serif;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.capsf-mc-watchbtn {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--capsf-bg-primary); color: var(--capsf-text-primary);
+    font-size: 8px; font-weight: 800;
+    border-radius: 4px; padding: 4px 9px;
+    width: fit-content; margin-top: 6px;
+    font-family: -apple-system, sans-serif;
+}
+
+/* ── Style-4 body ───────────────────────────────────────── */
+.capsf-mc-s4-body {
+    padding: 9px 10px 11px;
+    display: flex; flex-direction: column; gap: 4px;
+}
+
+.capsf-mc-s4-meta {
+    display: flex; align-items: center;
+    gap: 6px; margin-top: 2px;
+}
+
+
+/* ── Style-4 body ───────────────────────────────────────── */
+.capsf-mc-s4-body {
+    padding: 9px 10px 11px;
+    display: flex; flex-direction: column; gap: 4px;
+}
+
+.capsf-mc-s4-meta {
+    display: flex; align-items: center;
+    gap: 6px; margin-top: 2px;
+}
+
+/* ── Style-5 Slider mock ─────────────────────────────────── */
+.capsf-mc-s5-wrap {
+    position: relative;
+    padding: 0 20px;
+}
+
+.capsf-mc-s5-arrow {
+    position: absolute;
+    top: 30%; transform: translateY(-50%);
+    z-index: 2;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    border: 1.5px solid var(--capsf-border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none; color: #374151;
+
+    &--left  { left: 0; }
+    &--right { right: 0; }
+    svg { width: 16px; height: 16px; }
+}
+
+.capsf-mc-s5-dots {
+    display: flex; justify-content: center; gap: 5px; margin-top: 10px;
+}
+
+.capsf-mc-s5-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--capsf-border);
+    &.active { background: var(--capsf-primary); width: 18px; border-radius: 4px; }
+}
+
+/* Slider Style 2 (Spotlight) preview - same underlying design (Classic
+ * Card/Professional/Dark Cinematic, or Reel Card) as Style 1, but the
+ * middle card is enlarged/highlighted and the side cards are scaled down +
+ * faded, purely via CSS - matches the old standalone "Centered Carousel"
+ * (style-7) look, without needing a separate mock component per design. */
+.capsf-mc-spotlight .capsf-mc-grid3,
+.capsf-mc-spotlight .capsf-mc-reel-grid {
+    align-items: center;
+}
+.capsf-mc-spotlight .capsf-mc-grid3 > *,
+.capsf-mc-spotlight .capsf-mc-reel-grid > * {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    transform: scale(0.88);
+    opacity: 0.55;
+}
+.capsf-mc-spotlight .capsf-mc-grid3 > :nth-child(2),
+.capsf-mc-spotlight .capsf-mc-reel-grid > :nth-child(2) {
+    transform: scale(1.08);
+    opacity: 1;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+/* Spotlight's enlarged middle card sits taller than the equal-cards layout,
+ * so the arrows (positioned relative to the whole row) need to sit lower
+ * to stay level with it - 30% reads as "too high" once the card grows. */
+.capsf-mc-spotlight .capsf-mc-s5-arrow {
+    top: 50%;
+}
+/* Arrows sit right next to the enlarged middle card's own edges (like the
+ * live site's Slider Style 2 - see .capsf-s7-prev/.capsf-s7-next in
+ * includes/layouts/cards/style-7/card.css), not out at the far left/right
+ * edges of the whole row (that's Style 1's look, not Style 2's). With 3
+ * equal grid columns, those seams sit at ~33% / ~66% of the row width.
+ */
+.capsf-mc-spotlight .capsf-mc-s5-arrow--left  { left: calc(33% - 17px); }
+.capsf-mc-spotlight .capsf-mc-s5-arrow--right { right: calc(33% - 17px); }
+
+/* Spotlight on the Shorts preview (6-card grid, not the 3-card Grid/Reel
+ * one) - scale up one of the middle cards instead of relying on
+ * nth-child(2), and keep the arrows out at the row's far edges (the 33%/
+ * 66% offsets above are tuned for a 3-column grid and would land inside
+ * the card row here). */
+.capsf-mc-spotlight .capsf-mc-shorts-grid6 {
+    align-items: center;
+}
+.capsf-mc-spotlight .capsf-mc-shorts-grid6 > * {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    transform: scale(0.88);
+    opacity: 0.55;
+}
+.capsf-mc-spotlight .capsf-mc-shorts-grid6 > :nth-child(3) {
+    transform: scale(1.08);
+    opacity: 1;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+.capsf-mc-spotlight--shorts .capsf-mc-s5-arrow--left  { left: 0; }
+.capsf-mc-spotlight--shorts .capsf-mc-s5-arrow--right { right: 0; }
+
+/* ── Slider Style 3 (Carousel toolbar) preview - Shorts only ──────────────
+ * Counter ("01 / 03") + prev/next buttons sit ABOVE the cards, with a
+ * progress bar below instead of dots. Mirrors the real frontend's
+ * `capsf-s5-wrapper--carousel` markup/CSS (see
+ * includes/layouts/cards/style-5/card.css) so the admin preview matches
+ * what the live site actually renders. */
+.capsf-mc-s5-wrap--carousel {
+    padding: 0;
+}
+.capsf-mc-s5-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.capsf-mc-s5-counter {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #6b7280;
+    margin-right: 4px;
+}
+.capsf-mc-s5-tbtn {
+    width: 26px; height: 26px; min-width: 26px; border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    border: 1.5px solid var(--capsf-border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    display: flex; align-items: center; justify-content: center;
+    color: #374151; cursor: pointer;
+}
+.capsf-mc-s5-progress {
+    width: 100%; height: 4px; border-radius: 999px; overflow: hidden;
+    background: var(--capsf-border); margin-top: 10px;
+}
+.capsf-mc-s5-progress-bar {
+    height: 100%; border-radius: 999px; width: 20%;
+    background: var(--capsf-primary);
+}
+
+/* ── Style-7 Centered Carousel mock ──────────────────────── */
+.capsf-mc-s7-wrap {
+    position: relative;
+    padding: 0 34px;
+}
+
+.capsf-mc-s7-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.capsf-mc-s7-card {
+    flex: 0 0 auto;
+    width: 26%;
+    opacity: 0.5;
+    transform: scale(0.86);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+
+    &--active {
+        width: 44%;
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+        z-index: 1;
+    }
+}
+
+.capsf-mc-s7-thumb-wrap {
+    position: relative;
+    aspect-ratio: 16/10;
+}
+
+.capsf-mc-s7-arrow {
+    position: absolute;
+    top: 42%; transform: translateY(-50%);
+    z-index: 2;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    border: 1.5px solid var(--capsf-border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none; color: #374151;
+
+    &--left  { left: 0; }
+    &--right { right: 0; }
+    svg { width: 16px; height: 16px; }
+}
+
+/* ── Style-6 Playlist mock ───────────────────────────────── */
+.capsf-mc-s6-wrap {
+    display: grid;
+    grid-template-columns: 60% 1fr;
+    gap: 0;
+    background: var(--capsf-bg-primary);
+    border-radius: 10px;
+    border: 1px solid var(--capsf-border);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.capsf-mc-s6-featured { display: flex; flex-direction: column; }
+
+.capsf-mc-s6-feat-info { padding: 10px 12px 12px; }
+
+.capsf-mc-s6-feat-title {
+    font-size: 11px; font-weight: 700; color: var(--capsf-text-primary);
+    line-height: 1.4; margin-bottom: 6px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-mc-s6-feat-ch {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 10px; color: var(--capsf-text-secondary); font-family: -apple-system, sans-serif;
+}
+
+.capsf-mc-s6-list {
+    display: flex; flex-direction: column; gap: 4px;
+    padding: 8px; overflow-y: auto; max-height: 280px;
+    background: var(--capsf-bg-secondary); border-left: 1px solid var(--capsf-border);
+}
+
+.capsf-mc-s6-item {
+    display: flex; gap: 8px; align-items: flex-start;
+    padding: 6px; border-radius: 6px; background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+}
+
+.capsf-mc-s6-thumb {
+    flex: 0 0 80px; border-radius: 4px; overflow: hidden;
+}
+
+.capsf-mc-s6-info { flex: 1; min-width: 0; padding-top: 1px; }
+
+.capsf-mc-s6-title {
+    font-size: 10px; font-weight: 600; color: var(--capsf-text-primary);
+    line-height: 1.35; margin-bottom: 3px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-mc-s6-ch {
+    font-size: 9px; color: var(--capsf-text-secondary); font-family: -apple-system, sans-serif;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
+}
+
+
+.capsf-style-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.capsf-style-row {
+    border-radius: $rs_large;
+    overflow: hidden;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:hover:not(.selected) { border-color: var(--capsf-info-border); }
+    &.selected {
+        border-color: var(--capsf-primary);
+        box-shadow: 0 0 0 2px rgba(34,113,177,0.15);
+    }
+}
+
+.capsf-style-row-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid;
+}
+
+.capsf-style-row-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.capsf-style-row-label {
+    font-size: 14px;
+    font-family: -apple-system, sans-serif;
+    strong { font-weight: 700; font-size: 15px; }
+}
+
+/* Preview area - uses CSS vars from parent row */
+.capsf-style-row-preview {
+    padding: 20px 20px 24px;
+}
+
+/* Override mock card styles using CSS vars injected by the row */
+.capsf-style-row-cards {
+
+    /* Style-1 Classic */
+    .capsf-mc-card-wrap {
+        background: var(--s3-card-bg, var(--capsf-bg-primary)) !important;
+        border-color: var(--s3-card-border, var(--capsf-border)) !important;
+        box-shadow: var(--s3-card-shadow, 0 2px 8px rgba(0,0,0,0.07)) !important;
+    }
+
+    /* Style-2 Professional */
+    .capsf-mc-s2-wrap {
+        background: var(--s3-card-bg, var(--capsf-bg-primary)) !important;
+        border-color: var(--s3-card-border, var(--capsf-border)) !important;
+        box-shadow: var(--s3-card-shadow, 0 2px 10px rgba(0,0,0,0.07)) !important;
+    }
+
+    .capsf-mc-s2-footer { border-color: var(--s3-card-border, var(--capsf-bg-secondary)) !important; }
+
+    /* Title, meta text color */
+    .capsf-mc-ttl,
+    .capsf-mc-s2-title { color: var(--s3-title-color, var(--capsf-text-primary)) !important; }
+
+    .capsf-mc-sub,
+    .capsf-mc-s2-chname,
+    .capsf-mc-s3-ch,
+    .capsf-mc-s4-body .capsf-mc-sub { color: var(--s3-meta-color, var(--capsf-text-secondary)) !important; }
+
+    /* Channel pill bg on dark */
+    .capsf-mc-s2-badge { background: rgba(255,255,255,0.1) !important; color: var(--s3-title-color, var(--capsf-text-primary)) !important; }
+    .capsf-mc-pill     { background: rgba(255,255,255,0.1) !important; }
+    .capsf-mc-pill-txt { color: var(--s3-title-color, var(--capsf-text-primary)) !important; }
+
+    /* Arrow circle */
+    .capsf-mc-s2-arrow  { border-color: var(--s3-card-border, var(--capsf-border)) !important; color: var(--s3-meta-color, var(--capsf-text-secondary)) !important; }
+    .capsf-mc-arrow-c   { background: rgba(255,255,255,0.1) !important; color: var(--s3-meta-color, var(--capsf-text-secondary)) !important; }
+
+    /* Channel Profile - same card/border/shadow + title/meta vars as every
+     * other card style, plus the bar background (--s3-bar-bg, matches the
+     * row's own bg so it reads as one surface in both Light and Dark). */
+    .capsf-channel-profile {
+        background: var(--s3-card-bg, #ffffff) !important;
+        border-color: var(--s3-card-border, #e5e7eb) !important;
+        box-shadow: var(--s3-card-shadow, 0 1px 3px rgba(0,0,0,0.06)) !important;
+    }
+    .capsf-chp-bar   { background: var(--s3-bar-bg, #f8f9fa) !important; }
+    .capsf-chp-name  { color: var(--s3-title-color, #0f0f0f) !important; }
+    .capsf-chp-stats { color: var(--s3-meta-color, #606060) !important; }
+
+    /* Style-6 Playlist - same vars as everything above. This mirrors the
+     * matching fix in card.css (--capsf-card-bg/--capsf-s6-title/
+     * --capsf-s6-meta) so the Step 3 "Mode" preview and the live site
+     * both actually go dark, instead of only the preview or only the
+     * frontend changing. */
+    .capsf-mc-s6-wrap {
+        background: var(--s3-card-bg, #ffffff) !important;
+        border-color: var(--s3-card-border, #e5e7eb) !important;
+        box-shadow: var(--s3-card-shadow, 0 2px 10px rgba(0,0,0,0.08)) !important;
+    }
+    .capsf-mc-s6-feat-title,
+    .capsf-mc-s6-title { color: var(--s3-title-color, #0f0f0f) !important; }
+    .capsf-mc-s6-feat-ch,
+    .capsf-mc-s6-ch { color: var(--s3-meta-color, #6b7280) !important; }
+}
+
+/* ── Step 4: Setup ───────────────────────────────────────────────────── */
+
+/* Layout / Styles side-tab shell wrapping the setup grid. */
+// Step 4 Settings is now: a horizontal row of tabs across the top (Live
+// Preview pinned to the right of that same row), with each tab's content
+// below as a stack of collapsible cards - see .capsf-setup-section
+// (now a <details> element) further down.
+.capsf-settings-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.capsf-settings-tabs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.capsf-settings-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: auto;
+    padding: 10px 16px;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 999px; // pill shape, matching the reference tab row
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--capsf-text-secondary);
+    cursor: pointer;
+    transition: $transition;
+    text-align: left;
+    white-space: nowrap;
+
+    &:hover {
+        border-color: var(--capsf-primary);
+        color: var(--capsf-primary);
+    }
+
+    &.active {
+        border-color: var(--capsf-primary);
+        color: var(--capsf-primary);
+        background: color-mix(in srgb, var(--capsf-primary) 8%, var(--capsf-bg-primary));
+    }
+
+    &--locked {
+        justify-content: space-between;
+
+        &:hover { color: var(--capsf-text-secondary); border-color: var(--capsf-primary); }
+    }
+
+    // Live Preview sits apart from the rest of the group, pushed to the
+    // right-hand end of the same row and always styled like an active
+    // pill (it's an action button that opens a modal, not a real tab, so
+    // it doesn't have its own .active state to key off of).
+    &--preview {
+        margin-left: auto;
+        border-color: var(--capsf-primary);
+        color: var(--capsf-primary);
+        background: color-mix(in srgb, var(--capsf-primary) 8%, var(--capsf-bg-primary));
+
+        &::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--capsf-primary);
+            flex-shrink: 0;
+        }
+    }
+}
+
+.capsf-settings-tab-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.capsf-settings-tab-content {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ── Live Preview modal ──────────────────────────────────────────────── */
+.capsf-lp-overlay {
+    // Plain full-viewport fixed overlay - the standard, battle-tested
+    // pattern virtually every app (Gmail, Notion, etc.) uses for a
+    // full-screen modal. Two earlier attempts to shrink this down to
+    // just the plugin's own content area (offsetting by
+    // --capsf-adminbar-h / --capsf-sidebar-w) each introduced their
+    // own bugs - the modal landing off-screen on a long scrolled page,
+    // then the plugin's own sidebar bleeding through the backdrop blur
+    // once those custom properties didn't resolve the same way in every
+    // context - so this reverts to the simple, reliable version rather
+    // than layering on more conditional positioning math.
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 100000;
+    animation: capsf-lp-fadein 0.2s ease;
+}
+
+@keyframes capsf-lp-fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes capsf-lp-slidein {
+    from { transform: scale(0.97) translateY(8px); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+}
+
+.capsf-lp-modal {
+    width: 100%;
+    max-width: 1200px;
+    max-height: 92vh;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 20px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: capsf-lp-slidein 0.2s ease;
+}
+
+.capsf-lp-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+    padding: 14px 18px;
+    background: var(--capsf-bg-secondary);
+    border-bottom: 1px solid var(--capsf-border);
+}
+
+.capsf-lp-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.capsf-lp-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    &--red   { background: #f87171; }
+    &--amber { background: #fbbf24; }
+    &--green { background: #34d399; }
+}
+
+.capsf-lp-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--capsf-border);
+    flex-shrink: 0;
+}
+
+.capsf-lp-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.capsf-lp-title-label {
+    font-weight: 400;
+    color: var(--capsf-text-secondary);
+    margin-right: 4px;
+}
+
+.capsf-lp-device-tabs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--capsf-bg-input);
+    border: 1px solid var(--capsf-border);
+    border-radius: 10px;
+    padding: 4px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.capsf-lp-device-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--capsf-text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: $transition;
+
+    svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    &:hover { color: var(--capsf-text-primary); }
+
+    &.active {
+        background: var(--capsf-primary);
+        color: var(--capsf-text-inverse);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+}
+
+.capsf-lp-close {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--capsf-text-secondary);
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 9px;
+    cursor: pointer;
+    transition: $transition;
+    flex-shrink: 0;
+
+    svg { width: 13px; height: 13px; }
+
+    &:hover {
+        color: var(--capsf-text-primary);
+        border-color: var(--capsf-border-hover);
+    }
+}
+
+.capsf-lp-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    background: var(--capsf-bg-secondary);
+    padding: 28px 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.capsf-lp-viewport {
+    width: 100%;
+    max-width: 100%;
+    transition: max-width 0.25s ease;
+
+    &--tablet { max-width: 768px; }
+    &--mobile { max-width: 390px; }
+}
+
+.capsf-lp-card-shell {
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    margin-bottom: 24px; // breathing room below the last row when the grid scrolls to the end
+}
+
+.capsf-lp-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--capsf-bg-secondary);
+    border-bottom: 1px solid var(--capsf-border);
+
+    strong {
+        display: block;
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--capsf-text-primary);
+    }
+    p {
+        margin: 1px 0 0;
+        font-size: 10.5px;
+        color: var(--capsf-text-secondary);
+    }
+}
+
+.capsf-lp-card-head-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.capsf-lp-yt-badge {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #ff0000;
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.capsf-lp-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--capsf-primary);
+    background: color-mix(in srgb, var(--capsf-primary) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--capsf-primary) 30%, transparent);
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    svg { width: 11px; height: 11px; animation: capsf-lp-spin 1.6s linear infinite; }
+}
+
+@keyframes capsf-lp-spin {
+    to { transform: rotate(360deg); }
+}
+
+.capsf-lp-card-body {
+    padding: 18px;
+}
+
+/* Live Preview reuses the same MockCard* components as Step 2 & 3, whose
+ * grids are normally fixed at 3 (or 6 for Shorts) columns - override with
+ * the per-device column count computed in edit_feed.jsx. */
+.capsf-live-preview-body .capsf-mc-grid3,
+.capsf-live-preview-body .capsf-mc-shorts-grid6,
+.capsf-live-preview-body .capsf-mc-reel-grid {
+    grid-template-columns: repeat(var(--capsf-lp-cols, 3), 1fr) !important;
+}
+
+.capsf-lp-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--capsf-border);
+
+    span:first-child {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--capsf-text-secondary);
+    }
+}
+
+.capsf-lp-load-more {
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    background: var(--capsf-bg-secondary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 8px;
+    cursor: not-allowed;
+    opacity: 0.85;
+}
+
+.capsf-lp-infinite-hint {
+    font-size: 11.5px;
+    font-style: italic;
+    color: var(--capsf-text-muted);
+}
+
+@media (max-width: $bp_tablet) {
+    .capsf-lp-header { flex-wrap: wrap; }
+    .capsf-lp-device-tabs { order: 3; width: 100%; justify-content: center; margin-left: 0; }
+    .capsf-lp-device-label { display: none; }
+    .capsf-lp-body { padding: 16px 12px; }
+}
+
+.capsf-setup-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+// Two independent flex columns of accordion cards, each with a fixed set
+// of sections assigned in the JSX (not auto-flowed by CSS) - Layout &
+// Display + Card/Embed Display Options in one column, Video Play Mode +
+// Thumbnail + Video Filters in the other. Same technique Captain Social
+// Review uses for its own 2-column Settings layout.
+.capsf-accordion-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+}
+
+.capsf-accordion-col {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 20px;
+    width: 50%;
+}
+
+// A column whose cards are all conditionally hidden renders as an empty
+// element - drop it so the remaining column takes the full row instead of
+// leaving a blank half (e.g. Behaviors tab with only Load Behavior).
+.capsf-accordion-col:empty {
+    display: none;
+}
+
+// Every .capsf-setup-section is a native <details> element and every
+// .capsf-setup-section-head a <summary> - that gives each Settings card
+// free open/close behavior straight from the browser (default open via
+// the `open` attribute in the markup, no React state needed per card) for
+// the Step 4 Settings redesign. `display:flex` here overrides <details>'
+// own default of `display:block`.
+.capsf-setup-section {
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_large;
+    // No bottom padding by default - when the accordion is closed only the
+    // <summary> renders, and its own padding-bottom (below) is already
+    // enough; adding the card's bottom padding on top of that was leaving
+    // a dead gap under a header that had nothing left to divide from.
+    padding: 18px 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0; // lets this card's content (long unbroken text especially)
+                  // wrap and shrink instead of forcing the card wider.
+    // No explicit width here - a flex column's items already stretch to
+    // its full width by default (align-items:stretch). Adding width:100%
+    // on top of that, without box-sizing:border-box anywhere on this
+    // element, made the rendered box 100% + its own padding/border wider
+    // than the column and overflow into whatever sat next to it.
+
+    &[open] { padding-bottom: 18px; }
+
+    &.capsf-setup-inline {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    // Extra breathing room between field groups inside a card (e.g.
+    // "Columns" → "Max Videos" → "Video Order" in Layout & Display) - the
+    // flex gap above already adds 16px between every direct child, this
+    // adds a bit more specifically above each new labeled group so the
+    // groups read as distinct sections instead of one dense block.
+    > .capsf-wiz-label:not(:first-child) {
+        margin-top: 6px;
+    }
+}
+
+.capsf-setup-section-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    // Negative margin equal to the parent's own padding (18px 20px), so
+    // this header box is full-bleed edge-to-edge inside the card - then
+    // the same amount restored as this element's own padding. Without
+    // this, the header sits inset like everything else and its divider
+    // line (below) stops short of the card's left/right edges instead of
+    // touching them.
+    margin: -18px -20px 0;
+    padding: 18px 20px 0;
+    // No bottom padding or divider by default (closed) - both only apply
+    // when the accordion is open, below. Closed, there's no body content
+    // left to divide from or make room for, so either one here just left
+    // dead space under the header.
+    border-bottom: 1px solid transparent;
+    cursor: pointer;
+    list-style: none; // hide the native <summary> disclosure triangle…
+    &::-webkit-details-marker { display: none; } // …in Chrome/Safari
+    &::marker { content: ''; } // …in Firefox
+
+    // Our own chevron, replacing the native marker, flipped by the
+    // browser's own [open] state below - no JS needed for this either.
+    &::after {
+        content: '';
+        flex-shrink: 0;
+        width: 8px;
+        height: 8px;
+        margin-left: 2px;
+        border-right: 2px solid var(--capsf-text-muted);
+        border-bottom: 2px solid var(--capsf-text-muted);
+        transform: rotate(45deg);
+        transition: transform 0.2s ease;
+    }
+}
+
+.capsf-setup-section[open] > .capsf-setup-section-head::after {
+    transform: rotate(-135deg);
+}
+
+.capsf-setup-section[open] > .capsf-setup-section-head {
+    padding-bottom: 14px;
+    margin-bottom: -2px; // offsets the parent's 16px gap slightly so the
+                          // divider below doesn't read as double-spaced
+    border-bottom-color: var(--capsf-border);
+}
+
+// A pill in the header showing the section's current value at a glance
+// (e.g. "3 Cols", "5 Active Toggles") - margin-left:auto pushes it (and
+// anything after it, like the chevron) to the right of the title, since
+// .capsf-setup-section-head no longer uses justify-content:space-between
+// (that used to spread ALL header children evenly instead of grouping the
+// badge+chevron together on the right).
+.capsf-setup-section-badge {
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--capsf-primary);
+    background: color-mix(in srgb, var(--capsf-primary) 8%, var(--capsf-bg-primary));
+    border: 1px solid color-mix(in srgb, var(--capsf-primary) 30%, var(--capsf-border));
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.capsf-setup-section-title {
+    // flex: 1 pushes everything after the title (badge + chevron) to the
+    // right edge. Headers with no badge (e.g. Video Filters) used to leave
+    // the chevron sitting right next to the title instead, since only the
+    // badge had margin-left:auto.
+    flex: 1;
+    min-width: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+}
+
+// Body wrapper for a card's content under its <summary>. Chrome puts a
+// <details>' children inside an internal content box where the card's own
+// flex `gap` doesn't reach them, so fields stacked directly in the card
+// ended up with almost no space between them (Video Filters). A real
+// wrapper element gives them their own gap.
+.capsf-setup-section-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.capsf-setup-select {
+    width: 100%;
+    min-height: 42px;
+}
+
+.capsf-wiz-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+// A field group boxed as its own white card (e.g. "Layout Columns" and
+// "Max Videos" side by side, "Video Order" full width below) instead of
+// three label+control pairs just sitting in the same flex column with
+// nothing to separate them visually.
+.capsf-field-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+
+    @media (max-width: 782px) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+// Below 1400px this card's fields (e.g. "Layout Columns" + "Max Videos")
+// drop to a single column so each field gets a full-width row instead of
+// getting cramped side by side - matches the accordion columns' own
+// 1400px breakpoint. Above 1400px stays as-is (2 columns).
+@media (max-width: 1400px) {
+    .capsf-field-card-grid {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}
+
+.capsf-field-card {
+    min-width: 0;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_large;
+    padding: 18px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+
+    &--full { grid-column: 1 / -1; }
+}
+
+.capsf-field-card-head {
+    display: flex;
+    align-items: center;
+    // flex-start, not space-between - a device select here sits right next
+    // to its label (e.g. "Columns 🖥") instead of pushed all the way to the
+    // card's right edge with a big gap in between.
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.capsf-field-card-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+// Circular outline-style variant of .capsf-col-chip, used only for the
+// Layout Columns / Max Videos number pickers inside a .capsf-field-card
+// - scoped to a modifier rather than changed on .capsf-col-chip itself
+// so the other chip pickers (Avatar Shape, Thumbnail Quality, etc.) that
+// reuse that class keep their existing filled-active look.
+// Compound selector (.capsf-col-chip.capsf-col-chip--round) so this
+// beats the base .capsf-col-chip sizing regardless of source order -
+// .capsf-col-chip itself is defined further down this file.
+.capsf-col-chip.capsf-col-chip--round {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    font-size: 12px;
+    border-radius: 50%;
+    // border-width stays 2px whether active or not (only border-color and
+    // background change) - toggling the width itself changed the chip's
+    // rendered box size by a pixel each way, causing a small jump on click.
+    border-width: 2px;
+
+    &.active {
+        background: color-mix(in srgb, var(--capsf-primary) 8%, var(--capsf-bg-primary));
+        color: var(--capsf-primary);
+    }
+}
+
+/* Slider Options - Auto Slide / Infinite Loop rows, and every simple
+ * label+description+control row (toggles, chip pickers, ranges). Each is
+ * its own bordered card now - was a plain flex row divided by a top
+ * border, which read as unfinished/plain next to a boxed reference design. */
+.capsf-slider-toggle-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_large;
+    background: var(--capsf-bg-primary);
+    margin-bottom: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:hover { border-color: var(--capsf-primary); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); }
+    &:last-child { margin-bottom: 0; }
+
+    // The label+description block, not the toggle/control - min-width:0
+    // lets its text wrap inside the row's available space instead of the
+    // row (and its parent grid track) being forced wider to fit it flat.
+    > div:first-child { min-width: 0; }
+
+    strong {
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        color: var(--capsf-text-primary);
+
+        .capsf-info-tip { margin-left: 6px; }
+    }
+    p {
+        margin: 4px 0 0;
+        font-size: 12px;
+        color: var(--capsf-text-muted);
+    }
+
+    // Rows that end in a chip picker (e.g. Avatar Shape) rather than a
+    // simple on/off switch look better vertically centered.
+    &--chips {
+        align-items: center;
+    }
+}
+
+// 2-column layout for a group of .capsf-slider-toggle-row cards (e.g.
+// the 5 toggles in Card Display Options). CSS Grid, not the `columns`
+// multi-column property - multi-column sizes its columns from the content's
+// own preferred width, and a long description line anywhere inside was
+// enough to push both columns wider than the card and spill the second
+// column's cards out past its right edge. Grid's minmax(0, 1fr) tracks
+// can't do that: they're always exactly the card's available width, and
+// text just wraps inside instead of pushing the box wider.
+// A full-width row right after a toggle grid (e.g. Channel Profile's
+// Avatar Shape under the display toggles) needs the grid's gap above it,
+// or its top border touches the cards above.
+.capsf-toggle-grid + .capsf-slider-toggle-row {
+    margin-top: 14px;
+}
+
+// "px" suffix after a range + number pair (Channel Profile style panels).
+.capsf-px-unit {
+    font-size: 12px;
+    color: var(--capsf-text-muted);
+}
+
+.capsf-toggle-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+
+    .capsf-slider-toggle-row {
+        min-width: 0;
+        margin-bottom: 0; // grid gap handles spacing instead
+    }
+
+    @media (max-width: 1400px) {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}
+
+/* Slider "Arrow Vertical/Horizontal Offset" - same card as the toggle rows
+ * above, but stacked: title + unit, hint, then range slider + number box. */
+.capsf-slider-toggle-row.capsf-offset-field {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+
+    p { margin: 0; }
+    .capsf-gap-number { width: 64px; }
+}
+.capsf-offset-field-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.capsf-offset-field-unit {
+    font-size: 12px;
+    color: var(--capsf-text-muted);
+}
+
+/* Generic checkbox-driven toggle switch (separate from the sidebar's
+ * dark-mode track/knob/label switch - used for simple on/off settings) */
+.capsf-toggle {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    flex-shrink: 0;
+
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        &:checked + .capsf-toggle-slider {
+            background: var(--capsf-primary);
+            &:before { transform: translateX(18px); }
+        }
+    }
+}
+.capsf-toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: var(--capsf-bg-component);
+    border-radius: 22px;
+    cursor: pointer;
+    transition: $transition;
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: 2px;
+        bottom: 2px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--capsf-bg-primary);
+        transition: $transition;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* Device select - global Desktop/Tablet/Mobile dropdown (DeviceSelect in
+ * edit_feed.jsx). Replaces the old always-visible 3-button row: a single
+ * compact trigger showing the current device, expanding into a menu. */
+.capsf-device-select {
+    position: relative;
+}
+
+.capsf-device-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_normal;
+    color: var(--capsf-text-secondary);
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover { border-color: var(--capsf-primary); color: var(--capsf-primary); }
+    &.active { background: var(--capsf-primary); border-color: var(--capsf-primary); color: var(--capsf-text-inverse); }
+}
+
+.capsf-device-select-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 20;
+    min-width: 150px;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_normal;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.capsf-device-select-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 10px;
+    background: transparent;
+    border: none;
+    border-radius: $rs_small;
+    color: var(--capsf-text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover { background: var(--capsf-bg-hover); }
+    &.active { background: color-mix(in srgb, var(--capsf-primary) 10%, var(--capsf-bg-primary)); color: var(--capsf-primary); }
+
+    &.locked {
+        color: var(--capsf-text-muted);
+        &:hover { background: transparent; color: var(--capsf-primary); }
+    }
+}
+
+.capsf-device-select-lock {
+    width: 13px;
+    height: 13px;
+    margin-left: auto;
+    color: var(--capsf-text-muted);
+}
+
+/* Column chips */
+.capsf-col-chips {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.capsf-range-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 220px;
+
+    input[type='range'] {
+        flex: 1;
+        accent-color: var(--capsf-primary);
+        cursor: pointer;
+    }
+
+    .capsf-range-value {
+        min-width: 38px;
+        text-align: right;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--capsf-text-secondary);
+    }
+}
+
+.capsf-col-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-width: 38px;
+    width: 38px; height: 38px;
+    border-radius: $rs_small;
+    border: 2px solid var(--capsf-border);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--capsf-text-secondary);
+    cursor: pointer;
+    transition: $transition;
+    background: var(--capsf-bg-primary);
+    white-space: nowrap;
+
+    input { display: none; }
+
+    &:hover { border-color: var(--capsf-primary); color: var(--capsf-primary); }
+    &.active { border-color: var(--capsf-primary); background: var(--capsf-primary); color: var(--capsf-text-inverse); }
+
+    // Text-label chips (Round / Square / Custom) need their own width -
+    // the fixed square above is sized for short numeric chips (Columns,
+    // Max Videos) only, and longer text needs room to breathe.
+    &--text {
+        width: auto;
+        min-width: 0;
+        height: 36px;
+        padding: 0 14px;
+    }
+
+    // Locked / "coming to Pro" teaser chip (e.g. Custom avatar shape) -
+    // dashed border and a gold crown instead of the active/checked states.
+    &--locked {
+        gap: 5px;
+        border-style: dashed;
+        color: var(--capsf-text-muted);
+
+        svg { color: #ffb900; flex-shrink: 0; }
+
+        &:hover { border-color: #ffb900; color: var(--capsf-text-secondary); }
+        &.active { background: var(--capsf-bg-primary); color: var(--capsf-text-muted); } // never actually "active"
+    }
+}
+
+// "Custom" chip (Columns / Max Videos) - same height as the round number
+// chips beside it, plus the number box a Pro user types into.
+.capsf-col-chip.capsf-col-chip--custom {
+    height: 28px;
+    padding: 0 12px;
+    font-size: 12px;
+    border-radius: 999px;
+}
+.capsf-col-chip-custom-input {
+    width: 72px;
+    height: 28px;
+    padding: 0 8px;
+    font-size: 12px;
+    border: 2px solid var(--capsf-primary);
+    border-radius: 999px;
+    background: var(--capsf-bg-input);
+    color: var(--capsf-text-primary);
+    text-align: center;
+    outline: none;
+}
+
+.capsf-col-breakpoint {
+    font-size: 11px;
+    color: var(--capsf-text-muted);
+    margin-left: 6px;
+}
+
+/* ── Video Play Mode cards ───────────────────────────────────────────── */
+.capsf-play-mode-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.capsf-play-mode-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 2px solid var(--capsf-border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--capsf-bg-primary);
+
+    &:hover:not(.active) { border-color: var(--capsf-info-border); background: var(--capsf-info-bg); }
+    &.active { border-color: var(--capsf-primary); background: var(--capsf-info-bg); }
+}
+
+.capsf-play-mode-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: var(--capsf-bg-secondary);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: var(--capsf-text-secondary);
+    transition: background 0.2s, color 0.2s;
+    .capsf-play-mode-card.active & { background: var(--capsf-info-bg); color: var(--capsf-primary); }
+}
+
+.capsf-play-mode-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.capsf-play-mode-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    font-family: -apple-system, sans-serif;
+}
+
+.capsf-play-mode-desc {
+    font-size: 12px;
+    color: var(--capsf-text-muted);
+    font-family: -apple-system, sans-serif;
+    line-height: 1.4;
+}
+
+.capsf-play-mode-radio {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--capsf-border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: border-color 0.2s;
+    &.active { border-color: var(--capsf-primary); }
+}
+
+.capsf-play-mode-radio-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--capsf-primary);
+}
+
+
+.capsf-toggle {
+    position: relative;
+    display: inline-block;
+    width: 40px; height: 22px;
+    flex-shrink: 0;
+
+    input { opacity: 0; width: 0; height: 0;
+        &:checked + .capsf-toggle-slider { background: var(--capsf-primary); }
+        &:checked + .capsf-toggle-slider:before { transform: translateX(18px); }
+    }
+}
+
+.capsf-toggle-slider {
+    position: absolute; inset: 0;
+    background: var(--capsf-bg-component);
+    border-radius: 22px;
+    cursor: pointer;
+    transition: .3s;
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: 2px; bottom: 2px;
+        width: 18px; height: 18px;
+        border-radius: 50%;
+        background: var(--capsf-bg-primary);
+        transition: .3s;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+}
+
+/* ── Step 5: Insert Code - redesigned ───────────────────────────────── */
+.capsf-step5-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    max-width: 1040px;
+    margin: 0 auto;
+}
+
+/* Hero success banner */
+.capsf-step5-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: var(--capsf-shadow-sm);
+}
+
+.capsf-step5-hero-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.capsf-step5-hero-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--capsf-success-bg);
+    border: 1px solid var(--capsf-success-border);
+    color: var(--capsf-success-text);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+
+.capsf-step5-hero-title-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 2px;
+}
+
+.capsf-step5-hero-title {
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    color: var(--capsf-text-primary);
+    margin: 0;
+}
+
+.capsf-step5-active-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--capsf-success-bg);
+    color: var(--capsf-success-text);
+    border: 1px solid var(--capsf-success-border);
+
+    .dot {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: var(--capsf-success-text);
+    }
+}
+
+.capsf-step5-hero-sub {
+    font-size: 13px;
+    color: var(--capsf-text-secondary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.capsf-step5-id-chip {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--capsf-text-muted);
+    background: var(--capsf-bg-secondary);
+    border: 1px solid var(--capsf-border);
+    padding: 5px 11px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+/* Embed Code card - tabbed Shortcode / PHP Snippet */
+.capsf-step5-embed-card {
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 16px;
+    padding: 22px 24px;
+    box-shadow: var(--capsf-shadow-sm);
+}
+
+.capsf-step5-embed-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--capsf-border);
+}
+
+.capsf-step5-embed-head-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.capsf-step5-embed-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--capsf-text-muted);
+}
+
+.capsf-step5-tabs {
+    display: inline-flex;
+    padding: 3px;
+    background: var(--capsf-bg-secondary);
+    border-radius: 9px;
+    gap: 2px;
+}
+
+.capsf-step5-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: var(--capsf-text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+    white-space: nowrap;
+
+    &:hover  { color: var(--capsf-text-primary); }
+    &.active { background: var(--capsf-bg-primary); color: var(--capsf-primary); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+}
+
+.capsf-step5-ready-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--capsf-primary);
+    background: var(--capsf-primary-light);
+    border: 1px solid var(--capsf-primary-light);
+    padding: 5px 12px;
+    border-radius: 999px;
+
+    &.is-php { color: #4f46e5; background: #eef2ff; border-color: #e0e7ff; }
+}
+
+.capsf-step5-embed-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.capsf-step5-code-box {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: var(--capsf-bg-secondary);
+    border: 2px solid var(--capsf-border);
+    border-radius: 12px;
+    padding: 8px 8px 8px 16px;
+    transition: $transition;
+
+    &:hover { border-color: var(--capsf-primary-light); }
+}
+
+.capsf-step5-code-text {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    overflow-x: auto;
+
+    svg { flex-shrink: 0; color: var(--capsf-text-muted); }
+    span { white-space: nowrap; }
+}
+
+.capsf-step5-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 18px;
+    border-radius: 9px;
+    border: none;
+    background: var(--capsf-primary);
+    color: var(--capsf-text-inverse);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover  { background: var(--capsf-primary-hover); }
+    // "Copied" feedback stays the same blue as the button itself (not
+    // green) - matches how this copy-confirmation state has always looked
+    // across the rest of the plugin.
+    &.copied { background: var(--capsf-primary); }
+}
+
+.capsf-step5-embed-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--capsf-text-secondary);
+    padding: 0 2px;
+
+    > span { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    svg { flex-shrink: 0; color: var(--capsf-primary); }
+}
+
+.capsf-step5-validated {
+    font-weight: 600;
+    color: var(--capsf-success-text) !important;
+    svg { color: var(--capsf-success-text) !important; }
+
+    &.capsf-step5-validated--php { color: #4f46e5 !important; svg { color: #4f46e5 !important; } }
+}
+
+.capsf-step5-inline-code {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #4f46e5;
+    background: var(--capsf-bg-secondary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 5px;
+    padding: 1px 6px;
+}
+
+/* PHP snippet code block - dark "editor" style since the PHP function
+ * (docblock + function_exists guard, see phpSnippet in edit_feed.jsx) is
+ * several lines, unlike the one-line Shortcode box above it. */
+.capsf-step5-php-codeblock {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--capsf-border);
+    transition: $transition;
+
+    &:hover { border-color: #c7d2fe; }
+}
+
+.capsf-step5-php-codeblock-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 8px 8px 14px;
+    background: #1e293b;
+    border-bottom: 1px solid #334155;
+
+    > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 11.5px;
+        font-weight: 600;
+        color: #94a3b8;
+        svg { flex-shrink: 0; }
+    }
+}
+
+.capsf-step5-php-codeblock-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 7px;
+    border: none;
+    background: #4f46e5;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+    white-space: nowrap;
+
+    &:hover  { background: #4338ca; }
+    &.copied { background: #4f46e5; }
+}
+
+.capsf-step5-php-codeblock-code {
+    margin: 0;
+    padding: 16px;
+    background: #0f172a;
+    font-family: 'Courier New', monospace;
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: #e2e8f0;
+    overflow-x: auto;
+    white-space: pre;
+
+    code { font-family: inherit; color: inherit; }
+}
+
+/* Multi-Platform Embedding Hub */
+.capsf-step5-hub {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.capsf-step5-hub-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 2px;
+
+    h3 {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--capsf-text-muted);
+        margin: 0 0 3px;
+    }
+    p {
+        font-size: 12.5px;
+        color: var(--capsf-text-secondary);
+        margin: 0;
+    }
+}
+
+.capsf-step5-hub-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--capsf-text-muted);
+    white-space: nowrap;
+}
+
+.capsf-step5-hub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.capsf-step5-hub-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: var(--capsf-shadow-sm);
+    transition: transform 0.2s cubic-bezier(.16,1,.3,1), box-shadow 0.2s cubic-bezier(.16,1,.3,1);
+
+    &:hover { transform: translateY(-2px); box-shadow: var(--capsf-shadow-md); }
+
+    h4 {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--capsf-text-primary);
+        margin: 0 0 2px;
+    }
+
+    code {
+        font-size: 11px;
+        background: var(--capsf-bg-secondary);
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        color: var(--capsf-text-primary);
+    }
+}
+
+.capsf-step5-hub-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.capsf-step5-hub-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+
+    &.capsf-step5-hub-icon--blue   { background: var(--capsf-primary-light); color: var(--capsf-primary); border: 1px solid var(--capsf-primary-light); }
+    &.capsf-step5-hub-icon--rose   { background: #fff1f2; color: #e11d48; border: 1px solid #ffe4e6; }
+    &.capsf-step5-hub-icon--indigo { background: #eef2ff; color: #4f46e5; border: 1px solid #e0e7ff; }
+}
+
+.capsf-step5-hub-tag {
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    background: var(--capsf-bg-secondary);
+    color: var(--capsf-text-secondary);
+
+    &.capsf-step5-hub-tag--rose   { background: #fff1f2; color: #e11d48; border: 1px solid #ffe4e6; }
+    &.capsf-step5-hub-tag--indigo { background: #eef2ff; color: #4f46e5; border: 1px solid #e0e7ff; }
+}
+
+.capsf-step5-hub-sub {
+    font-size: 11.5px;
+    color: var(--capsf-text-muted);
+    font-weight: 600;
+    margin: 0 0 8px;
+}
+
+.capsf-step5-hub-desc {
+    font-size: 12px;
+    color: var(--capsf-text-secondary);
+    line-height: 1.55;
+    margin: 0;
+
+    strong { color: var(--capsf-text-primary); }
+}
+
+.capsf-step5-hub-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 10px 14px;
+    border-radius: 9px;
+    border: 1px solid var(--capsf-border);
+    background: var(--capsf-bg-secondary);
+    color: var(--capsf-text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: $transition;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--capsf-border);
+    border-radius: 0 0 0 0;
+
+    &:hover { background: var(--capsf-bg-hover); color: var(--capsf-text-primary); }
+
+    &.capsf-step5-hub-btn--brand {
+        background: var(--capsf-primary-light);
+        color: var(--capsf-primary);
+        border-color: var(--capsf-primary-light);
+        border-top: 1px solid var(--capsf-border);
+        &:hover { background: color-mix(in srgb, var(--capsf-primary) 18%, transparent); }
+    }
+}
+
+.capsf-step5-hub-toggle-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--capsf-border);
+}
+
+.capsf-step5-hub-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--capsf-border);
+    background: var(--capsf-bg-secondary);
+    color: var(--capsf-text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+
+    span { display: inline-flex; align-items: center; gap: 6px; }
+    &:hover { background: var(--capsf-bg-hover); }
+}
+
+/* ── GapControl (shared) ─────────────────────────────────────────────── */
+.capsf-gap-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.capsf-gap-slider {
+    flex: 1;
+    height: 4px;
+    accent-color: var(--capsf-primary);
+    cursor: pointer;
+}
+
+.capsf-gap-number {
+    width: 56px;
+    padding: 6px 8px;
+    font-size: 13px;
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_small;
+    background: var(--capsf-bg-input);
+    color: var(--capsf-text-primary);
+    text-align: center;
+    outline: none;
+    &:focus { border-color: var(--capsf-primary); }
+    &:focus-visible { outline: 2px solid var(--capsf-primary); outline-offset: 2px; }
+}
+
+.capsf-gap-unit {
+    padding: 6px 8px;
+    font-size: 12px;
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_small;
+    background: var(--capsf-bg-input);
+    color: var(--capsf-text-primary);
+    outline: none;
+    cursor: pointer;
+    &:focus { border-color: var(--capsf-primary); } // was entirely missing any focus indicator
+    &:focus-visible { outline: 2px solid var(--capsf-primary); outline-offset: 2px; }
+}
+
+/* ── Spinner ─────────────────────────────────────────────────────────── */
+.capsf-edit-spinner {
+    width: 32px; height: 32px;
+    color: var(--capsf-primary);
+    animation: capsf-spin 1s linear infinite;
+}
+
+@keyframes capsf-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* Feed Diagnostic & Cache Status (Step 5, bottom) */
+.capsf-step5-diag {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: var(--capsf-shadow-sm);
+}
+
+.capsf-step5-diag-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--capsf-border);
+}
+
+.capsf-step5-diag-head-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+
+    svg { color: var(--capsf-primary); flex-shrink: 0; }
+}
+
+.capsf-step5-diag-hint {
+    font-size: 11.5px;
+    color: var(--capsf-text-muted);
+}
+
+.capsf-step5-diag-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.capsf-step5-diag-stat {
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--capsf-bg-secondary);
+    border: 1px solid var(--capsf-border);
+}
+
+.capsf-step5-diag-stat-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--capsf-text-muted);
+    margin-bottom: 4px;
+}
+
+.capsf-step5-diag-stat-value {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+
+    svg { flex-shrink: 0; color: var(--capsf-text-muted); }
+    .capsf-btn-spinner { width: 12px; height: 12px; }
+
+    &.is-ok    { color: var(--capsf-success-text); svg { color: var(--capsf-success-text); } }
+    &.is-error { color: var(--capsf-error-text); svg { color: var(--capsf-error-text); } }
+
+    &.capsf-step5-diag-stat-value--mono {
+        font-family: 'Courier New', monospace;
+        font-weight: 500;
+        font-size: 12px;
+        color: var(--capsf-text-secondary);
+    }
+}
+
+.capsf-step5-diag-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--capsf-border);
+}
+
+.capsf-step5-diag-foot-left {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.capsf-step5-diag-purge-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 9px;
+    border: 1px solid var(--capsf-border);
+    background: var(--capsf-bg-secondary);
+    color: var(--capsf-text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover:not(:disabled) { background: var(--capsf-bg-hover); color: var(--capsf-text-primary); }
+    &.is-loading { opacity: 0.7; cursor: not-allowed; }
+
+    .capsf-spin { animation: capsf-spin 1s linear infinite; }
+}
+
+.capsf-step5-diag-purge-msg {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+
+    &.is-success { color: var(--capsf-success-text); }
+    &.is-error   { color: var(--capsf-error-text); }
+}
+
+.capsf-step5-diag-foot-hint {
+    font-size: 11px;
+    color: var(--capsf-text-muted);
+}
+
+/* Step 5 footer actions */
+.capsf-step5-footer-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 4px 0 4px;
+}
+
+.capsf-step5-footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: 11px;
+    border: 1px solid var(--capsf-border);
+    background: var(--capsf-bg-primary);
+    color: var(--capsf-text-secondary);
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+    box-shadow: var(--capsf-shadow-sm);
+
+    &:hover { border-color: var(--capsf-border-hover); color: var(--capsf-text-primary); }
+
+    &.capsf-step5-footer-btn--primary {
+        background: var(--capsf-primary);
+        border-color: var(--capsf-primary);
+        color: var(--capsf-text-inverse);
+        &:hover { background: var(--capsf-primary-hover); }
+    }
+}
+
+@media (max-width: $bp_tablet) {
+    .capsf-step5-hub-grid { grid-template-columns: 1fr; }
+    .capsf-step5-diag-grid { grid-template-columns: repeat(2, 1fr); }
+    .capsf-step5-hero { flex-direction: column; align-items: flex-start; }
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: $bp_tablet) {
+    .capsf-wiz-body { padding: 20px 16px 40px; }
+    .capsf-mc-grid3 { grid-template-columns: repeat(2, 1fr); }
+    .capsf-mc-shorts-grid6 { grid-template-columns: repeat(3, 1fr); }
+    .capsf-presets-grid { grid-template-columns: repeat(2, 1fr); }
+    // The tab row itself is already horizontal by default now (see
+    // .capsf-settings-tabs above) - on narrow screens it just wraps,
+    // and Live Preview drops to its own line instead of getting cramped
+    // onto the right of a wrapped row.
+    .capsf-settings-tab { justify-content: center; }
+    .capsf-settings-tab--preview { margin-left: 0; flex-basis: 100%; justify-content: center; }
+    .capsf-wiz-progress { padding: 10px 12px; gap: 2px; }
+    .capsf-wiz-step-label { display: none; }
+    .capsf-step2-title-row { flex-direction: column; }
+    .capsf-play-mode-options { flex-direction: column; }
+    .capsf-wiz-actions { flex-wrap: wrap; gap: 10px; }
+    .capsf-col-responsive-icons { gap: 4px; }
+    .capsf-step5-diag-grid { grid-template-columns: 1fr 1fr; }
+    .capsf-step5-footer-actions { flex-direction: column-reverse; align-items: stretch; }
+    .capsf-step5-footer-btn { justify-content: center; }
+}
+
+// ══════════════════════════════════════════════════════════════
+// POPOVER PANEL - portal-rendered container for TypographyControl /
+// BorderControl, so it's never clipped by an ancestor's overflow:hidden.
+// ══════════════════════════════════════════════════════════════
+.capsf-popover-panel {
+    padding: 14px;
+    background: var(--capsf-bg-primary);
+    border: 1.5px solid var(--capsf-border);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.16);
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+// ══════════════════════════════════════════════════════════════
+// TYPOGRAPHY CONTROL - Elementor-style popover (size/weight/transform/
+// style/line-height/letter-spacing) opened from one trigger.
+// ══════════════════════════════════════════════════════════════
+.capsf-typo-control__trigger {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border: 1.5px solid var(--capsf-border);
+    border-radius: 8px;
+    background: var(--capsf-bg-primary);
+    color: var(--capsf-text-primary);
+    font-weight: 600;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+}
+.capsf-typo-control__trigger:hover {
+    border-color: var(--capsf-primary);
+    color: var(--capsf-primary-text);
+}
+.capsf-typo-control__row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.capsf-typo-control__row label,
+.capsf-typo-control__responsive label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--capsf-text-secondary);
+}
+/* "Responsive" header row - label + the shared DeviceSelect switcher. */
+.capsf-typo-control__responsive {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    .capsf-device-select-trigger {
+        width: 28px;
+        height: 28px;
+    }
+}
+.capsf-typo-control__input,
+.capsf-typo-control__select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1.5px solid var(--capsf-border);
+    border-radius: 6px;
+    background: var(--capsf-bg-primary);
+    color: var(--capsf-text-primary);
+    font-size: 13px;
+    font-family: inherit;
+}
+
+// ══════════════════════════════════════════════════════════════
+// BORDER CONTROL - type/color/width/radius popover, reuses
+// .capsf-typo-control__trigger and .capsf-typo-control__row above.
+// ══════════════════════════════════════════════════════════════
+.capsf-border-control__box-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+.capsf-border-control__box-head label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--capsf-text-secondary);
+}
+.capsf-border-control__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 1.5px solid var(--capsf-border);
+    border-radius: 5px;
+    background: var(--capsf-bg-primary);
+    color: var(--capsf-text-secondary);
+    cursor: pointer;
+}
+.capsf-border-control__link--on {
+    background: var(--capsf-primary-light);
+    border-color: var(--capsf-primary);
+    color: var(--capsf-primary-text);
+}
+.capsf-border-control__sides {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.capsf-border-control__side {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.capsf-border-control__side input {
+    width: 100%;
+}
+.capsf-border-control__side span {
+    font-size: 10.5px;
+    color: var(--capsf-text-secondary);
+    text-align: center;
+}
+.capsf-border-control__swatch {
+    width: 38px;
+    height: 32px;
+    padding: 2px;
+    border: 1.5px solid var(--capsf-border);
+    border-radius: 7px;
+    cursor: pointer;
+    background: none;
+}
+
+// ══════════════════════════════════════════════════════════════
+// TITLE COLOR CONTROL - swatch + reset, used in the "Card Title" section
+// ══════════════════════════════════════════════════════════════
+.capsf-title-color-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.capsf-title-color-control__swatch {
+    width: 38px;
+    height: 32px;
+    padding: 2px;
+    border: 1.5px solid var(--capsf-border);
+    border-radius: 7px;
+    cursor: pointer;
+    background: none;
+}
+.capsf-title-color-control__reset {
+    background: none;
+    border: 0;
+    color: var(--capsf-primary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+}
+
+// ══════════════════════════════════════════════════════════════
+// STYLE PANELS - single bordered card (Card Title / Card Border) with a
+// clickable header + rotating chevron, and compact 2-column rows inside
+// (label left, control right) - replaces the earlier per-field nested
+// accordion boxes so this matches Captain Advance Filter's Style tab.
+// ══════════════════════════════════════════════════════════════
+.capsf-display-options {
+    border: 1.5px solid var(--capsf-border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--capsf-bg-primary);
+    margin-bottom: 16px;
+}
+.capsf-display-options__header--toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 18px;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--capsf-border);
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--capsf-text-primary);
+    text-align: left;
+}
+.capsf-display-options__chevron {
+    color: var(--capsf-text-secondary);
+    transition: transform 0.15s;
+    flex-shrink: 0;
+}
+.capsf-display-options__chevron--open {
+    transform: rotate(180deg);
+}
+.capsf-display-options__rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 2px 18px;
+}
+.capsf-display-options__rows--single {
+    grid-template-columns: 1fr;
+}
+.capsf-display-options__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 16px 14px 0;
+    border-bottom: 1px solid var(--capsf-border);
+}
+.capsf-display-options__row > div:first-child {
+    min-width: 0;
+}
+// The odd/even column-divider padding below is only meaningful in the
+// 2-column grid (default) variant - it must NOT leak into --single (every
+// row is its own full-width line, so an "even" row here is just the 2nd
+// row down, not a right-hand column) or --odd (same, plus a trailing
+// unpaired row). Without this scoping, single-column panels like Card
+// Title/Description got a stray 18px left indent on every 2nd row.
+.capsf-display-options__rows:not(.capsf-display-options__rows--single):not(.capsf-display-options__rows--odd) .capsf-display-options__row:nth-child(odd) {
+    padding-right: 18px;
+    border-right: 1px solid var(--capsf-border);
+}
+.capsf-display-options__rows:not(.capsf-display-options__rows--single):not(.capsf-display-options__rows--odd) .capsf-display-options__row:nth-child(even) {
+    padding-left: 18px;
+}
+// --odd panels (e.g. Background's 7 fields) are 2-column too, but the
+// trailing unpaired row must stay full-width/unindented like --single.
+.capsf-display-options__rows--odd .capsf-display-options__row:not(:last-child):nth-child(odd) {
+    padding-right: 18px;
+    border-right: 1px solid var(--capsf-border);
+}
+.capsf-display-options__rows--odd .capsf-display-options__row:not(:last-child):nth-child(even) {
+    padding-left: 18px;
+}
+.capsf-display-options__rows--single .capsf-display-options__row,
+.capsf-display-options__rows--odd .capsf-display-options__row:last-child {
+    border-right: none !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
+// Strip the bottom border off the last visual row only - computed per the
+// two possible item-count parities: an even count's last row is its final
+// 2 items (default, no modifier needed); an odd count's last row is just
+// its final single item (--rows--odd, e.g. Background's 5 fields).
+.capsf-display-options__rows:not(.capsf-display-options__rows--odd):not(.capsf-display-options__rows--single) .capsf-display-options__row:nth-last-child(-n+2) {
+    border-bottom: none;
+}
+.capsf-display-options__rows--odd .capsf-display-options__row:last-child,
+.capsf-display-options__rows--single .capsf-display-options__row:last-child {
+    border-bottom: none;
+}
+.capsf-display-options__label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--capsf-text-primary);
+}
+@media (max-width: 640px) {
+    .capsf-display-options__rows { grid-template-columns: 1fr; }
+    .capsf-display-options__rows:not(.capsf-display-options__rows--single) .capsf-display-options__row:nth-child(odd) { border-right: none; padding-right: 16px; }
+    .capsf-display-options__rows:not(.capsf-display-options__rows--single) .capsf-display-options__row:nth-child(even) { padding-left: 0; }
+    .capsf-display-options__rows:not(.capsf-display-options__rows--odd):not(.capsf-display-options__rows--single) .capsf-display-options__row:nth-last-child(-n+2) {
+        border-bottom: 1px solid var(--capsf-border);
+    }
+    .capsf-display-options__rows .capsf-display-options__row:last-child {
+        border-bottom: none;
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+// BACKGROUND CONTROL - Solid / Gradient switch + trigger swatch preview
+// ══════════════════════════════════════════════════════════════
+.capsf-bg-control__swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid var(--capsf-border);
+    flex-shrink: 0;
+}
+.capsf-bg-control__type-switch {
+    display: flex;
+    gap: 4px;
+    padding: 3px;
+    background: var(--capsf-bg-secondary, #f1f5f9);
+    border-radius: 8px;
+}
+.capsf-bg-control__type-btn {
+    flex: 1;
+    padding: 6px 0;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+    color: var(--capsf-text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+}
+.capsf-bg-control__type-btn.active {
+    background: var(--capsf-bg-primary);
+    color: var(--capsf-primary-text);
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+}
+
+// ══════════════════════════════════════════════════════════════
+// STYLES TAB ROW CONTROL WRAPPER - holds a row's control (color swatch,
+// popover trigger, GapControl, …) plus its icon-only reset button.
+// ══════════════════════════════════════════════════════════════
+.capsf-display-options__control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+.capsf-reset-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    flex-shrink: 0;
+    border: 1.5px solid var(--capsf-border);
+    border-radius: 6px;
+    background: var(--capsf-bg-primary);
+    color: var(--capsf-text-secondary);
+    cursor: pointer;
+}
+.capsf-reset-btn:hover:not(:disabled) {
+    border-color: var(--capsf-primary);
+    color: var(--capsf-primary-text);
+}
+.capsf-reset-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Captain Social Feed - X designs, Simple Grid / Social Post
+   previews, caption options, Live Preview, Color Mode, "What to Show".
+   ══════════════════════════════════════════════════════════════════════ */
+.capsf-wiz-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--capsf-bg-primary);
+    color: var(--capsf-text-secondary);
+    border: 1.5px solid var(--capsf-border);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+
+    &:hover {
+        background: var(--capsf-info-bg);
+        border-color: var(--capsf-info-border);
+        color: var(--capsf-primary);
+        box-shadow: 0 2px 8px rgba(34,113,177,0.1);
+    }
+}
+/* Next button wrapper with hint */
+.capsf-s1-next-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+.capsf-s1-next-hint {
+    font-size: 12px;
+    color: var(--capsf-warning-text);
+    font-weight: 500;
+    font-family: -apple-system, sans-serif;
+
+    &::before {
+        content: '⚠ ';
+    }
+}
+.capsf-wiz-platform-readonly {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    img { flex: 0 0 auto; opacity: 0.85; }
+    .capsf-wiz-input { flex: 1; min-width: 0; }
+}
+.capsf-layout-slider-style-select {
+    padding: 7px 32px 7px 14px;
+    border-radius: 20px;
+    border: 2px solid var(--capsf-border);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--capsf-text-primary);
+    background: var(--capsf-bg-secondary) url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e") no-repeat right 12px center;
+    background-size: 12px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: $transition;
+    &:hover, &:focus { border-color: var(--capsf-primary); outline: none; }
+}
+.capsf-mc-s1-platform {
+    display: inline-flex;
+    margin-inline-start: auto;
+
+    .capsf-platform-icon { width: 14px; height: 14px; }
+}
+/* ─── Style-8: Simple Grid ───────────────────────────────────────────────── */
+.capsf-mc-s8-wrap {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 8px;
+    overflow: hidden;
+}
+// Simple Grid preview - same hover layer + corner badge as the live grid.
+.capsf-mc-s8-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    background: rgba(30, 32, 52, 0.72);
+    color: #fff;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.capsf-mc-s8-wrap:hover .capsf-mc-s8-overlay { opacity: 1; }
+.capsf-mc-s8-stats { font-size: 13px; font-weight: 700; }
+.capsf-mc-s8-caption {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 11px;
+    line-height: 1.4;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+.capsf-settings-tab-lock {
+    width: 14px;
+    height: 14px;
+    margin-left: auto;
+    color: var(--capsf-primary);
+    flex-shrink: 0;
+}
+/* Styles tab - free-plan locked state. */
+.capsf-settings-styles-locked {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 48px 32px;
+    background: var(--capsf-bg-primary);
+    border: 1px dashed var(--capsf-border);
+    border-radius: $rs_large;
+}
+.capsf-settings-styles-locked-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--capsf-primary) 12%, transparent);
+    color: var(--capsf-primary);
+    margin-bottom: 6px;
+}
+.capsf-settings-styles-locked-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    margin: 0;
+}
+.capsf-settings-styles-locked-desc {
+    font-size: 13px;
+    color: var(--capsf-text-secondary);
+    max-width: 420px;
+    margin: 0 0 8px;
+    line-height: 1.5;
+}
+/* A second heading inside the same section (e.g. Initial Posts under
+ * Pagination Type in the Behaviors tab). */
+.capsf-setup-section-head--sub {
+    margin-top: 6px;
+}
+/* Device tabs */
+.capsf-col-device-tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--capsf-bg-component);
+    border-radius: 6px;
+    padding: 3px;
+}
+.capsf-col-device-btn {
+    position: relative;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 8px;
+    cursor: pointer;
+    color: var(--capsf-text-muted);
+    display: flex; align-items: center;
+    transition: $transition;
+    &:hover { background: var(--capsf-bg-hover); color: var(--capsf-text-primary); }
+    &.active { background: var(--capsf-primary); color: var(--capsf-text-inverse); }
+
+    &--locked {
+        opacity: .55;
+        &:hover { background: transparent; color: var(--capsf-primary); opacity: .85; }
+        &.active { background: transparent; color: var(--capsf-text-muted); }
+    }
+}
+.capsf-col-device-lock {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 11px;
+    height: 11px;
+    padding: 1px;
+    border-radius: 50%;
+    background: var(--capsf-bg-primary);
+    color: var(--capsf-primary);
+    box-shadow: 0 0 0 1px var(--capsf-border);
+}
+/* Shortcode code card */
+.capsf-step5-code-card {
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 14px;
+    padding: 20px 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.capsf-step5-code-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--capsf-text-muted);
+    margin-bottom: 12px;
+}
+.capsf-step5-code-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--capsf-bg-secondary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+.capsf-step5-code {
+    flex: 1;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--capsf-primary);
+    word-break: break-all;
+}
+/* How-to steps */
+.capsf-step5-howto {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.capsf-step5-howto-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    transition: $transition;
+    &:hover { border-color: var(--capsf-info-border); background: var(--capsf-bg-hover); }
+}
+.capsf-step5-howto-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--capsf-primary);
+    color: var(--capsf-text-inverse);
+    font-size: 12px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+}
+.capsf-step5-howto-emoji {
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+.capsf-step5-howto-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    margin-bottom: 3px;
+    font-family: -apple-system, sans-serif;
+}
+.capsf-step5-howto-desc {
+    font-size: 13px;
+    color: var(--capsf-text-secondary);
+    line-height: 1.5;
+    font-family: -apple-system, sans-serif;
+}
+/* Feed Details (Step 5, bottom) */
+.capsf-step5-details-card {
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: 14px;
+    padding: 20px 24px;
+}
+.capsf-step5-details-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    margin-bottom: 14px;
+
+    svg { color: var(--capsf-text-muted); flex-shrink: 0; }
+}
+.capsf-step5-details-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-top: 1px solid var(--capsf-border);
+
+    &:first-of-type { border-top: none; }
+}
+.capsf-step5-details-label {
+    font-size: 13px;
+    color: var(--capsf-text-secondary);
+}
+.capsf-step5-details-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--capsf-text-primary);
+    text-align: right;
+}
+.capsf-step5-details-mono {
+    font-family: 'Courier New', monospace;
+    font-weight: 400;
+}
+.capsf-step5-details-cache {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--capsf-border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+
+    .capsf-wiz-field-hint { flex-basis: 100%; }
+
+    .capsf-wiz-btn-secondary.is-loading { opacity: 0.7; cursor: not-allowed; }
+}
+.capsf-step5-details-cache-msg {
+    font-size: 12.5px;
+    font-weight: 600;
+
+    &.is-success { color: var(--capsf-success-text); }
+    &.is-error   { color: var(--capsf-error-text); }
+}
+@media (max-width: $bp_tablet) {
+
+    .capsf-step5-details-row { flex-direction: column; align-items: flex-start; gap: 2px; }
+    .capsf-step5-details-value { text-align: left; }
+}
+
+/* ── Step 4 → Layout → Caption (Social Post designs) ──────────────────── */
+.capsf-caption-fields {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+.capsf-caption-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--capsf-text-secondary);
+}
+@media (max-width: $bp_mobile) {
+
+    .capsf-caption-fields { grid-template-columns: 1fr; }
+}
+
+/* ── Social Post previews (Step 2 / 3) ─────────────────────────────────
+ * They reuse the real frontend markup + assets/css/frontend.css; this only
+ * only scales them down for the 3-up Step 2 preview. */
+// Doubled class: beats the .capsf-feed tokens in frontend.css, which loads later.
+.capsf-feed.capsf-mc-social {
+    --capsf-sc-gap: 12px;
+
+    .capsf-sc-card { font-size: 13px; }
+    .capsf-sc-avatar { width: 34px; height: 34px; font-size: 14px; }
+    .capsf-sc-stats { font-size: 13px; gap: 14px; }
+}
+/* ── Settings → Behaviors / Styles tabs: full-width vertical stack of panels
+ * (two-column rows inside use .capsf-accordion-group). ─────────────────── */
+.capsf-styles-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+/* Settings → Styles → Color Mode (Light / Dark). */
+.capsf-mode-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+}
+.capsf-mode-option {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px 10px 10px;
+    border: 1.5px solid var(--capsf-border);
+    border-radius: $rs_normal;
+    background: var(--capsf-bg-primary);
+    color: var(--capsf-text-primary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+    &:hover { border-color: var(--capsf-primary); }
+    &.active {
+        border-color: var(--capsf-primary);
+        box-shadow: 0 0 0 1px var(--capsf-primary);
+    }
+    &:focus-within {
+        outline: 2px solid var(--capsf-primary);
+        outline-offset: 2px;
+    }
+}
+.capsf-mode-swatch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 32px;
+    border: 1px solid;
+    border-radius: $rs_small;
+
+    span {
+        width: 26px;
+        height: 18px;
+        border: 1px solid;
+        border-radius: 3px;
+    }
+}
+/* ── Live Preview (Step 3 Settings) ───────────────────────────────── */
+.capsf-lp-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.capsf-lp-open,
+.capsf-lp-btn,
+.capsf-lp-device {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid var(--capsf-border);
+    border-radius: 6px;
+    background: var(--capsf-bg-primary);
+    color: var(--capsf-text-primary);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+
+    &:hover { border-color: var(--capsf-primary); color: var(--capsf-primary); }
+    &:focus-visible { outline: 2px solid var(--capsf-primary); outline-offset: 2px; }
+}
+.capsf-lp-open {
+    background: var(--capsf-primary);
+    border-color: var(--capsf-primary);
+    color: var(--capsf-text-inverse);
+
+    &:hover { color: var(--capsf-text-inverse); opacity: .9; }
+}
+.capsf-lp-dialog {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--capsf-bg-primary);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+}
+.capsf-lp-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--capsf-border);
+}
+.capsf-lp-devices,
+.capsf-lp-actions {
+    display: flex;
+    gap: 6px;
+}
+.capsf-lp-device.active {
+    border-color: var(--capsf-primary);
+    background: var(--capsf-primary);
+    color: var(--capsf-text-inverse);
+}
+.capsf-lp-btn--close { padding: 8px 10px; }
+.capsf-lp-stage {
+    position: relative;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+    background: var(--capsf-bg-secondary);
+}
+.capsf-lp-frame {
+    max-width: 100%;
+    height: 100%;
+    border: 0;
+    background: #fff;
+    transition: width .2s ease;
+}
+.capsf-lp-loading {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, .7);
+    color: var(--capsf-text-inverse);
+    font-size: 12px;
+}
+@media (max-width: 782px) {
+
+    .capsf-lp-dialog { border-radius: 0; }
+    .capsf-lp-device span { display: none; }
+}
+
+// The step description pulls itself up by the step gap (-20px); inside the
+// Live Preview header row there is no gap, so give it normal spacing.
+.capsf-lp-head .capsf-wiz-step-desc { margin: 6px 0 0; }
+.capsf-wiz-optional {
+    margin-inline-start: 4px;
+    color: var(--capsf-text-muted);
+    font-weight: 400;
+    text-transform: none;
+}
+
+// Styles tab: Color Mode sits above the style panels - same 16px gap as between them.
+.capsf-color-mode { margin-bottom: 16px; }
+
+/* Narrow screens (Social Feed): Click Action cards and Styles-tab rows
+ * shrink instead of pushing the page sideways. */
+@media (max-width: 480px) {
+    .capsf-play-mode-card { min-width: 0; }
+    .capsf-play-mode-text { flex: 1 1 auto; min-width: 0; }
+    .capsf-play-mode-radio { flex: none; }
+    .capsf-display-options__rows { padding-inline: 14px; }
+    .capsf-display-options__row { flex-wrap: wrap; min-width: 0; }
+    .capsf-display-options__control { flex: 1 1 auto; justify-content: flex-end; max-width: 100%; }
+    .capsf-gap-control,
+    .capsf-range-control { flex: 1 1 auto; min-width: 0; }
+    .capsf-gap-slider { min-width: 0; width: 100%; }
+}

@@ -1,0 +1,534 @@
+@use '../../style/variables.scss' as *;
+
+.capsf-listing-page {
+    .capsf-listing-page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        .capsf-listing-page-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: $black_color;
+            margin: 0;
+        }
+    }
+}
+
+.capsf-listing-content-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    background: $white_color;
+    border: 1px solid $border_color;
+    border-radius: $rs_medium;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.capsf-listing-table {
+    width: 100%;
+    background-color: $white_color;
+    overflow: hidden;
+    border-spacing: 0;
+    min-width: 900px;
+
+    .capsf-list-header {
+        background-color: var(--capsf-bg-secondary);
+        border-bottom: 1px solid $border_color;
+    }
+
+    .capsf-list-row {
+        transition: $transition;
+
+        &:hover {
+            background-color: $white_hover;
+        }
+
+        th {
+            color: $desc_color;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .capsf-list-row-item {
+            font-size: 13.5px;
+            font-weight: 500;
+            text-align: left;
+            border: none;
+            padding: 16px 20px;
+            border-bottom: 1px solid $border_color;
+            color: $black_color;
+
+            &:last-child {
+                text-align: right;
+            }
+        }
+
+        &:last-child .capsf-list-row-item {
+            border-bottom: none;
+        }
+    }
+
+    .capsf-list-row-item-products {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .capsf-feed-name-link {
+        color: $primary_color;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 13.5px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .capsf-type-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        // Platform colour: text + logo use it, the background is a light tint of it.
+        color: var(--capsf-text-primary);
+        background-color: color-mix(in srgb, currentColor 10%, transparent);
+
+        &--facebook  { color: #1877f2; }
+        &--instagram { color: #d62976; }
+        &--pinterest { color: #e60023; }
+        // X and Threads logos are black (white in dark mode) - the text colour.
+        &--twitter,
+        &--threads   { color: var(--capsf-text-primary); }
+    }
+
+    .capsf-type-badge-icon {
+        flex: 0 0 auto;
+        width: 14px;
+        height: 14px;
+        background-color: currentColor;
+        -webkit-mask: var(--capsf-type-icon) center / contain no-repeat;
+        mask: var(--capsf-type-icon) center / contain no-repeat;
+    }
+
+    .capsf-status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 600;
+
+        &::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        &.capsf-status-active {
+            color: var(--capsf-success-text);
+
+            &::before {
+                background-color: var(--capsf-success-text);
+            }
+        }
+
+        &.capsf-status-inactive {
+            color: var(--capsf-text-muted);
+
+            &::before {
+                background-color: var(--capsf-text-muted);
+            }
+        }
+    }
+
+    .capsf-shortcode-cell {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .capsf-shortcode-readable {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            color: var(--capsf-text-primary);
+            background: var(--capsf-bg-secondary);
+            border: 1px solid var(--capsf-border);
+            border-radius: $rs_small;
+            padding: 5px 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            cursor: default;
+        }
+
+        .capsf-copy-btn {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+            border-radius: $rs_small;
+            border: none;
+            background: none;
+            flex-shrink: 0;
+            transition: $transition;
+
+            &:hover {
+                background-color: var(--capsf-bg-hover);
+            }
+
+            svg {
+                fill: var(--capsf-text-muted);
+                width: 15px;
+                height: 15px;
+
+                // Checkmark on copy success
+                &[stroke] {
+                    fill: none;
+                    stroke: var(--capsf-success-text);
+                }
+            }
+        }
+    }
+
+    .capsf-action-btns {
+        display: flex;
+        gap: 6px;
+        justify-content: flex-end;
+
+        .capsf-action-btn {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: $rs_small;
+            border: 1.5px solid $border_color;
+            background: var(--capsf-bg-primary);
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+
+            svg {
+                width: 15px;
+                height: 15px;
+                fill: $desc_color;
+            }
+
+            &:hover {
+                border-color: var(--capsf-primary);
+                background: var(--capsf-info-bg);
+                box-shadow: 0 2px 8px rgba(34,113,177,0.15);
+
+                svg { fill: var(--capsf-primary); }
+            }
+
+            
+
+            &.capsf-action-btn-delete {
+                &:hover {
+                    background: var(--capsf-error-bg);
+                    border-color: var(--capsf-error-bg);
+                    box-shadow: 0 2px 8px rgba(239,68,68,0.15);
+                    svg { fill: var(--capsf-error-text); }
+                }
+            }
+
+            // Info icon (Last Modified tooltip) uses a stroke-based line
+            // icon, not the fill-based icons Edit/Delete use.
+            &.capsf-action-btn-info {
+                svg { fill: none; stroke: $desc_color; }
+
+                &:hover {
+                    svg { fill: none; stroke: var(--capsf-primary); }
+                }
+            }
+        }
+    }
+}
+
+/* ── Last Modified tooltip (click-to-toggle) ─────────────────────────── */
+.capsf-tooltip-wrap {
+    position: relative;
+    display: inline-flex;
+}
+
+// Rendered via a portal into document.body, so its position comes from
+// inline top/left (computed from the button's bounding rect) rather than
+// being positioned relative to .capsf-tooltip-wrap. This keeps it from
+// being clipped by the table's overflow:hidden (used for rounded corners).
+.capsf-tooltip-bubble {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 12px;
+    background: #1a1d27;
+    border-radius: $rs_small;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    white-space: nowrap;
+
+    &::before {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 6px solid transparent;
+        border-bottom-color: #1a1d27;
+    }
+
+    .capsf-tooltip-label {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: rgba(255,255,255,0.6);
+    }
+
+    .capsf-tooltip-value {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 12.5px;
+        color: #fff;
+    }
+
+    &--portal {
+        position: absolute;
+        transform: translateX(-50%);
+        z-index: 999999; // above WP admin chrome as well as our own app
+    }
+}
+
+// Empty state
+.capsf-db-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    padding: 60px 0px;
+    background: $white_color;
+    border: 1px solid $border_color;
+    border-radius: $rs_medium;
+
+    .capsf-db-icon {
+        width: 52px;
+        height: 52px;
+        background-color: var(--capsf-bg-active);
+        border-radius: $rs_small;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            width: 26px;
+            height: 26px;
+            fill: $primary_color;
+        }
+    }
+
+    .capsf-db-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: $black_color;
+    }
+
+    .capsf-db-desc {
+        font-size: 13.5px;
+        color: $desc_color;
+        width: 60%;
+        text-align: center;
+        line-height: 1.6;
+    }
+}
+
+// Skeleton
+.capsf-skeleton-wrapper {
+    .capsf-list-row {
+
+        .capsf-feed-name-link,
+        .capsf-type-badge,
+        .capsf-status-badge,
+        .capsf-action-btn,
+        input {
+            background: var(--capsf-bg-secondary);
+            animation: capsf-skeleton-effect 1s infinite;
+            border-radius: $rs_small;
+            color: transparent !important;
+            pointer-events: none;
+            border: none !important;
+            min-width: 80px;
+            min-height: 20px;
+            display: inline-block;
+
+            svg,
+            img {
+                visibility: hidden;
+            }
+
+            &::before {
+                display: none;
+            }
+        }
+    }
+}
+
+@keyframes capsf-skeleton-effect {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+/* ── Delete modal (U6) ─────────────────────────────────────────────── */
+.capsf-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    animation: capsf-fadein 0.15s ease;
+}
+@keyframes capsf-fadein { from { opacity:0 } to { opacity:1 } }
+
+.capsf-modal {
+    background: var(--capsf-bg-primary);
+    border-radius: 12px;
+    padding: 32px 28px 24px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: capsf-slidein 0.15s ease;
+}
+@keyframes capsf-slidein { from { transform: translateY(12px); opacity:0 } to { transform: none; opacity:1 } }
+
+.capsf-modal-icon svg { color: var(--capsf-error-text); }
+
+.capsf-modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--capsf-text-primary);
+    margin: 12px 0 8px;
+}
+
+.capsf-modal-body {
+    font-size: 14px;
+    color: var(--capsf-text-secondary);
+    line-height: 1.6;
+    margin: 0 0 24px;
+}
+
+.capsf-modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.capsf-modal-btn {
+    padding: 9px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s ease;
+
+    &--cancel {
+        background: var(--capsf-bg-secondary);
+        color: var(--capsf-text-primary);
+        &:hover { background: var(--capsf-border); }
+    }
+    &--delete {
+        background: var(--capsf-error-text);
+        color: var(--capsf-text-inverse);
+        &:hover { background: var(--capsf-error-text); }
+    }
+}
+
+/* ── Status toggle (F5) ─────────────────────────────────────────────── */
+.capsf-status-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    &--active {
+        background: var(--capsf-success-bg);
+        color: var(--capsf-success-text);
+        border-color: var(--capsf-success-bg);
+        &:hover { background: var(--capsf-success-bg); border-color: var(--capsf-success-text); }
+    }
+    &--inactive {
+        background: var(--capsf-error-bg);
+        color: var(--capsf-error-text);
+        border-color: var(--capsf-error-bg);
+        &:hover { background: var(--capsf-error-bg); border-color: var(--capsf-error-text); }
+    }
+    &--loading { opacity: 0.6; cursor: wait; }
+    &:disabled { pointer-events: none; }
+}
+
+.capsf-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    .capsf-status-toggle--active & { background: var(--capsf-success-text); }
+    .capsf-status-toggle--inactive & { background: var(--capsf-error-text); }
+}
+
+// ── Mobile responsive overrides (matches sidebar breakpoint) ─────────────
+@media (max-width: $bp_tablet) {
+    .capsf-listing-page {
+        padding: 16px;
+
+        .capsf-listing-page-header {
+            flex-wrap: wrap;
+            gap: 12px;
+
+            // Keep the button its natural size rather than stretching
+            // edge-to-edge - a full-width button here looked oversized
+            // and out of place next to the page title.
+            button { justify-content: center; }
+        }
+    }
+
+    // Table: keep min-width + scroll - crucial so columns don't collapse
+    .capsf-listing-content-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        // Show scroll hint on mobile
+        border-radius: 8px;
+    }
+
+    .capsf-listing-table {
+        min-width: 680px; // 5 columns now, but Actions has 3 buttons (info/edit/delete)
+    }
+}
+

@@ -1,0 +1,39 @@
+{
+  "name": "captain-social-feed",
+  "version": "0.3.0",
+  "description": "Display customizable Instagram, Facebook, Twitter, Threads and Pinterest feeds on your WordPress website.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "wp-scripts build && node -e \"const f='build/index.js'; if(require('fs').existsSync(f)){let s=require('fs').readFileSync(f,'utf8'); s=s.replace(/https:\\/\\/bit\\.ly\\/3cXEKWf/g, 'https://github.com/immerjs/immer/blob/master/src/utils/errors.ts'); require('fs').writeFileSync(f, s);}\"",
+    "start": "wp-scripts start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devangvachheta/captain-social-feed.git"
+  },
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "instagram",
+    "facebook",
+    "social feed"
+  ],
+  "author": "devangvachheta",
+  "license": "GPL-2.0-or-later",
+  "bugs": {
+    "url": "https://github.com/devangvachheta/captain-social-feed/issues"
+  },
+  "homepage": "https://github.com/devangvachheta/captain-social-feed/#readme",
+  "devDependencies": {
+    "@wordpress/scripts": "^32.4.0"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.12.0",
+    "@wordpress/i18n": "^6.21.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-redux": "^9.3.0",
+    "react-router-dom": "^7.18.2"
+  }
+}

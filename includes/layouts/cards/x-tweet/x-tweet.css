@@ -1,0 +1,409 @@
+/**
+ * Twitter / X designs - Profile Timeline (x-timeline) and Tweets Grid
+ * (x-grid). Shared parts (platform icons, play icon, screen-reader text,
+ * load more) live in assets/css/frontend.css.
+ *
+ * Colours are custom properties (zero-specificity defaults below), so the
+ * Dark preset and the Styles tab can override them per feed.
+ */
+:where(.capsf-feed) {
+	--capsf-x-bg: #fff;
+	--capsf-x-border: #e1e8ed;
+	--capsf-x-text: #0f1419;
+	--capsf-x-muted: #536471;
+	--capsf-x-link: #1d9bf0;
+	--capsf-x-hover: #f7f9f9;
+	--capsf-x-radius: 12px;
+	--capsf-x-height: 640px;
+}
+
+/* ── Section title (any design) ── */
+.capsf-feed .capsf-feed-title {
+	margin: 0 0 24px;
+	text-align: center;
+	font-size: clamp(22px, 3vw, 30px);
+	line-height: 1.25;
+}
+
+/* ── Tweets Grid: masonry columns (counts set per feed inline) ── */
+.capsf-x-grid {
+	columns: 3;
+	column-gap: 20px;
+}
+.capsf-x-grid > .capsf-x-card {
+	break-inside: avoid;
+	margin-bottom: 20px;
+}
+@media (max-width: 1024px) {
+	.capsf-x-grid { columns: 2; }
+}
+@media (max-width: 640px) {
+	.capsf-x-grid { columns: 1; }
+}
+
+/* ── Profile Timeline: profile header + scrolling list ── */
+.capsf-x-timeline {
+	max-width: 600px;
+	margin-inline: auto;
+	overflow: hidden;
+	background: var(--capsf-x-bg);
+	border: 1px solid var(--capsf-x-border);
+	border-radius: var(--capsf-x-radius);
+	color: var(--capsf-x-text);
+}
+.capsf-x-timeline--sidebar {
+	max-width: 380px;
+}
+.capsf-x-list {
+	max-height: var(--capsf-x-height);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+.capsf-x-list > .capsf-x-card {
+	border: 0;
+	border-top: 1px solid var(--capsf-x-border);
+	border-radius: 0;
+}
+.capsf-x-list > .capsf-x-card:first-child {
+	border-top: 0;
+}
+
+.capsf-x-banner {
+	aspect-ratio: 3 / 1;
+	background: linear-gradient(135deg, #1d9bf0, #0f1419) center / cover no-repeat;
+}
+.capsf-x-timeline--sidebar .capsf-x-banner {
+	aspect-ratio: 3 / 1.2;
+}
+/* X layout: the picture overlaps the banner, Follow sits on the right,
+ * the name and @handle go on their own line below. */
+.capsf-x-profile-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 8px 12px;
+	padding: 0 16px;
+}
+.capsf-x-profile-avatar {
+	flex: none;
+	margin-top: -40px;
+	width: 80px;
+	height: 80px;
+	border: 4px solid var(--capsf-x-bg);
+	border-radius: 50%;
+	background: var(--capsf-x-bg);
+	object-fit: cover;
+}
+.capsf-x-profile-names {
+	display: flex;
+	order: 3;
+	flex: 1 1 100%;
+	flex-direction: column;
+	min-width: 0;
+}
+.capsf-x-profile-name {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 19px;
+	font-weight: 800;
+	line-height: 1.25;
+	overflow-wrap: anywhere;
+}
+.capsf-x-profile-handle {
+	color: var(--capsf-x-muted);
+	font-size: 14px;
+}
+.capsf-feed a.capsf-x-follow,
+.capsf-x-preview .capsf-x-follow {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	gap: 6px;
+	margin-inline-start: auto;
+	margin-top: 10px;
+	padding: 7px 16px;
+	border-radius: 999px;
+	background: var(--capsf-x-text);
+	color: var(--capsf-x-bg);
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.2;
+	text-decoration: none;
+}
+.capsf-feed a.capsf-x-follow:hover,
+.capsf-feed a.capsf-x-follow:focus-visible {
+	opacity: 0.85;
+}
+.capsf-x-follow .capsf-platform-icon {
+	--capsf-platform-color: currentColor;
+	width: 14px;
+	height: 14px;
+}
+.capsf-x-profile-stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 28px;
+	margin: 0;
+	padding: 12px 16px 14px;
+	border-bottom: 1px solid var(--capsf-x-border);
+}
+.capsf-x-profile-stats dt {
+	color: var(--capsf-x-muted);
+	font-size: 12px;
+}
+.capsf-x-profile-stats dd {
+	margin: 0;
+	font-size: 17px;
+	font-weight: 800;
+}
+
+/* ── Post card ── */
+.capsf-x-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 16px;
+	background: var(--capsf-x-bg);
+	border: 1px solid var(--capsf-x-border);
+	border-radius: var(--capsf-x-radius);
+	color: var(--capsf-x-text);
+	font-size: 15px;
+	line-height: 1.5;
+	transition: background-color 0.15s ease;
+}
+.capsf-x-card:hover {
+	background: var(--capsf-x-hover);
+}
+.capsf-x-repost {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0;
+	color: var(--capsf-x-muted);
+	font-size: 13px;
+	font-weight: 600;
+}
+.capsf-x-repost svg {
+	width: 15px;
+	height: 15px;
+	fill: currentColor;
+}
+.capsf-x-head {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+}
+.capsf-x-avatar {
+	flex: none;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+.capsf-x-avatar--initial {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--capsf-x-border);
+	color: var(--capsf-x-text);
+	font-weight: 700;
+}
+.capsf-x-names {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	min-width: 0;
+}
+.capsf-x-name {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-weight: 700;
+	line-height: 1.3;
+	overflow-wrap: anywhere;
+}
+.capsf-x-verified {
+	flex: none;
+	width: 17px;
+	height: 17px;
+	fill: #1d9bf0;
+}
+.capsf-x-meta {
+	color: var(--capsf-x-muted);
+	font-size: 14px;
+}
+.capsf-x-handle + .capsf-x-time::before {
+	content: " · ";
+}
+.capsf-feed a.capsf-x-logo,
+.capsf-x-preview .capsf-x-logo {
+	flex: none;
+	line-height: 0;
+}
+.capsf-x-logo .capsf-platform-icon {
+	--capsf-platform-color: var(--capsf-x-text);
+	width: 18px;
+	height: 18px;
+}
+.capsf-x-stars {
+	display: flex;
+	gap: 2px;
+}
+.capsf-x-stars svg {
+	width: 18px;
+	height: 18px;
+	fill: #f5b301;
+}
+.capsf-x-text {
+	margin: 0;
+	white-space: pre-line;
+	overflow-wrap: anywhere;
+}
+.capsf-feed .capsf-x-text a {
+	color: var(--capsf-x-link);
+	text-decoration: none;
+}
+.capsf-feed .capsf-x-text a:hover {
+	text-decoration: underline;
+}
+
+/* Photos (1-4, X-style collage) / video */
+.capsf-x-media {
+	position: relative;
+	display: grid;
+	gap: 2px;
+	overflow: hidden;
+	border: 1px solid var(--capsf-x-border);
+	border-radius: 14px;
+	line-height: 0;
+}
+.capsf-x-media--2,
+.capsf-x-media--4 {
+	grid-template-columns: 1fr 1fr;
+	aspect-ratio: 16 / 9;
+}
+.capsf-x-media--3 {
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+	aspect-ratio: 16 / 9;
+}
+.capsf-x-media--3 > a:first-child {
+	grid-row: span 2;
+}
+.capsf-x-media img {
+	width: 100%;
+	height: 100%;
+	max-height: 520px;
+	object-fit: cover;
+}
+/* One photo / a video keep their own shape (only very tall ones are cut). */
+.capsf-x-media--1 img,
+.capsf-x-media--video img {
+	height: auto;
+}
+.capsf-x-media > a {
+	display: block;
+	min-height: 0;
+	overflow: hidden;
+}
+.capsf-feed a.capsf-x-media--video {
+	display: block;
+	color: inherit;
+}
+.capsf-x-play {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+}
+.capsf-x-play .capsf-play-icon {
+	width: 56px;
+	height: 56px;
+}
+
+/* Reply / repost / like counts + Share */
+.capsf-x-actions {
+	display: flex;
+	align-items: center;
+	gap: 22px;
+	color: var(--capsf-x-muted);
+	font-size: 13px;
+}
+.capsf-feed a.capsf-x-action,
+.capsf-x-preview .capsf-x-action,
+.capsf-x-share summary {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	color: inherit;
+	text-decoration: none;
+	cursor: pointer;
+}
+.capsf-feed a.capsf-x-action:hover,
+.capsf-feed a.capsf-x-action:focus-visible,
+.capsf-x-share summary:hover {
+	color: var(--capsf-x-link);
+}
+.capsf-x-actions svg {
+	width: 18px;
+	height: 18px;
+	fill: currentColor;
+}
+.capsf-x-share {
+	position: relative;
+	margin-inline-start: auto;
+}
+.capsf-x-share summary {
+	list-style: none;
+	font-weight: 600;
+}
+.capsf-x-share summary::-webkit-details-marker {
+	display: none;
+}
+.capsf-x-share-menu {
+	position: absolute;
+	inset-inline-end: 0;
+	bottom: calc(100% + 6px);
+	z-index: 5;
+	display: flex;
+	flex-direction: column;
+	min-width: 190px;
+	overflow: hidden;
+	background: var(--capsf-x-bg);
+	border: 1px solid var(--capsf-x-border);
+	border-radius: 10px;
+	box-shadow: 0 8px 24px rgba(15, 20, 25, 0.15);
+}
+.capsf-feed .capsf-x-share-menu a {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 11px 14px;
+	color: var(--capsf-x-text);
+	font-size: 14px;
+	text-decoration: none;
+}
+.capsf-feed .capsf-x-share-menu a + a {
+	border-top: 1px solid var(--capsf-x-border);
+}
+.capsf-feed .capsf-x-share-menu a:hover,
+.capsf-feed .capsf-x-share-menu a:focus-visible {
+	background: var(--capsf-x-hover);
+}
+.capsf-x-share-menu .capsf-platform-icon {
+	width: 18px;
+	height: 18px;
+}
+.capsf-x-share-menu .capsf-platform-icon--twitter {
+	--capsf-platform-color: var(--capsf-x-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.capsf-x-card {
+		transition: none;
+	}
+}

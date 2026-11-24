@@ -1,0 +1,13 @@
+.git/
+.github/
+.gitignore
+.distignore
+.wporgignore
+node_modules/
+src/
+package.json
+package-lock.json
+captain-social-feed.zip
+.DS_Store
+Thumbs.db
+*.log

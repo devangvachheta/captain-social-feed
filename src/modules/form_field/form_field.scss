@@ -1,0 +1,17 @@
+@use '../../style/variables.scss' as *;
+
+.capsf-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+
+    .capsf-form-field-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: $black_color;
+        width: fit-content;
+        cursor: pointer;
+    }
+
+}

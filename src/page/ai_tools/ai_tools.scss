@@ -1,0 +1,104 @@
+@use '../../style/variables.scss' as *;
+
+// AI Tools page - normalizes every padding/margin/gap on this page to the
+// shared $sp_base (15px) spacing variable. The base .capsf-settings-*
+// classes (settings.scss) use inconsistent one-off pixel values, so these
+// overrides are scoped to .capsf-ai-tools only and don't touch the
+// Settings page itself.
+.capsf-ai-tools {
+    &.capsf-settings-wrapper { gap: $sp_base; }
+
+    .capsf-settings-header {
+        .capsf-settings-title    { margin: 0; }
+        .capsf-settings-subtitle {
+            margin: 0;
+
+            a {
+                color: var(--capsf-primary);
+                font-weight: 600;
+                text-decoration: none;
+                &:hover { text-decoration: underline; }
+            }
+        }
+    }
+
+    .capsf-settings-sections { gap: $sp_base; }
+
+    .capsf-settings-section-header {
+        gap: $sp_base;
+        padding: $sp_base;
+    }
+
+    .capsf-settings-section-body {
+        gap: $sp_base;
+        padding: $sp_base;
+    }
+
+    .capsf-settings-toggle-row {
+        gap: $sp_base;
+        padding: $sp_base;
+    }
+
+    .capsf-settings-toggle-info { gap: $sp_base; }
+}
+
+.capsf-ai-tools .capsf-ai-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: $sp_base;
+    padding: $sp_base;
+    border-radius: $rs_medium;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+
+    svg { flex-shrink: 0; margin-top: 2px; }
+    strong { display: block; font-size: 13.5px; margin-bottom: 2px; }
+    p { margin: 0; color: var(--capsf-text-secondary); }
+    a { color: inherit; font-weight: 600; text-decoration: underline; }
+
+    &--ok {
+        background: color-mix(in srgb, var(--capsf-success-text) 10%, var(--capsf-bg-primary));
+        border: 1px solid color-mix(in srgb, var(--capsf-success-text) 30%, transparent);
+        color: var(--capsf-success-text);
+    }
+    &--info {
+        background: color-mix(in srgb, var(--capsf-primary) 8%, var(--capsf-bg-primary));
+        border: 1px solid color-mix(in srgb, var(--capsf-primary) 25%, transparent);
+        color: var(--capsf-primary);
+    }
+    &--warn {
+        background: color-mix(in srgb, #d63638 8%, var(--capsf-bg-primary));
+        border: 1px solid color-mix(in srgb, #d63638 25%, transparent);
+        color: #d63638;
+    }
+}
+
+.capsf-ai-risk-badge {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 20px;
+    vertical-align: middle;
+
+    &--read        { background: color-mix(in srgb, var(--capsf-success-text) 14%, transparent); color: var(--capsf-success-text); }
+    &--write       { background: color-mix(in srgb, var(--capsf-primary) 14%, transparent); color: var(--capsf-primary); }
+    &--destructive { background: color-mix(in srgb, #d63638 14%, transparent); color: #d63638; }
+}
+
+.capsf-ai-tools-disabled {
+    opacity: 0.55;
+    pointer-events: none;
+
+    // Re-enable just the switch buttons: they need to stay clickable so
+    // clicking one can trigger the "look here first" redirect to the master
+    // switch (see useAttentionPing / ai_tools.jsx) - everything else in this
+    // section (labels, badges, text) stays inert as before.
+    .capsf-switcher {
+        pointer-events: auto;
+    }
+}

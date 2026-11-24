@@ -1,0 +1,342 @@
+@use '../../style/variables.scss' as *;
+
+.capsf-products-wrapper {
+
+    .capsf-products-header {
+        margin-bottom: 28px;
+
+        .capsf-products-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--capsf-text-primary);
+            margin: 0 0 8px;
+        }
+
+        .capsf-products-subtitle {
+            font-size: 14px;
+            color: var(--capsf-text-secondary);
+            margin: 0;
+        }
+    }
+
+    .capsf-products-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .capsf-product-card {
+        background: var(--capsf-bg-primary);
+        border: 1px solid var(--capsf-border);
+        border-radius: $rs_medium;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: $transition;
+
+        &:hover {
+            border-color: var(--capsf-primary);
+            box-shadow: 0 2px 10px rgba(34, 113, 177, 0.1);
+        }
+
+        .capsf-product-card-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .capsf-product-card-icon {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg { width: 100%; height: 100%; }
+        }
+
+        .capsf-product-card-logo {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .capsf-product-card-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--capsf-text-primary);
+            margin: 0;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .capsf-product-card-desc {
+            font-size: 13px;
+            color: var(--capsf-text-secondary);
+            line-height: 1.6;
+            margin: 0;
+            flex: 1;
+        }
+
+        .capsf-product-card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 6px;
+        }
+    }
+
+    // ── Badges ──────────────────────────────────────────────────
+    .capsf-product-badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 9px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        flex-shrink: 0;
+        white-space: nowrap;
+
+        &--active {
+            background: var(--capsf-success-bg);
+            color: var(--capsf-success-text);
+        }
+
+        &--free {
+            background: var(--capsf-bg-active);
+            color: var(--capsf-primary);
+        }
+
+        &--pro {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+    }
+
+    // ── Hero CTA (Install Plugin → Activate → Active) ─────────────
+    .capsf-product-card-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        width: 100%;
+        padding: 10px 16px;
+        border: none;
+        border-radius: $rs_small;
+        font-size: 13.5px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        transition: $transition;
+        background: linear-gradient(135deg, var(--capsf-primary), var(--capsf-primary-hover));
+        color: var(--capsf-text-inverse);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+
+        svg { flex-shrink: 0; }
+
+        &:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px -6px var(--capsf-primary);
+        }
+
+        &:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+        }
+
+        &.is-loading {
+            opacity: 0.85;
+        }
+
+        // Already installed, one click away from being active. Uses the
+        // theme's accent/secondary token (an amber tone in both light and
+        // dark) so it's visually distinct from the blue "Install" gradient
+        // without introducing a one-off color outside the theme system.
+        &.is-activate {
+            background: var(--capsf-secondary);
+
+            &:hover:not(:disabled) {
+                filter: brightness(0.92);
+                box-shadow: 0 6px 16px -6px var(--capsf-secondary);
+            }
+        }
+
+        &.is-error {
+            background: var(--capsf-error-bg);
+            color: var(--capsf-error-text);
+            box-shadow: none;
+
+            &:hover:not(:disabled) {
+                transform: none;
+                box-shadow: none;
+                background: var(--capsf-error-bg);
+            }
+        }
+
+        // Fully active - calm, outlined success state; nothing to click.
+        &.is-active {
+            background: var(--capsf-success-bg);
+            color: var(--capsf-success-text);
+            box-shadow: none;
+            cursor: default;
+
+            &:hover { transform: none; box-shadow: none; }
+        }
+    }
+
+    .capsf-product-card-spinner {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        border-top-color: var(--capsf-text-inverse);
+        animation: capsf-products-spin 0.7s linear infinite;
+        flex-shrink: 0;
+    }
+
+    @keyframes capsf-products-spin {
+        to { transform: rotate(360deg); }
+    }
+
+    // ── Secondary row: View on WordPress.org + Rate icon button ───
+    .capsf-product-card-subactions {
+        display: flex;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .capsf-product-card-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        flex: 1;
+        min-width: 0;
+        padding: 8px 12px;
+        border-radius: $rs_small;
+        border: 1px solid var(--capsf-border);
+        background: transparent;
+        color: var(--capsf-text-secondary);
+        font-size: 12.5px;
+        font-weight: 600;
+        text-decoration: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: $transition;
+
+        svg { flex-shrink: 0; opacity: 0.7; transition: $transition; }
+
+        &:hover {
+            border-color: var(--capsf-primary);
+            color: var(--capsf-primary);
+
+            svg { opacity: 1; transform: translate(1px, -1px); }
+        }
+    }
+
+    .capsf-product-card-icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: $rs_small;
+        border: 1px solid var(--capsf-border);
+        background: transparent;
+        color: var(--capsf-text-secondary);
+        text-decoration: none;
+        transition: $transition;
+
+        &:hover {
+            border-color: var(--capsf-secondary);
+            color: var(--capsf-secondary);
+            background: var(--capsf-warning-bg);
+        }
+    }
+
+    // ── Support CTA ──────────────────────────────────────────────
+    .capsf-products-support {
+        background: var(--capsf-bg-primary);
+        border: 1px solid var(--capsf-border);
+        border-radius: $rs_medium;
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        .capsf-products-support-icon {
+            flex-shrink: 0;
+            width: 42px;
+            height: 42px;
+            background: var(--capsf-bg-active);
+            border-radius: $rs_small;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+                width: 20px;
+                height: 20px;
+                stroke: var(--capsf-primary);
+            }
+        }
+
+        h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--capsf-text-primary);
+            margin: 0 0 4px;
+        }
+
+        p {
+            font-size: 13px;
+            color: var(--capsf-text-secondary);
+            margin: 0;
+        }
+
+        .capsf-products-support-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            flex-shrink: 0;
+            white-space: nowrap;
+            padding: 9px 18px;
+            border-radius: $rs_small;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            background: var(--capsf-primary);
+            color: var(--capsf-text-inverse);
+            transition: $transition;
+
+            &:hover {
+                background: var(--capsf-primary-hover);
+                color: var(--capsf-text-inverse);
+            }
+        }
+    }
+}
+
+@media (max-width: $bp_tablet) {
+    .capsf-products-wrapper {
+        padding: 16px;
+    }
+    .capsf-products-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .capsf-products-support {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}

@@ -1,0 +1,173 @@
+// Global colour picker - see color_picker.jsx. The panel is portalled to
+// <body> (so no ancestor overflow can clip it) and gets its own
+// data-capsf-theme, so the theme variables below resolve inside it.
+
+.capsf-colorpicker__swatch {
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+    width: 38px;
+    height: 32px;
+    padding: 2px;
+    margin: 0;
+    border: 1.5px solid var(--capsf-border);
+    border-radius: 7px;
+    background: var(--capsf-bg-primary);
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover,
+    &.is-open,
+    &:focus-visible {
+        border-color: var(--capsf-primary);
+        outline: none;
+    }
+    &:focus-visible,
+    &.is-open {
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--capsf-primary) 18%, transparent);
+    }
+}
+
+// Checkerboard layer (so a translucent colour is visible as such) with the
+// actual colour painted on top by __swatch-color.
+.capsf-colorpicker__swatch-fill {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 4px;
+    background-color: #fff;
+    background-image:
+        linear-gradient(45deg, #cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%),
+        linear-gradient(45deg, #cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 4px 4px;
+}
+
+.capsf-colorpicker__swatch-color {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.capsf-colorpicker__panel {
+    position: fixed;
+    z-index: 1000000; // above the WP admin bar and our own modals
+    box-sizing: border-box;
+    padding: 14px;
+    background: var(--capsf-bg-primary, #fff);
+    border: 1px solid var(--capsf-border, #e2e8f0);
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.18);
+    color: var(--capsf-text-primary, #0f172a);
+    user-select: none;
+    touch-action: none;
+
+    * { box-sizing: border-box; }
+}
+
+// Saturation (x) / brightness (y) box - white fades in left→right, black
+// fades in top→bottom, over the pure hue set as backgroundColor inline.
+.capsf-colorpicker__area {
+    position: relative;
+    height: 130px;
+    border-radius: 10px;
+    cursor: crosshair;
+    background-image:
+        linear-gradient(to top, #000, rgba(0, 0, 0, 0)),
+        linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
+}
+
+.capsf-colorpicker__slider {
+    position: relative;
+    height: 12px;
+    margin-top: 14px;
+    border-radius: 999px;
+    cursor: pointer;
+
+    &--hue {
+        background: linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
+    }
+
+    &--alpha {
+        background-color: #fff;
+        background-image:
+            linear-gradient(45deg, #cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%),
+            linear-gradient(45deg, #cbd5e1 25%, transparent 25%, transparent 75%, #cbd5e1 75%);
+        background-size: 8px 8px;
+        background-position: 0 0, 4px 4px;
+    }
+}
+
+.capsf-colorpicker__alpha-gradient {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+}
+
+.capsf-colorpicker__thumb {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.35), 0 1px 4px rgba(15, 23, 42, 0.3);
+
+    &--area {
+        width: 16px;
+        height: 16px;
+    }
+    &--slider {
+        top: 50%;
+        width: 18px;
+        height: 18px;
+    }
+}
+
+.capsf-colorpicker__fields {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.capsf-colorpicker__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    min-width: 0;
+
+    > span {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--capsf-text-secondary, #64748b);
+    }
+
+    input {
+        width: 100%;
+        height: 38px;
+        margin: 0;
+        padding: 0 10px;
+        border: 1.5px solid var(--capsf-border, #e2e8f0);
+        border-radius: 8px;
+        background: var(--capsf-bg-primary, #fff);
+        color: var(--capsf-text-primary, #0f172a);
+        font-size: 13px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        box-shadow: none;
+
+        &:focus {
+            border-color: var(--capsf-primary, #2271b1);
+            outline: none;
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--capsf-primary, #2271b1) 18%, transparent);
+        }
+    }
+
+    &--hex { flex: 1 1 auto; }
+    &--alpha { flex: 0 0 76px; }
+}

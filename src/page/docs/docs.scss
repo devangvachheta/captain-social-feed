@@ -1,0 +1,395 @@
+@use '../../style/variables.scss' as *;
+
+// ── Wrapper ──────────────────────────────────────────────────────────
+.capsf-docs-wrapper {
+
+    .capsf-docs-header {
+        margin-bottom: 28px;
+
+        .capsf-docs-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--capsf-text-primary);
+            margin: 0 0 8px;
+        }
+
+        .capsf-docs-subtitle {
+            font-size: 14px;
+            color: var(--capsf-text-secondary);
+            margin: 0;
+        }
+    }
+}
+
+// ── Two-column layout ────────────────────────────────────────────────
+.capsf-docs-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+// ── Sidebar ──────────────────────────────────────────────────────────
+.capsf-docs-sidebar {
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_medium;
+    padding: 16px;
+    position: sticky;
+    top: var(--capsf-adminbar-h, 32px);
+
+    .capsf-docs-sidebar-heading {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--capsf-text-secondary);
+        margin: 0 0 10px;
+        padding: 0 8px;
+    }
+
+    .capsf-docs-sidebar-link {
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--capsf-text-primary);
+        text-decoration: none;
+        padding: 9px 10px;
+        border-radius: $rs_small;
+        transition: $transition;
+
+        img { flex: 0 0 auto; opacity: 0.85; }
+
+        &:hover {
+            background: var(--capsf-bg-secondary);
+            color: var(--capsf-primary);
+        }
+
+        &--active {
+            background: var(--capsf-bg-active);
+            color: var(--capsf-primary);
+            font-weight: 600;
+        }
+    }
+}
+
+// ── Article content ──────────────────────────────────────────────────
+.capsf-docs-content {
+    background: var(--capsf-bg-primary);
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_medium;
+    padding: 32px;
+}
+
+// ── Article shared styles ────────────────────────────────────────────
+.capsf-doc-article {
+    .capsf-doc-platform-logo {
+        display: block;
+        margin-bottom: 14px;
+        border-radius: 10px;
+    }
+
+    .capsf-doc-article-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--capsf-bg-active);
+        color: var(--capsf-primary);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 20px;
+        margin-bottom: 16px;
+
+        svg {
+            width: 13px;
+            height: 13px;
+            stroke: var(--capsf-primary);
+        }
+    }
+
+    .capsf-doc-article-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--capsf-text-primary);
+        margin: 0 0 8px;
+    }
+
+    .capsf-doc-article-intro {
+        font-size: 14px;
+        color: var(--capsf-text-secondary);
+        line-height: 1.7;
+        margin: 0 0 28px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--capsf-border);
+    }
+
+    // Steps
+    .capsf-doc-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-bottom: 28px;
+    }
+
+    .capsf-doc-step {
+        display: flex;
+        gap: 16px;
+
+        .capsf-doc-step-num {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--capsf-primary);
+            color: var(--capsf-text-inverse);
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .capsf-doc-step-body {
+            flex: 1;
+
+            h4 {
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--capsf-text-primary);
+                margin: 0 0 6px;
+            }
+
+            p {
+                font-size: 13px;
+                color: var(--capsf-text-secondary);
+                line-height: 1.6;
+                margin: 0 0 10px;
+            }
+        }
+    }
+
+    // Code / URL block
+    .capsf-doc-code {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        background: var(--capsf-bg-secondary);
+        border: 1px solid var(--capsf-border);
+        border-radius: $rs_small;
+        overflow: hidden;
+        margin: 8px 0;
+
+        code {
+            flex: 1;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: var(--capsf-text-primary);
+            font-family: 'Courier New', Courier, monospace;
+            word-break: break-all;
+        }
+
+        .capsf-doc-code-copy {
+            flex-shrink: 0;
+            background: var(--capsf-primary);
+            border: none;
+            color: var(--capsf-text-inverse);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: $transition;
+            white-space: nowrap;
+
+            &:hover {
+                background: var(--capsf-primary-hover);
+            }
+        }
+    }
+
+    // Tip / Info / Warning boxes
+    .capsf-doc-tip,
+    .capsf-doc-info,
+    .capsf-doc-warning {
+        display: flex;
+        gap: 12px;
+        padding: 14px 16px;
+        border-radius: $rs_small;
+        font-size: 13px;
+        line-height: 1.6;
+        margin: 16px 0;
+
+        svg {
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
+            margin-top: 2px;
+        }
+
+        p { margin: 0; }
+        strong { font-weight: 600; }
+    }
+
+    .capsf-doc-tip {
+        background: var(--capsf-success-bg);
+        border: 1px solid var(--capsf-success-border);
+        color: var(--capsf-success-text);
+        svg { stroke: var(--capsf-success-text); }
+    }
+
+    .capsf-doc-info {
+        background: var(--capsf-info-bg);
+        border: 1px solid var(--capsf-info-border);
+        color: var(--capsf-info-text);
+        svg { stroke: var(--capsf-info-text); }
+    }
+
+    .capsf-doc-warning {
+        background: var(--capsf-warning-bg);
+        border: 1px solid var(--capsf-warning-border);
+        color: var(--capsf-warning-text);
+        svg { stroke: var(--capsf-warning-text); }
+    }
+
+    // Image placeholder
+    .capsf-doc-img-placeholder {
+        width: 100%;
+        background: var(--capsf-bg-secondary);
+        border: 1px dashed var(--capsf-border);
+        border-radius: $rs_small;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 8px;
+        padding: 32px;
+        margin: 12px 0;
+        font-size: 13px;
+        color: var(--capsf-text-secondary);
+
+        svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--capsf-text-muted);
+        }
+    }
+
+    // Result box (shows found value)
+    .capsf-doc-result {
+        background: var(--capsf-success-bg);
+        border: 1px solid var(--capsf-success-border);
+        border-radius: $rs_small;
+        padding: 16px;
+        margin: 12px 0;
+
+        p {
+            font-size: 13px;
+            color: var(--capsf-success-text);
+            margin: 0 0 6px;
+
+            &:last-child { margin: 0; }
+        }
+
+        strong { font-weight: 600; }
+    }
+
+    // Section divider
+    .capsf-doc-divider {
+        border: none;
+        border-top: 1px solid var(--capsf-border);
+        margin: 28px 0;
+    }
+
+    // Section heading inside an article (e.g. "Step 2: Select Layout").
+    .capsf-doc-section-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--capsf-text-primary);
+        margin: 0 0 16px;
+    }
+
+    // Tag / chip
+    .capsf-doc-tag {
+        display: inline-block;
+        background: var(--capsf-bg-active);
+        color: var(--capsf-primary);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    // Plain paragraph between sections.
+    .capsf-doc-text {
+        font-size: 13px;
+        line-height: 1.7;
+        color: var(--capsf-text-secondary);
+        margin: 0 0 16px;
+    }
+
+    // Comparison / troubleshooting tables - scroll sideways on narrow screens.
+    .capsf-doc-table-wrap {
+        overflow-x: auto;
+        margin: 0 0 20px;
+        border: 1px solid var(--capsf-border);
+        border-radius: 8px;
+    }
+    .capsf-doc-table {
+        width: 100%;
+        min-width: 520px;
+        border-collapse: collapse;
+        font-size: 13px;
+        line-height: 1.55;
+
+        th,
+        td {
+            padding: 10px 14px;
+            text-align: start;
+            vertical-align: top;
+            border-bottom: 1px solid var(--capsf-border);
+            color: var(--capsf-text-secondary);
+        }
+        thead th {
+            background: var(--capsf-bg-secondary);
+            color: var(--capsf-text-primary);
+            font-weight: 700;
+        }
+        tbody th {
+            color: var(--capsf-text-primary);
+            font-weight: 600;
+        }
+        tbody tr:last-child th,
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+    }
+    .capsf-doc-tag--free,
+    .capsf-doc-tag--paid {
+        font-family: inherit;
+        white-space: normal;
+    }
+    .capsf-doc-tag--free {
+        background: var(--capsf-success-bg);
+        color: var(--capsf-success-text);
+    }
+    .capsf-doc-tag--paid {
+        background: var(--capsf-warning-bg);
+        color: var(--capsf-warning-text);
+    }
+}
+
+@media (max-width: $bp_tablet) {
+    .capsf-docs-wrapper,
+    .capsf-docs-layout {
+        flex-direction: column !important;
+        padding: 16px !important;
+    }
+    .capsf-docs-sidebar {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}

@@ -1,0 +1,15 @@
+/**
+ * Social Post 1 - image on top, caption, author row, stats row.
+ * Shared parts live in assets/css/frontend.css.
+ */
+.capsf-sc-card--media-top > .capsf-sc-media {
+	margin: var(--capsf-sc-gap) var(--capsf-sc-gap) 0;
+	border: 1px solid var(--capsf-sc-border);
+}
+
+/* Equal Card Height: content stays top-aligned (account row right under
+ * the caption); the spare height of shorter cards collects at the bottom,
+ * so the stats rows of a row still line up. */
+.capsf-equal-h .capsf-sc-card--media-top .capsf-sc-body {
+	flex: 1 1 auto;
+}

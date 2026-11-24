@@ -1,0 +1,93 @@
+@use '/src/style/variables.scss' as *;
+@use '/src/style/theme.scss';
+
+.csp-notice .pa-notice-wrap .pa-new-feature-notice .pa-review-notice .gt-admin-notice,
+.is-dismissible,
+.notice,
+.notice .notice-errors,
+.notice-errors,
+.notice-warning,
+#wpfooter {
+    display: none !important
+}
+
+#wpbody-content {
+    padding-bottom: 0 !important;
+}
+
+#wpcontent {
+    padding-left: 0;
+}
+
+.captain-app {
+    display: flex;
+    align-items: flex-start;
+    min-height: calc(100vh - var(--capsf-adminbar-h, 32px));
+    background-color: var(--capsf-bg-app);
+    transition: background-color 0.3s ease;
+    --capsf-sidebar-w: 220px;
+    --capsf-sidebar-w-collapsed: 72px;
+    // WP 6.4+ exposes --wp-admin--admin-bar--height (32px desktop / 46px mobile)
+    // automatically; older WP versions don't, so this falls back to the same
+    // values WP core has always used at its own 782px breakpoint.
+    --capsf-adminbar-h: var(--wp-admin--admin-bar--height, 32px);
+
+    @media screen and (max-width: 782px) {
+        --capsf-adminbar-h: var(--wp-admin--admin-bar--height, 46px);
+    }
+
+    &[data-capsf-sidebar="collapsed"] {
+        --capsf-sidebar-w: var(--capsf-sidebar-w-collapsed);
+    }
+}
+
+.capsf-app-main-content {
+    flex: 1;
+    min-width: 0; // classic flexbox fix: without this, a flex item can't
+                  // shrink below its content's intrinsic width, which was
+                  // letting this panel (and its dark background) overflow
+                  // past the viewport at narrower widths - showing as a
+                  // solid block past the visible content.
+    padding: 28px;
+    background-color: var(--capsf-bg-app);
+    transition: background-color 0.3s ease, margin-left 0.25s ease;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: calc(100vh - var(--capsf-adminbar-h, 32px));
+    margin-left: var(--capsf-sidebar-w, 220px);
+
+    /* Edit page wizard needs full height, no padding.
+     *
+     * IMPORTANT: no `overflow` here (not even `auto`) - `position: sticky`
+     * on `.capsf-wiz-progress` needs the *real* window/document scroll
+     * as its reference frame, exactly like the mobile hamburger bar (also
+     * `position: sticky`) already correctly relies on elsewhere in this
+     * same layout. Setting `overflow: auto` on an ancestor - even one
+     * that never actually overflows, which was the bug here since this
+     * box only had a `min-height`, not a bounded `height` - still makes
+     * THAT box the sticky reference frame per spec. Since the real
+     * scrolling was happening on the outer document instead, the sticky
+     * bar's reference frame never moved and it sat static. A bounded
+     * `height` "fixed" that but created a second, nested scrollbar
+     * instead - simplest correct fix is just to not intercept the
+     * scroll here at all. */
+    &:has(.capsf-wiz-wrapper) {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: visible;
+    }
+
+    &.capsf-app-main-content--edit {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: visible;
+    }
+}
+
+@keyframes capsf-skeleton-effect {
+    0%   { background-color: var(--capsf-skeleton-from); opacity: 1; }
+    50%  { background-color: var(--capsf-skeleton-to);   opacity: 0.7; }
+    100% { background-color: var(--capsf-skeleton-from); opacity: 1; }
+}

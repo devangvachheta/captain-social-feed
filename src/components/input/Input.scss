@@ -1,0 +1,34 @@
+@use '../../style/variables.scss' as *;
+
+input.capsf-input-field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: 1px solid var(--capsf-border);
+    border-radius: $rs_small;
+    padding: 10px 15px;
+    font-size: 14px;
+    background-color: var(--capsf-bg-input);
+    color: var(--capsf-text-primary);
+    box-shadow: none;
+    outline: none;
+    line-height: 0;
+    transition: $transition;
+
+    &::placeholder {
+        color: var(--capsf-text-primary);
+        opacity: 0.5;
+        transition: $transition;
+    }
+
+    &:focus {
+        border-color: var(--capsf-text-primary);
+        box-shadow: none;
+        outline: none;
+
+        &::placeholder {
+            padding-left: 5px;
+        }
+    }
+}

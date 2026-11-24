@@ -1,0 +1,76 @@
+@use '../../style/variables.scss' as *;
+
+// ── "Upgrade to Pro" card - own layout/colours (brand blue), sits
+//    wherever the caller places it (currently: sidebar footer, just
+//    above the VERSION line). Uses var(--capsf-primary*) so it adapts
+//    automatically between light/dark mode.
+.capsf-upgrade-pro-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 8px 14px 4px;
+    padding: 12px;
+    text-decoration: none;
+    background: var(--capsf-info-bg);
+    border: 1px solid rgba(var(--capsf-primary-rgb), 0.25);
+    border-radius: 12px;
+    transition: $transition;
+
+    &:hover {
+        border-color: var(--capsf-primary);
+        text-decoration: none;
+    }
+
+    .capsf-upgrade-pro-card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    .capsf-upgrade-pro-card-icon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 9px;
+        background: linear-gradient(135deg, var(--capsf-primary), var(--capsf-primary-hover));
+
+        svg { width: 16px; height: 16px; color: #fff; }
+    }
+
+    .capsf-upgrade-pro-card-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    .capsf-upgrade-pro-card-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--capsf-text-primary);
+        white-space: nowrap;
+    }
+
+    .capsf-upgrade-pro-card-subtitle {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--capsf-primary-text);
+    }
+
+    .capsf-upgrade-pro-card-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 10px;
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #fff;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--capsf-primary), var(--capsf-primary-hover));
+    }
+}

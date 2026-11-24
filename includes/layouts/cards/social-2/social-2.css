@@ -1,0 +1,19 @@
+/**
+ * Social Post 2 - author header, caption, image, stats row.
+ * Shared parts live in assets/css/frontend.css.
+ */
+.capsf-sc-head {
+	padding: var(--capsf-sc-gap);
+	border-bottom: 1px solid var(--capsf-sc-divider);
+}
+
+.capsf-sc-card--header-top .capsf-sc-media {
+	border: 1px solid var(--capsf-sc-border);
+}
+
+/* Equal Card Height: the image sits right under the caption (no gap when
+ * cards in a row have different image shapes); the spare height of shorter
+ * cards collects at the bottom, so the stats rows still line up. */
+.capsf-equal-h .capsf-sc-card--header-top .capsf-sc-body {
+	flex: 1 1 auto;
+}

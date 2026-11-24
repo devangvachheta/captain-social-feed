@@ -1,0 +1,445 @@
+/**
+ * Style 8 - Simple Grid: square pictures; hover shows likes, comments and
+ * the caption; a corner badge marks albums / videos. Clicking opens the
+ * post popup (styles below - the popup is appended to <body>, outside the
+ * feed, so its rules are not scoped to .capsf-feed).
+ */
+
+.capsf-s8-item {
+	width: 100%;
+}
+
+.capsf-feed a.capsf-s8-card {
+	position: relative;
+	display: block;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+	border-radius: 8px;
+	background: #e5e7eb;
+	color: #fff;
+	text-decoration: none;
+}
+
+.capsf-s8-thumbnail {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.35s ease;
+}
+
+/* Text-only post: the caption fills the square. */
+.capsf-s8-text {
+	display: -webkit-box;
+	height: 100%;
+	padding: 18px;
+	overflow: hidden;
+	background: linear-gradient(135deg, #334155, #0f172a);
+	color: #fff;
+	font-size: 15px;
+	line-height: 1.5;
+	-webkit-line-clamp: 8;
+	-webkit-box-orient: vertical;
+}
+
+/* Album / video badge */
+.capsf-s8-badge {
+	position: absolute;
+	top: 10px;
+	inset-inline-end: 10px;
+	z-index: 2;
+	display: flex;
+	width: 22px;
+	height: 22px;
+	color: #fff;
+	filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+}
+.capsf-s8-badge svg {
+	width: 100%;
+	height: 100%;
+	fill: currentColor;
+}
+
+/* Hover layer: likes, comments, caption */
+.capsf-s8-overlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	padding: 18px;
+	background: rgba(30, 32, 52, 0.72);
+	color: #fff;
+	text-align: center;
+	opacity: 0;
+	transition: opacity 0.25s ease;
+}
+.capsf-s8-card:hover .capsf-s8-overlay,
+.capsf-s8-card:focus-visible .capsf-s8-overlay {
+	opacity: 1;
+}
+.capsf-s8-card:hover .capsf-s8-thumbnail,
+.capsf-s8-card:focus-visible .capsf-s8-thumbnail {
+	transform: scale(1.04);
+}
+.capsf-s8-stats {
+	display: flex;
+	gap: 22px;
+	font-size: 17px;
+	font-weight: 700;
+}
+.capsf-s8-stats > span {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+}
+.capsf-s8-stats svg {
+	width: 24px;
+	height: 24px;
+}
+.capsf-s8-caption {
+	display: -webkit-box;
+	max-width: 100%;
+	overflow: hidden;
+	font-size: 14px;
+	line-height: 1.45;
+	overflow-wrap: anywhere;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+}
+.capsf-feed a.capsf-s8-card:focus-visible {
+	outline: 3px solid #2271b1;
+	outline-offset: 2px;
+}
+
+/* ── Post popup ─────────────────────────────────────────────────────────── */
+.capsf-pp-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 999999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px 64px;
+	background: rgba(0, 0, 0, 0.82);
+}
+.capsf-pp-dialog {
+	display: flex;
+	width: 100%;
+	max-width: 760px;
+	max-height: 100%;
+}
+.capsf-pp {
+	--capsf-pp-bg: #fff;
+	--capsf-pp-text: #0f172a;
+	--capsf-pp-muted: #64748b;
+	--capsf-pp-border: #e5e7eb;
+	--capsf-pp-link: #2563eb;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-height: calc(100vh - 48px);
+	overflow: hidden;
+	background: var(--capsf-pp-bg);
+	border-radius: 14px;
+	color: var(--capsf-pp-text);
+	font-size: 15px;
+	line-height: 1.5;
+}
+.capsf-pp--dark {
+	--capsf-pp-bg: #1e293b;
+	--capsf-pp-text: #f1f5f9;
+	--capsf-pp-muted: #94a3b8;
+	--capsf-pp-border: #334155;
+	--capsf-pp-link: #7cc4ff;
+}
+.capsf-pp-head {
+	display: flex;
+	flex: none;
+	align-items: center;
+	gap: 10px;
+	padding: 12px 16px;
+	border-bottom: 1px solid var(--capsf-pp-border);
+}
+.capsf-pp-avatar {
+	flex: none;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+.capsf-pp-avatar--initial {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--capsf-pp-border);
+	font-weight: 700;
+}
+.capsf-pp-name {
+	min-width: 0;
+	overflow: hidden;
+	font-weight: 700;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.capsf-pp a.capsf-pp-follow {
+	color: var(--capsf-pp-link);
+	font-weight: 700;
+	text-decoration: none;
+	white-space: nowrap;
+}
+.capsf-pp a.capsf-pp-follow::before {
+	content: "·";
+	margin-inline-end: 8px;
+	color: var(--capsf-pp-text);
+}
+.capsf-pp a.capsf-pp-platform {
+	margin-inline-start: auto;
+	line-height: 0;
+}
+.capsf-pp-platform .capsf-platform-icon {
+	width: 26px;
+	height: 26px;
+}
+
+/* Media + album slider */
+.capsf-pp-media {
+	position: relative;
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow: hidden;
+	background: #000;
+}
+.capsf-pp-track {
+	display: flex;
+	height: 100%;
+	transition: transform 0.35s ease;
+}
+.capsf-pp-slide {
+	display: flex;
+	flex: 0 0 100%;
+	align-items: center;
+	justify-content: center;
+	min-width: 0;
+	height: 100%;
+}
+.capsf-pp-slide img,
+.capsf-pp-slide video {
+	display: block;
+	max-width: 100%;
+	max-height: min(68vh, 760px);
+	object-fit: contain;
+}
+.capsf-pp-slide iframe {
+	width: 100%;
+	height: min(68vh, 560px);
+	border: 0;
+}
+.capsf-pp a.capsf-pp-video-link {
+	position: relative;
+	display: block;
+	line-height: 0;
+}
+.capsf-pp-video-link .capsf-play-icon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 64px;
+	height: 64px;
+	transform: translate(-50%, -50%);
+}
+.capsf-pp-video-link .capsf-pp-icon-pause {
+	display: none;
+}
+.capsf-pp button.capsf-pp-arrow {
+	position: absolute;
+	top: 50%;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.9);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+	color: #0f172a;
+	cursor: pointer;
+	transform: translateY(-50%);
+}
+.capsf-pp button.capsf-pp-arrow[hidden] {
+	display: none;
+}
+.capsf-pp-arrow--prev {
+	inset-inline-start: 12px;
+}
+.capsf-pp-arrow--next {
+	inset-inline-end: 12px;
+}
+.capsf-pp-arrow svg {
+	width: 18px;
+	height: 18px;
+}
+[dir="rtl"] .capsf-pp-arrow svg {
+	transform: scaleX(-1);
+}
+.capsf-pp-dots {
+	position: absolute;
+	bottom: 12px;
+	left: 50%;
+	z-index: 2;
+	display: flex;
+	gap: 5px;
+	transform: translateX(-50%);
+}
+.capsf-pp-dots span {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.5);
+}
+.capsf-pp-dots span.is-active {
+	background: #fff;
+}
+
+/* Footer: counts, caption, date */
+.capsf-pp-foot {
+	flex: none;
+	max-height: 34vh;
+	padding: 12px 16px 16px;
+	overflow-y: auto;
+}
+.capsf-pp-stats {
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	margin-bottom: 8px;
+	font-weight: 600;
+}
+.capsf-pp-stats > span {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+.capsf-pp-stats svg {
+	width: 24px;
+	height: 24px;
+}
+.capsf-pp button.capsf-pp-share {
+	display: inline-flex;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	cursor: pointer;
+}
+.capsf-pp button.capsf-pp-share.is-copied {
+	color: #16a34a;
+}
+.capsf-pp-caption {
+	margin: 0;
+	white-space: pre-line;
+	overflow-wrap: anywhere;
+}
+.capsf-pp-caption a {
+	color: var(--capsf-pp-link);
+	text-decoration: none;
+}
+.capsf-pp-date {
+	margin: 8px 0 0;
+	color: var(--capsf-pp-muted);
+	font-size: 13px;
+}
+
+/* Close + previous / next post (on the dark backdrop) */
+.capsf-pp-overlay button.capsf-pp-close,
+.capsf-pp-overlay button.capsf-pp-nav {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: #fff;
+	cursor: pointer;
+}
+.capsf-pp-overlay button.capsf-pp-close {
+	top: 14px;
+	inset-inline-end: 14px;
+	width: 40px;
+	height: 40px;
+}
+.capsf-pp-overlay button.capsf-pp-nav {
+	top: 50%;
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.15);
+	transform: translateY(-50%);
+}
+.capsf-pp-overlay button.capsf-pp-nav[hidden] {
+	display: none;
+}
+.capsf-pp-nav--prev {
+	inset-inline-start: 12px;
+}
+.capsf-pp-nav--next {
+	inset-inline-end: 12px;
+}
+.capsf-pp-overlay svg {
+	width: 26px;
+	height: 26px;
+}
+[dir="rtl"] .capsf-pp-nav svg {
+	transform: scaleX(-1);
+}
+.capsf-pp-overlay button:focus-visible {
+	outline: 3px solid #7cc4ff;
+	outline-offset: 2px;
+}
+.capsf-pp-overlay .screen-reader-text,
+.capsf-pp .screen-reader-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+}
+body.capsf-pp-open {
+	overflow: hidden;
+}
+
+@media (max-width: 640px) {
+	.capsf-pp-overlay {
+		padding: 56px 8px 8px;
+	}
+	.capsf-pp-overlay button.capsf-pp-nav {
+		top: 28px;
+		width: 36px;
+		height: 36px;
+	}
+	.capsf-pp-nav--prev {
+		inset-inline-start: 8px;
+	}
+	.capsf-pp-nav--next {
+		inset-inline-end: 60px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.capsf-s8-thumbnail,
+	.capsf-s8-overlay,
+	.capsf-pp-track {
+		transition: none;
+	}
+}

@@ -1,0 +1,71 @@
+@use '../../style/variables.scss' as *;
+
+// Fixed-position "look here" bubble - theme-agnostic (dark bubble regardless
+// of light/dark mode) so it reads clearly against whatever it's floating
+// over. top/left come in as inline styles from AttentionPingContext, already
+// clamped to stay within the viewport horizontally and flipped between
+// --top/--bottom depending on which side has room; this file only handles
+// the visual chrome, per-placement transform/arrow, and entrance animation.
+.capsf-attn-tooltip {
+    position: fixed;
+    z-index: 100000;
+    background: #1a1d27;
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.4;
+    padding: 8px 14px;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    // `left` is a single x-coordinate (already viewport-clamped) with no
+    // `right` counterpart, which is enough for some engines to size this as
+    // if stretching from that point rather than shrinking to fit the text -
+    // pinning both width keywords makes "hug the content, wrap only past
+    // 260px" sizing explicit.
+    width: max-content;
+    max-width: 260px;
+    white-space: normal;
+    text-align: center;
+    pointer-events: none;
+
+    &-arrow {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+        width: 10px;
+        height: 10px;
+        background: #1a1d27;
+    }
+
+    // Bubble sits ABOVE the target, growing upward from the anchor point;
+    // arrow points down at the target.
+    &--top {
+        transform: translate(-50%, -100%);
+        animation: capsf-attn-tooltip-in-top 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        .capsf-attn-tooltip-arrow {
+            bottom: -5px;
+        }
+    }
+
+    // Bubble sits BELOW the target (used when there isn't enough room
+    // above); arrow points up at the target.
+    &--bottom {
+        transform: translate(-50%, 0);
+        animation: capsf-attn-tooltip-in-bottom 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        .capsf-attn-tooltip-arrow {
+            top: -5px;
+        }
+    }
+}
+
+@keyframes capsf-attn-tooltip-in-top {
+    from { opacity: 0; transform: translate(-50%, calc(-100% + 10px)); }
+    to   { opacity: 1; transform: translate(-50%, -100%); }
+}
+
+@keyframes capsf-attn-tooltip-in-bottom {
+    from { opacity: 0; transform: translate(-50%, -10px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+}

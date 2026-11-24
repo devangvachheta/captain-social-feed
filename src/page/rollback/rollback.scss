@@ -1,0 +1,232 @@
+@use '../../style/variables.scss' as *;
+
+.capsf-rollback-wrapper {
+
+    .capsf-rollback-header {
+        margin-bottom: 24px;
+
+        .capsf-rollback-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--capsf-text-primary);
+            margin: 0 0 8px;
+        }
+
+        .capsf-rollback-subtitle {
+            font-size: 14px;
+            color: var(--capsf-text-secondary);
+            margin: 0;
+            line-height: 1.6;
+        }
+    }
+
+    // ── Current version pill ──────────────────────────────────────
+    .capsf-rollback-current {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--capsf-success-bg);
+        border: 1px solid var(--capsf-success-border);
+        border-radius: $rs_small;
+        padding: 10px 14px;
+        font-size: 13px;
+        color: var(--capsf-success-text);
+        margin-bottom: 12px;
+
+        svg {
+            width: 15px;
+            height: 15px;
+            stroke: var(--capsf-success-text);
+            flex-shrink: 0;
+        }
+
+        strong { font-weight: 700; }
+    }
+
+    // ── Warning box ───────────────────────────────────────────────
+    .capsf-rollback-warning {
+        display: flex;
+        gap: 10px;
+        background: var(--capsf-warning-bg);
+        border: 1px solid var(--capsf-warning-border);
+        border-radius: $rs_small;
+        padding: 12px 14px;
+        font-size: 13px;
+        color: var(--capsf-warning-text);
+        margin-bottom: 24px;
+        line-height: 1.6;
+
+        svg {
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
+            stroke: var(--capsf-warning-text);
+            margin-top: 1px;
+        }
+
+        p { margin: 0; }
+    }
+
+    // ── List wrapper ──────────────────────────────────────────────
+    .capsf-rollback-list-wrap {
+        background: var(--capsf-bg-primary);
+        border: 1px solid var(--capsf-border);
+        border-radius: $rs_medium;
+        overflow: hidden;
+
+        .capsf-rollback-list-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--capsf-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin: 0;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--capsf-border);
+            background: var(--capsf-bg-secondary);
+        }
+    }
+
+    // ── State (loading / error) ───────────────────────────────────
+    .capsf-rollback-state {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 28px 20px;
+        font-size: 13px;
+        color: var(--capsf-text-secondary);
+
+        &--error {
+            color: var(--capsf-error-text);
+            svg { stroke: var(--capsf-error-text); }
+        }
+    }
+
+    // ── Spinner ───────────────────────────────────────────────────
+    .capsf-rollback-spinner {
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--capsf-border);
+        border-top-color: var(--capsf-primary);
+        border-radius: 50%;
+        animation: capsf-spin 0.7s linear infinite;
+        flex-shrink: 0;
+    }
+
+    @keyframes capsf-spin {
+        to { transform: rotate(360deg); }
+    }
+
+    // ── Version list ──────────────────────────────────────────────
+    .capsf-rollback-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .capsf-rollback-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--capsf-border);
+        transition: background 0.15s ease;
+
+        &:last-child { border-bottom: none; }
+
+        &:hover { background: var(--capsf-bg-secondary); }
+
+        &--current { background: var(--capsf-success-bg); }
+
+        .capsf-rollback-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .capsf-rollback-item-num {
+            font-size: 16px;
+            line-height: 1;
+            width: 28px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .capsf-rollback-item-ver {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--capsf-text-primary);
+            font-family: 'Courier New', monospace;
+            display: block;
+        }
+
+        .capsf-rollback-item-latest,
+        .capsf-rollback-item-installed {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-top: 3px;
+        }
+
+        .capsf-rollback-item-latest {
+            background: var(--capsf-bg-active);
+            color: var(--capsf-primary);
+        }
+
+        .capsf-rollback-item-installed {
+            background: var(--capsf-success-bg);
+            color: var(--capsf-success-text);
+        }
+    }
+
+    // ── Action buttons ────────────────────────────────────────────
+    .capsf-rollback-btn {
+        flex-shrink: 0;
+        border: none;
+        border-radius: $rs_small;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 8px 14px;
+        cursor: pointer;
+        transition: $transition;
+        white-space: nowrap;
+
+        &--install {
+            background: var(--capsf-primary);
+            color: var(--capsf-text-inverse);
+
+            &:hover:not(:disabled) { background: var(--capsf-primary-hover); }
+        }
+
+        &--current {
+            background: var(--capsf-bg-secondary);
+            color: var(--capsf-text-secondary);
+            cursor: default;
+        }
+
+        &--loading {
+            background: var(--capsf-bg-active);
+            color: var(--capsf-primary);
+            cursor: wait;
+        }
+
+        &--success {
+            background: var(--capsf-success-bg);
+            color: var(--capsf-success-text);
+            cursor: default;
+        }
+
+        &--error {
+            background: var(--capsf-error-bg);
+            color: var(--capsf-error-text);
+
+            &:hover { background: var(--capsf-error-bg); }
+        }
+
+        &:disabled { opacity: 0.7; cursor: not-allowed; }
+    }
+}

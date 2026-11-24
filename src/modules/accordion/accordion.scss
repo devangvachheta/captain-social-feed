@@ -1,0 +1,55 @@
+@use '/src/style/variables.scss' as *;
+
+.capsf-accordion-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .capsf-accordion-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        cursor: pointer;
+
+        .capsf-accordion-header-icon {
+            display: flex;
+            cursor: pointer;
+
+            i {
+                color: $black_color;
+                font-size: 12px;
+                transition: $transition;
+            }
+
+        }
+    }
+
+    .capsf-accordion-content {
+        max-height: 0px;
+        overflow: hidden;
+        transition: all 0.5s linear;
+    }
+
+    &.capsf-accordion-content-show {
+
+        .capsf-accordion-header-icon {
+            transform: rotate(-180deg);
+        }
+
+        .capsf-accordion-content {
+            max-height: 300px;
+            overflow-y: auto;
+
+            &::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: $border_color;
+                border-radius: $rs_normal;
+            }
+        }
+    }
+
+}

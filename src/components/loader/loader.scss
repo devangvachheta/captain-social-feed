@@ -1,0 +1,22 @@
+@use '/src/style/variables.scss' as *;
+
+.capsf-loader-spin {
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--capsf-bg-primary);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    animation: capsf-spin 1s linear infinite;
+
+
+    @keyframes capsf-spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+}

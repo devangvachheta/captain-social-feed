@@ -1,0 +1,133 @@
+@use '../../style/variables.scss' as *;
+
+.capsf-help-wrapper {
+
+    .capsf-help-header {
+        margin-bottom: 32px;
+
+        .capsf-help-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--capsf-text-primary);
+            margin: 0 0 8px;
+        }
+
+        .capsf-help-subtitle {
+            font-size: 14px;
+            color: var(--capsf-text-secondary);
+            margin: 0;
+        }
+    }
+
+    .capsf-help-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 32px;
+
+        .capsf-help-card {
+            background: var(--capsf-bg-primary);
+            border: 1px solid var(--capsf-border);
+            border-radius: $rs_medium;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .capsf-help-card-icon {
+                width: 42px;
+                height: 42px;
+                background-color: var(--capsf-bg-active);
+                border-radius: $rs_small;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                    stroke: var(--capsf-primary);
+                }
+            }
+
+            h3 {
+                font-size: 15px;
+                font-weight: 600;
+                color: var(--capsf-text-primary);
+                margin: 0;
+            }
+
+            p {
+                font-size: 13px;
+                color: var(--capsf-text-secondary);
+                margin: 0;
+                line-height: 1.5;
+            }
+
+            .capsf-help-link {
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--capsf-primary);
+                text-decoration: none;
+                margin-top: auto;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .capsf-help-faq {
+        background: var(--capsf-bg-primary);
+        border: 1px solid var(--capsf-border);
+        border-radius: $rs_medium;
+        padding: 28px;
+
+        .capsf-help-faq-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--capsf-text-primary);
+            margin: 0 0 20px;
+        }
+
+        .capsf-help-faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .capsf-help-faq-item {
+            border-bottom: 1px solid var(--capsf-border);
+            padding-bottom: 20px;
+
+            &:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .capsf-help-faq-q {
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--capsf-text-primary);
+                margin: 0 0 8px;
+            }
+
+            .capsf-help-faq-a {
+                font-size: 13px;
+                color: var(--capsf-text-secondary);
+                margin: 0;
+                line-height: 1.6;
+            }
+        }
+    }
+}
+
+@media (max-width: $bp_tablet) {
+    .capsf-help-cards {
+        grid-template-columns: 1fr !important;
+    }
+    .capsf-help-wrapper {
+        padding: 16px;
+    }
+}

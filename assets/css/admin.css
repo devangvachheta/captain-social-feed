@@ -1,0 +1,16 @@
+#toplevel_page_captain-social-feed div.wp-menu-image {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#toplevel_page_captain-social-feed .wp-menu-image img {
+	width: 24px;
+    height: auto;
+    padding: 0;
+}
+
+
+#adminmenu li.wp-has-current-submenu#toplevel_page_captain-social-feed a.menu-top {
+	background: #2271B1;
+}

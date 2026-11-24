@@ -1,0 +1,578 @@
+@use '/src/style/variables.scss' as *;
+
+.capsf-wp-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 28px;
+    min-height: 100%;
+    height: auto;
+    box-sizing: border-box;
+    background-color: var(--capsf-bg-primary);
+    /* Ensure fixed footer bar never overlaps the form */
+    padding: 48px 40px 96px;
+
+    // ─── Header Section ───────────────────────────────────────────────
+    .capsf-wp-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .capsf-wp-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 12px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(34, 113, 177, 0.1) 0%, rgba(34, 113, 177, 0.06) 100%);
+        border: 1px solid rgba(34, 113, 177, 0.2);
+        font-size: 11.5px;
+        font-weight: 600;
+        color: var(--capsf-primary);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+
+        svg {
+            color: var(--capsf-primary);
+            flex-shrink: 0;
+        }
+    }
+
+    .capsf-wp-heading {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--capsf-text-primary);
+        letter-spacing: -0.5px;
+        line-height: 1.2;
+    }
+
+    .capsf-wp-sub-heading {
+        font-size: 14px;
+        color: var(--capsf-text-secondary);
+        text-align: center;
+        line-height: 1.6;
+        max-width: 420px;
+    }
+
+    // ─── Step Indicator ───────────────────────────────────────────────
+    .capsf-wp-steps {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+
+        .capsf-wp-step {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            opacity: 0.4;
+            transition: $transition;
+
+            &.active {
+                opacity: 1;
+            }
+
+            .capsf-wp-step-dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: var(--capsf-text-secondary);
+                transition: $transition;
+            }
+
+            &.active .capsf-wp-step-dot {
+                background-color: var(--capsf-primary);
+                box-shadow: 0 0 0 3px rgba(34, 113, 177, 0.18);
+            }
+
+            .capsf-wp-step-label {
+                font-size: 12px;
+                font-weight: 500;
+                color: var(--capsf-text-secondary);
+                transition: $transition;
+            }
+
+            &.active .capsf-wp-step-label {
+                color: var(--capsf-primary);
+                font-weight: 600;
+            }
+        }
+
+        .capsf-wp-step-line {
+            width: 36px;
+            height: 1.5px;
+            background: linear-gradient(90deg, var(--capsf-primary) 0%, var(--capsf-border) 100%);
+            border-radius: 2px;
+        }
+    }
+
+    // ─── Feed Type Cards ──────────────────────────────────────────────
+    .capsf-wp-content {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        width: 900px;
+        max-width: 100%;
+
+        .capsf-wp-content-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            background-color: var(--capsf-bg-primary);
+            padding: 22px 20px 20px;
+            border: 1.5px solid var(--capsf-border);
+            border-radius: 12px;
+            transition: $transition;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+
+            &::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: 11px;
+                opacity: 0;
+                background: linear-gradient(135deg, rgba(34, 113, 177, 0.04) 0%, transparent 60%);
+                transition: $transition;
+            }
+
+            &:hover {
+                border-color: rgba(34, 113, 177, 0.35);
+                box-shadow: 0 4px 16px rgba(34, 113, 177, 0.1);
+                transform: translateY(-2px);
+
+                &::before {
+                    opacity: 1;
+                }
+            }
+
+            &.capsf-wp-content-item-active {
+                border-color: var(--capsf-primary);
+                background-color: var(--capsf-info-bg);
+                box-shadow: 0 0 0 3px rgba(34, 113, 177, 0.1), 0 4px 16px rgba(34, 113, 177, 0.12);
+                transform: translateY(-2px);
+
+                &::before {
+                    opacity: 1;
+                }
+
+                .capsf-wp-content-item-icon {
+                    background: linear-gradient(135deg, rgba(34, 113, 177, 0.12) 0%, rgba(34, 113, 177, 0.05) 100%);
+                    border-color: rgba(34, 113, 177, 0.25);
+                    color: var(--capsf-primary);
+                }
+
+                .capsf-wp-content-item-title {
+                    color: var(--capsf-primary);
+                }
+            }
+
+            .capsf-wp-content-item-checked {
+                position: absolute;
+                top: 14px;
+                right: 14px;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--capsf-primary) 0%, var(--capsf-primary-hover) 100%);
+                box-shadow: 0 2px 6px rgba(34, 113, 177, 0.35);
+            }
+
+            .capsf-wp-content-item-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 10px;
+                width: 44px;
+                height: 44px;
+                background-color: var(--capsf-bg-secondary);
+                border: 1px solid var(--capsf-border);
+                flex-shrink: 0;
+                transition: $transition;
+                color: var(--capsf-text-primary);
+
+                svg {
+                    width: 24px;
+                    height: 24px;
+                    color: inherit;
+                }
+            }
+
+            .capsf-wp-content-item-title {
+                font-size: 14.5px;
+                font-weight: 700;
+                color: var(--capsf-text-primary);
+                margin-top: 2px;
+                transition: $transition;
+            }
+
+            .capsf-wp-content-item-description {
+                font-size: 12px;
+                color: var(--capsf-text-secondary);
+                line-height: 1.6;
+            }
+        }
+    }
+
+    // ─── Connect Form ─────────────────────────────────────────────────
+    .capsf-yt-form {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 480px;
+        max-width: 100%;
+        gap: 0;
+        background-color: var(--capsf-bg-primary);
+        border: 1.5px solid var(--capsf-border);
+        border-radius: 14px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+        overflow: hidden;
+
+        .capsf-yt-form-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 28px 28px 24px;
+            background: linear-gradient(160deg, var(--capsf-info-bg) 0%, var(--capsf-info-bg) 100%);
+            border-bottom: 1px solid var(--capsf-border);
+            text-align: center;
+        }
+
+        .capsf-yt-form-icon-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--capsf-primary) 0%, var(--capsf-primary-hover) 100%);
+            color: var(--capsf-bg-primary);
+            margin-bottom: 6px;
+            box-shadow: 0 4px 12px rgba(34, 113, 177, 0.3);
+
+            // Platform logos are full-colour SVGs (X and Threads are black) -
+            // paint them white so every logo reads on the blue tile.
+            img { filter: brightness(0) invert(1); }
+        }
+
+        .capsf-yt-form-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--capsf-text-primary);
+            letter-spacing: -0.2px;
+        }
+
+        .capsf-yt-form-desc {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--capsf-text-secondary);
+            letter-spacing: 0.02em;
+        }
+
+        .capsf-yt-form-error-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background-color: var(--capsf-error-bg);
+            border-bottom: 1px solid var(--capsf-error-bg);
+            color: var(--capsf-error-text);
+            font-size: 13px;
+            font-weight: 500;
+
+            svg {
+                flex-shrink: 0;
+                color: var(--capsf-error-text);
+            }
+        }
+
+        .capsf-yt-form-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            padding: 24px 28px;
+        }
+
+        .capsf-yt-form-notice {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px 28px 28px;
+            border-top: 1px solid var(--capsf-border);
+            background-color: var(--capsf-bg-secondary);
+            /* Extra bottom space so fixed footer bar doesn't overlap the last list item */
+            margin-bottom: 0;
+
+            .capsf-yt-form-notice-header {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+
+                svg {
+                    color: var(--capsf-primary);
+                    flex-shrink: 0;
+                }
+            }
+
+            .capsf-yt-form-notice-title {
+                font-size: 12.5px;
+                font-weight: 700;
+                color: var(--capsf-text-primary);
+            }
+
+            .capsf-yt-form-notice-list {
+                display: flex;
+                flex-direction: column;
+                gap: 9px;
+                padding-left: 0;
+                list-style: none;
+                margin: 0;
+
+                li {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 9px;
+                    font-size: 12px;
+                    color: var(--capsf-text-secondary);
+                    line-height: 1.55;
+                }
+
+                .capsf-yt-notice-dot {
+                    display: inline-block;
+                    width: 5px;
+                    height: 5px;
+                    border-radius: 50%;
+                    background-color: var(--capsf-primary);
+                    flex-shrink: 0;
+                    margin-top: 6px;
+                }
+
+                .capsf-yt-notice-highlight {
+                    font-weight: 600;
+                    color: var(--capsf-text-primary);
+                }
+            }
+        }
+    }
+
+    // ─── Footer Bar ───────────────────────────────────────────────────
+    .capsf-wp-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 28px;
+        background-color: var(--capsf-bg-primary);
+        border: 1.5px solid var(--capsf-border);
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+        position: fixed;
+        bottom: 15px;
+        /* Fallback centering for the brief moment before JS measures the real
+           content area width and repositions this precisely (see create_page.jsx). */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 380px;
+        max-width: calc(100vw - 32px);
+        z-index: 999;
+
+        .capsf-wp-footer-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--capsf-text-secondary);
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            padding: 7px 12px;
+            border-radius: 6px;
+            transition: $transition;
+
+            &:hover {
+                color: var(--capsf-text-primary);
+                background-color: var(--capsf-bg-secondary);
+            }
+
+            &--disabled {
+                opacity: 0.35;
+                pointer-events: none;
+            }
+        }
+
+        .capsf-wp-footer-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .capsf-wp-footer-step-info {
+            font-size: 12px;
+            color: var(--capsf-text-secondary);
+            font-weight: 500;
+        }
+
+        .capsf-wp-footer-next {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--capsf-text-inverse);
+            background: linear-gradient(135deg, var(--capsf-primary) 0%, var(--capsf-primary-hover) 100%);
+            padding: 9px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            letter-spacing: 0.03em;
+            transition: $transition;
+            box-shadow: 0 2px 8px rgba(34, 113, 177, 0.25);
+
+            svg {
+                transition: transform 0.2s ease;
+            }
+
+            &:hover {
+                background: linear-gradient(135deg, var(--capsf-primary-hover) 0%, var(--capsf-primary-hover) 100%);
+                box-shadow: 0 4px 14px rgba(34, 113, 177, 0.35);
+                transform: translateY(-1px);
+
+                svg {
+                    transform: translateX(3px);
+                }
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+    }
+
+    // ─── Help tag - plain link below input ───────────────────────────
+    .capsf-yt-help-tag {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--capsf-primary);
+        text-decoration: none;
+        margin-top: 5px;
+        width: fit-content;
+        transition: color 0.2s ease;
+
+        svg {
+            stroke: var(--capsf-primary);
+            flex-shrink: 0;
+        }
+
+        &:hover {
+            color: var(--capsf-primary-hover);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+    }
+
+    // ─── Responsive ───────────────────────────────────────────────────
+    @media (max-width: 1240px) {
+        .capsf-wp-content {
+            width: 100%;
+        }
+    }
+
+    // Medium screens: 3 → 2 columns
+    @media (max-width: 900px) {
+        .capsf-wp-content {
+            grid-template-columns: repeat(2, 1fr);
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 28px 16px 96px;
+        gap: 22px;
+
+        .capsf-wp-heading {
+            font-size: 22px;
+        }
+
+        .capsf-wp-content {
+            grid-template-columns: repeat(1, 1fr);
+        }
+
+        width: 100%;
+
+        .capsf-yt-form-top,
+        .capsf-yt-form-fields,
+        .capsf-yt-form-notice {
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+    }
+
+    .capsf-wp-footer {
+        padding: 10px 16px;
+
+        .capsf-wp-footer-step-info {
+            display: none;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .capsf-wp-steps {
+        .capsf-wp-step-line {
+            width: 24px;
+        }
+    }
+
+    .capsf-wp-footer-next {
+        padding: 9px 16px;
+    }
+
+    // ─── Field wrap ───────────────────────────────────────────────────
+    .capsf-yt-field-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    // ─── Row of 2 help tags side by side ─────────────────────────────
+
+
+    // ─── Doc links inside notice list ────────────────────────────────
+    .capsf-yt-notice-doc-link {
+        color: var(--capsf-primary);
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+
+        &:hover {
+            text-decoration: none;
+            color: var(--capsf-primary-hover);
+        }
+    }
+
+}
+
+@media (max-width: 960px) {
+    .capsf-wp-content-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .capsf-wp-wrapper {
+        padding: 16px;
+    }
+    .capsf-wp-footer {
+        padding: 12px 16px;
+        gap: 10px;
+    }
+}

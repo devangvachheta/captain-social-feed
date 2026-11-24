@@ -1,0 +1,191 @@
+// ============================================================
+//  Captain Social Feed - Theme CSS Variables
+//  One place to change = entire dashboard updates
+//  Usage: var(--capsf-bg-primary) etc.
+// ============================================================
+
+// ── LIGHT MODE (default) ──────────────────────────────────────
+:root,
+[data-capsf-theme="light"] {
+    // Backgrounds
+    --capsf-bg-app:           #ffffff;
+    --capsf-bg-primary:       #ffffff;
+    --capsf-bg-secondary:     #f8f8f8;
+    --capsf-bg-hover:         #f4f6f8;
+    --capsf-bg-input:         #f5f5f5;
+    --capsf-bg-active:        #e8f0fe;
+    --capsf-bg-component:     #f0f0f0;
+    --capsf-bg-card:          #ffffff;   // card/table surfaces (white in light, dark in dark)
+
+    // Text
+    --capsf-text-primary:     #2C3338;
+    --capsf-text-secondary:   #6b7280;
+    --capsf-text-muted:       #a7a7a7;
+    --capsf-text-inverse:     #ffffff;   // text ON colored backgrounds (buttons, badges)
+
+    // Borders
+    --capsf-border:           #dfdfdf;
+    --capsf-border-hover:     #c4c4c4;
+
+    // Brand
+    --capsf-primary:          #2271B1;
+    --capsf-primary-rgb:      34, 113, 177; // same color as --capsf-primary, as r,g,b for rgba() use
+    --capsf-primary-hover:    #1A5D96;
+    --capsf-primary-light:    #e8f0fe;
+    --capsf-primary-text:     #2271B1;
+    --capsf-secondary:        #9F5E00;
+
+    // Status colors
+    --capsf-success-bg:       #dcfce7;
+    --capsf-success-border:   #bbf7d0;
+    --capsf-success-text:     #166534;
+    --capsf-warning-bg:       #fffbeb;
+    --capsf-warning-border:   #fde68a;
+    --capsf-warning-text:     #92400e;
+    --capsf-info-bg:          #eff6ff;
+    --capsf-info-border:      #bfdbfe;
+    --capsf-info-text:        var(--capsf-primary); // unified with the app's single brand blue (#2271B1)
+    --capsf-error-bg:         #fee2e2;
+    --capsf-error-text:       #b91c1c;
+
+    // Shadows
+    --capsf-shadow-sm:        0 1px 4px rgba(0,0,0,0.08);
+    --capsf-shadow-md:        0 4px 16px rgba(0,0,0,0.10);
+    --capsf-shadow-footer:    0 4px 24px rgba(0,0,0,0.10);
+
+    // Toggle button
+    --capsf-toggle-bg:        #e2e8f0;
+    --capsf-toggle-knob:      #ffffff;
+    --capsf-toggle-icon:      "☀️";
+
+    // Skeleton
+    --capsf-skeleton-from:    #e0e0e0;
+    --capsf-skeleton-to:      #f0f0f0;
+}
+
+// ── DARK MODE ─────────────────────────────────────────────────
+[data-capsf-theme="dark"] {
+    // Backgrounds
+    --capsf-bg-app:           #0f1117;
+    --capsf-bg-primary:       #1a1d27;
+    --capsf-bg-secondary:     #22263a;
+    --capsf-bg-hover:         #2a2f45;
+    --capsf-bg-input:         #22263a;
+    --capsf-bg-active:        #1e2d4a;
+    --capsf-bg-component:     #2a2f45;
+    --capsf-bg-card:          #1a1d27;   // card/table surfaces in dark mode
+
+    // Text
+    --capsf-text-primary:     #e2e8f0;
+    --capsf-text-secondary:   #94a3b8;
+    --capsf-text-muted:       #64748b;
+    --capsf-text-inverse:     #ffffff;   // text ON colored backgrounds - always white
+
+    // Borders
+    --capsf-border:           #2d3550;
+    --capsf-border-hover:     #3d4a6b;
+
+    // Brand
+    --capsf-primary:          #4e9de0;
+    --capsf-primary-rgb:      78, 157, 224; // same color as --capsf-primary, as r,g,b for rgba() use
+    --capsf-primary-hover:    #3a8acc;
+    --capsf-primary-light:    #1e2d4a;
+    --capsf-primary-text:     #7bb8f0;
+    --capsf-secondary:        #f0a940;
+
+    // Status colors
+    --capsf-success-bg:       #0f2d1f;
+    --capsf-success-border:   #166534;
+    --capsf-success-text:     #4ade80;
+    --capsf-warning-bg:       #2d1f00;
+    --capsf-warning-border:   #92400e;
+    --capsf-warning-text:     #fbbf24;
+    --capsf-info-bg:          #0f1e3d;
+    --capsf-info-border:      var(--capsf-primary); // unified with the app's single brand blue
+    --capsf-info-text:        #60a5fa;
+    --capsf-error-bg:         #2d0f0f;
+    --capsf-error-text:       #f87171;
+
+    // Shadows
+    --capsf-shadow-sm:        0 1px 4px rgba(0,0,0,0.4);
+    --capsf-shadow-md:        0 4px 16px rgba(0,0,0,0.5);
+    --capsf-shadow-footer:    0 4px 24px rgba(0,0,0,0.5);
+
+    // Toggle
+    --capsf-toggle-bg:        #4e9de0;
+    --capsf-toggle-knob:      #ffffff;
+    --capsf-toggle-icon:      "🌙";
+
+    // Skeleton
+    --capsf-skeleton-from:    #22263a;
+    --capsf-skeleton-to:      #2a2f45;
+}
+
+// ── Dark-mode icon overrides for the theme toggle button ─────────────────
+// When the root wrapper has dark theme, swap moon→sun icon visibility
+[data-capsf-theme="dark"] {
+    .capsf-dm-toggle {
+        .capsf-dm-moon { display: none; }
+        .capsf-dm-sun  { display: block; }
+    }
+}
+
+// ── Dark-mode native form control overrides ───────────────────────────────
+// Force browser-native inputs, selects, and number fields to use dark
+// color-scheme so the browser doesn't paint its own white background.
+// Also removes -webkit-autofill yellow flash in dark mode.
+[data-capsf-theme="dark"] {
+    input[type="number"],
+    input[type="text"],
+    input[type="password"],
+    select {
+        color-scheme: dark;
+    }
+
+    .capsf-gap-number,
+    .capsf-gap-unit,
+    .capsf-wiz-input,
+    .capsf-wiz-select {
+        color-scheme: dark;
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 100px var(--capsf-bg-input) inset;
+            -webkit-text-fill-color: var(--capsf-text-primary);
+        }
+    }
+}
+
+// ── Beat WordPress .wp-core-ui specificity in dark mode ───────────────────
+// WordPress core injects `.wp-core-ui select { background: #fff !important }`
+// via forms.css. We need a compound selector that wins: the plugin wrapper
+// (.captain-app) is always inside .wp-core-ui so this beats WP core reliably.
+.wp-core-ui [data-capsf-theme="dark"] select {
+    background: var(--capsf-bg-input) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e2e8f0' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center !important;
+    color: var(--capsf-text-primary) !important;
+    border-color: var(--capsf-border) !important;
+    -webkit-text-fill-color: var(--capsf-text-primary) !important;
+    color-scheme: dark;
+}
+.wp-core-ui [data-capsf-theme="dark"] input[type="number"],
+.wp-core-ui [data-capsf-theme="dark"] input[type="text"] {
+    background: var(--capsf-bg-input) !important;
+    color: var(--capsf-text-primary) !important;
+    border-color: var(--capsf-border) !important;
+    -webkit-text-fill-color: var(--capsf-text-primary) !important;
+    color-scheme: dark;
+}
+
+// Extra: gap number + unit selects specifically
+.wp-core-ui [data-capsf-theme="dark"] .capsf-gap-number {
+    background: var(--capsf-bg-input) !important;
+    color: var(--capsf-text-primary) !important;
+    -webkit-text-fill-color: var(--capsf-text-primary) !important;
+    border-color: var(--capsf-border) !important;
+}
+.wp-core-ui [data-capsf-theme="dark"] .capsf-gap-unit {
+    background: var(--capsf-bg-input) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23e2e8f0' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center !important;
+    color: var(--capsf-text-primary) !important;
+    -webkit-text-fill-color: var(--capsf-text-primary) !important;
+    border-color: var(--capsf-border) !important;
+}
