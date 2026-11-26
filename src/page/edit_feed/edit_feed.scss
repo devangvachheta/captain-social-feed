@@ -866,26 +866,6 @@ button.capsf-token-test-btn {
     border-radius: 20px;
 }
 
-/* Pro-locked design (e.g. Short Style 2) - same badge shape as "MOST
- * POPULAR" but in the brand gold/amber used for Pro elsewhere, so it
- * reads as a distinct signal at a glance. The row itself stays fully
- * visible/legible (not grayed out) - free users should still be able to
- * see what they'd be getting, they just can't select it (see the
- * "🔒 Unlock" button below and the click-gate in Step2Layout). */
-.capsf-layout-pro-badge {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: #fff;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 0.6px;
-    padding: 4px 10px;
-    border-radius: 20px;
-}
-.capsf-layout-row--pro-locked .capsf-layout-select-btn {
-    border-color: #d97706;
-    color: #d97706;
-    &:hover { background: #d97706; color: #fff; }
-}
 
 .capsf-layout-row-desc {
     font-size: 12px;
@@ -1389,8 +1369,7 @@ button.capsf-token-test-btn {
     margin-top: 2px;
 }
 
-/* ── Shorts Style 2 ("Carousel Style") card (Step 2 mock) - mirrors
- * Pro's includes/layouts/shorts/style-2/style-2.css 1:1. Avatar + handle row,
+/* ── Shorts Style 2 ("Carousel Style") card (Step 2 mock) - Avatar + handle row,
  * title, likes/comments stats row - all inside the bottom gradient,
  * distinct from Style 1's simpler channel+views/time overlay. ── */
 .capsf-mc-short2-card {
@@ -2315,11 +2294,6 @@ button.capsf-token-test-btn {
         background: color-mix(in srgb, var(--capsf-primary) 8%, var(--capsf-bg-primary));
     }
 
-    &--locked {
-        justify-content: space-between;
-
-        &:hover { color: var(--capsf-text-secondary); border-color: var(--capsf-primary); }
-    }
 
     // Live Preview sits apart from the rest of the group, pushed to the
     // right-hand end of the same row and always styled like an active
@@ -3120,10 +3094,6 @@ button.capsf-token-test-btn {
     &:hover { background: var(--capsf-bg-hover); }
     &.active { background: color-mix(in srgb, var(--capsf-primary) 10%, var(--capsf-bg-primary)); color: var(--capsf-primary); }
 
-    &.locked {
-        color: var(--capsf-text-muted);
-        &:hover { background: transparent; color: var(--capsf-primary); }
-    }
 }
 
 .capsf-device-select-lock {
@@ -3194,22 +3164,10 @@ button.capsf-token-test-btn {
         padding: 0 14px;
     }
 
-    // Locked / "coming to Pro" teaser chip (e.g. Custom avatar shape) -
-    // dashed border and a gold crown instead of the active/checked states.
-    &--locked {
-        gap: 5px;
-        border-style: dashed;
-        color: var(--capsf-text-muted);
-
-        svg { color: #ffb900; flex-shrink: 0; }
-
-        &:hover { border-color: #ffb900; color: var(--capsf-text-secondary); }
-        &.active { background: var(--capsf-bg-primary); color: var(--capsf-text-muted); } // never actually "active"
-    }
 }
 
 // "Custom" chip (Columns / Max Videos) - same height as the round number
-// chips beside it, plus the number box a Pro user types into.
+// chips beside it, plus the number box a user types into.
 .capsf-col-chip.capsf-col-chip--custom {
     height: 28px;
     padding: 0 12px;
@@ -4547,42 +4505,6 @@ button.capsf-token-test-btn {
     color: var(--capsf-primary);
     flex-shrink: 0;
 }
-/* Styles tab - free-plan locked state. */
-.capsf-settings-styles-locked {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-    padding: 48px 32px;
-    background: var(--capsf-bg-primary);
-    border: 1px dashed var(--capsf-border);
-    border-radius: $rs_large;
-}
-.capsf-settings-styles-locked-icon {
-    width: 56px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--capsf-primary) 12%, transparent);
-    color: var(--capsf-primary);
-    margin-bottom: 6px;
-}
-.capsf-settings-styles-locked-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--capsf-text-primary);
-    margin: 0;
-}
-.capsf-settings-styles-locked-desc {
-    font-size: 13px;
-    color: var(--capsf-text-secondary);
-    max-width: 420px;
-    margin: 0 0 8px;
-    line-height: 1.5;
-}
 /* A second heading inside the same section (e.g. Initial Posts under
  * Pagination Type in the Behaviors tab). */
 .capsf-setup-section-head--sub {
@@ -4609,11 +4531,6 @@ button.capsf-token-test-btn {
     &:hover { background: var(--capsf-bg-hover); color: var(--capsf-text-primary); }
     &.active { background: var(--capsf-primary); color: var(--capsf-text-inverse); }
 
-    &--locked {
-        opacity: .55;
-        &:hover { background: transparent; color: var(--capsf-primary); opacity: .85; }
-        &.active { background: transparent; color: var(--capsf-text-muted); }
-    }
 }
 .capsf-col-device-lock {
     position: absolute;

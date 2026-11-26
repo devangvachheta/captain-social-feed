@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Captain Social Feed 0.3.0\n"
+"Project-Id-Version: Captain Social Feed 0.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/captain-social-feed\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,25 +13,6 @@ msgstr ""
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: captain-social-feed\n"
-
-#. Plugin Name of the plugin
-#: captain-social-feed.php
-#: includes/admin/class-capsf-abilities.php:80
-#: includes/admin/class-capsf-menu.php:64
-#: includes/admin/class-capsf-posttype.php:172
-#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:41
-#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:185
-#: includes/widgets/elementor/class-capsf-elementor-loader.php:97
-#: includes/widgets/gutenberg/class-capsf-gutenberg-feed-block.php:119
-#: includes/widgets/gutenberg/class-capsf-gutenberg-feed-block.php:146
-#: includes/widgets/gutenberg/class-capsf-gutenberg-loader.php:59
-#: includes/widgets/gutenberg/gutenberg-feed-block.js:17
-#: includes/widgets/gutenberg/gutenberg-feed-block.js:52
-#: src/page/edit_feed/edit_feed.jsx:2576
-#: src/page/navigation/navigation.jsx:172
-#: src/page/white_label/white_label.jsx:199
-msgid "Captain Social Feed"
-msgstr ""
 
 #. Description of the plugin
 #: captain-social-feed.php
@@ -440,56 +421,12 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: includes/admin/class-capsf-menu.php:85
-#: includes/admin/class-capsf-menu.php:86
-#: src/page/ai_tools/ai_tools.jsx:12
-#: src/page/create_page/create_page.jsx:365
-#: src/page/navigation/navigation.jsx:267
-#: src/page/navigation/navigation.jsx:419
-#: src/page/white_label/white_label.jsx:10
-#: src/services/dashboard/dashboardContent.jsx:269
-msgid "Create Feed"
-msgstr ""
-
-#: includes/admin/class-capsf-menu.php:93
-#: includes/admin/class-capsf-menu.php:94
-#: src/page/edit_feed/edit_feed.jsx:320
-#: src/page/navigation/navigation.jsx:274
-#: src/page/navigation/navigation.jsx:426
-#: src/page/settings/settings.jsx:189
-#: src/page/white_label/white_label.jsx:12
-msgid "Settings"
-msgstr ""
-
 #: includes/admin/class-capsf-menu.php:101
 #: includes/admin/class-capsf-menu.php:102
 #: src/page/ai_tools/ai_tools.jsx:94
 #: src/page/navigation/navigation.jsx:291
 #: src/page/navigation/navigation.jsx:445
 msgid "MCP"
-msgstr ""
-
-#: includes/admin/class-capsf-menu.php:109
-#: includes/admin/class-capsf-menu.php:110
-#: includes/widgets/elementor/class-capsf-elementor-feed-widget.php:105
-#: includes/widgets/gutenberg/gutenberg-feed-block.js:78
-#: src/page/docs/docs.jsx:50
-#: src/page/help/help.jsx:38
-#: src/page/navigation/navigation.jsx:297
-#: src/page/navigation/navigation.jsx:451
-#: src/page/white_label/white_label.jsx:11
-msgid "Documentation"
-msgstr ""
-
-#: includes/admin/class-capsf-menu.php:120
-#: includes/admin/class-capsf-menu.php:121
-#: src/components/pro_banner/pro_banner.jsx:49
-#: src/components/upgrade_pro_card/upgrade_pro_card.jsx:43
-#: src/page/upgrade/upgrade.jsx:54
-#: src/page/upgrade/upgrade.jsx:67
-#: src/page/upgrade/upgrade.jsx:73
-#: src/page/upgrade/upgrade.jsx:97
-msgid "Upgrade Now"
 msgstr ""
 
 #: includes/admin/class-capsf-posttype.php:67
@@ -1078,47 +1015,6 @@ msgstr ""
 
 #: src/components/multi_select/multi_select.jsx:94
 msgid "Remove"
-msgstr ""
-
-#: src/components/pro_banner/pro_banner.jsx:10
-msgid "More layout & style options"
-msgstr ""
-
-#: src/components/pro_banner/pro_banner.jsx:11
-msgid "White Label - your own branding"
-msgstr ""
-
-#: src/components/pro_banner/pro_banner.jsx:12
-msgid "Hide menu items from the sidebar"
-msgstr ""
-
-#: src/components/pro_banner/pro_banner.jsx:13
-msgid "Priority support"
-msgstr ""
-
-#: src/components/pro_banner/pro_banner.jsx:30
-msgid "CAPTAIN SOCIAL FEED - PRO"
-msgstr ""
-
-#: src/components/pro_banner/pro_banner.jsx:32
-msgid "Unlock every layout, every option."
-msgstr ""
-
-#: src/components/pro_banner/pro_banner.jsx:35
-msgid "Get more layout styles, white labeling, and priority support - everything you need to make your feeds truly yours."
-msgstr ""
-
-#: src/components/pro_banner/pro_banner.jsx:52
-msgid "Compare Free vs Pro"
-msgstr ""
-
-#: src/components/upgrade_pro_card/upgrade_pro_card.jsx:35
-#: src/page/white_label/white_label.jsx:163
-msgid "Upgrade to Pro"
-msgstr ""
-
-#: src/components/upgrade_pro_card/upgrade_pro_card.jsx:38
-msgid "Unlock Unlimited Power"
 msgstr ""
 
 #: src/page/ai_tools/ai_tools.jsx:8
@@ -3032,10 +2928,6 @@ msgstr ""
 msgid "Reel"
 msgstr ""
 
-#: src/page/edit_feed/edit_feed.jsx:250
-msgid "Infinity Load (Coming Soon)"
-msgstr ""
-
 #: src/page/edit_feed/edit_feed.jsx:283
 msgid "All"
 msgstr ""
@@ -3125,11 +3017,6 @@ msgstr ""
 
 #: src/page/edit_feed/edit_feed.jsx:346
 msgid "Custom"
-msgstr ""
-
-#: src/page/edit_feed/edit_feed.jsx:387
-#: src/page/white_label/white_label.jsx:283
-msgid "Saving…"
 msgstr ""
 
 #: src/page/edit_feed/edit_feed.jsx:582
@@ -3235,16 +3122,6 @@ msgstr ""
 
 #: src/page/edit_feed/edit_feed.jsx:1595
 msgid "platform"
-msgstr ""
-
-#: src/page/edit_feed/edit_feed.jsx:1613
-#: src/page/edit_feed/edit_feed.jsx:1617
-#: src/page/settings/settings.jsx:111
-#: src/page/white_label/white_label.jsx:104
-#: src/page/white_label/white_label.jsx:107
-#: src/page/white_label/white_label.jsx:133
-#: src/page/white_label/white_label.jsx:136
-msgid "Something went wrong. Please try again."
 msgstr ""
 
 #: src/page/edit_feed/edit_feed.jsx:1627
@@ -3895,11 +3772,6 @@ msgid "Last Synchronized"
 msgstr ""
 
 #: src/page/edit_feed/edit_feed.jsx:2709
-#: src/page/white_label/white_label.jsx:291
-msgid "Clearing…"
-msgstr ""
-
-#: src/page/edit_feed/edit_feed.jsx:2709
 msgid "Purge Feed Cache"
 msgstr ""
 
@@ -3983,11 +3855,6 @@ msgstr ""
 msgid "View Docs →"
 msgstr ""
 
-#: src/page/help/help.jsx:47
-#: src/page/upgrade/upgrade.jsx:23
-msgid "Support"
-msgstr ""
-
 #: src/page/help/help.jsx:48
 msgid "Open a support ticket and our team will get back to you quickly."
 msgstr ""
@@ -4020,11 +3887,6 @@ msgstr ""
 #: src/page/navigation/navigation.jsx:104
 #: src/page/navigation/navigation.jsx:105
 msgid "Switch to Dark Mode"
-msgstr ""
-
-#: src/page/navigation/navigation.jsx:151
-#: src/page/white_label/white_label.jsx:152
-msgid "PRO"
 msgstr ""
 
 #: src/page/navigation/navigation.jsx:216
@@ -4064,33 +3926,6 @@ msgstr ""
 msgid "Extra Options"
 msgstr ""
 
-#: src/page/navigation/navigation.jsx:317
-#: src/page/navigation/navigation.jsx:473
-#: src/page/white_label/white_label.jsx:13
-msgid "Help"
-msgstr ""
-
-#: src/page/navigation/navigation.jsx:323
-#: src/page/navigation/navigation.jsx:479
-#: src/page/white_label/white_label.jsx:14
-msgid "Roll Back"
-msgstr ""
-
-#: src/page/navigation/navigation.jsx:329
-#: src/page/navigation/navigation.jsx:485
-#: src/page/white_label/white_label.jsx:16
-#: src/page/white_label/white_label.jsx:145
-#: src/page/white_label/white_label.jsx:174
-msgid "White Label"
-msgstr ""
-
-#: src/page/navigation/navigation.jsx:336
-#: src/page/navigation/navigation.jsx:492
-#: src/page/our-products/our-products.jsx:184
-#: src/page/white_label/white_label.jsx:15
-msgid "Our Products"
-msgstr ""
-
 #: src/page/navigation/navigation.jsx:342
 #: src/page/navigation/navigation.jsx:498
 msgid "Upgrade"
@@ -4103,13 +3938,6 @@ msgstr ""
 
 #: src/page/our-products/our-products.jsx:83
 msgid "A powerful Elementor addon with 50+ creative widgets to build stunning WordPress websites without coding."
-msgstr ""
-
-#: src/page/our-products/our-products.jsx:84
-#: src/page/our-products/our-products.jsx:104
-#: src/page/our-products/our-products.jsx:114
-#: src/page/upgrade/upgrade.jsx:80
-msgid "Free"
 msgstr ""
 
 #: src/page/our-products/our-products.jsx:93
@@ -4363,151 +4191,6 @@ msgstr ""
 msgid "All data will be deleted on uninstall!"
 msgstr ""
 
-#: src/page/upgrade/upgrade.jsx:14
-msgid "Instagram, Facebook, X (Twitter), Threads & Pinterest feeds"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:15
-msgid "Multiple card layouts (Social Post, Simple Grid, Classic, Reel, Playlist)"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:16
-msgid "Elementor widget & Gutenberg block"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:17
-msgid "Click Action (Open Post, Lightbox Popup, Inline Player)"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:18
-msgid "Responsive controls & styling (Desktop, Tablet, Mobile)"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:19
-msgid "Automatic token refresh for Instagram & Threads"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:20
-msgid "White Label - custom plugin name & menu icons"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:21
-msgid "Hide menu items from the dashboard sidebar"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:22
-msgid "Hide plugin from the Plugins list"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:23
-msgid "WordPress.org"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:23
-msgid "Priority Support"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:56
-msgid "You’re already on Pro - thanks for supporting the plugin!"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:69
-msgid "Here’s exactly what changes if you upgrade - nothing hidden."
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:79
-msgid "Feature"
-msgstr ""
-
-#: src/page/upgrade/upgrade.jsx:81
-msgid "Pro"
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:102
-msgid "White label settings saved."
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:131
-msgid "White label settings cleared."
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:147
-#: src/page/white_label/white_label.jsx:176
-msgid "Rename the plugin, set custom menu icons, and control what’s visible."
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:153
-msgid "White Label is a Pro feature"
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:155
-msgid "Upgrade to Captain Social Feed Pro to replace the plugin name and menu icons with your own branding, hide the menu items your clients shouldn’t see, and even hide the plugin from the Plugins list."
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:187
-msgid "Branding"
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:188
-msgid "Change how the plugin appears in your WordPress admin."
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:194
-msgid "Plugin Display Name"
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:204
-msgid "Replaces the plugin name shown throughout the admin menu."
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:210
-msgid "Menu Icon URL ( Light Mode )"
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:220
-msgid "Used when the dashboard is in light mode."
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:225
-msgid "Menu Icon URL ( Dark Mode )"
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:235
-msgid "Used when the dashboard is in dark mode. Leave either blank to fall back to the default mark."
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:247
-msgid "Menu Visibility"
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:248
-msgid "Choose which menu items to hide from the dashboard sidebar."
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:257
-msgid "Select menu items to hide…"
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:261
-msgid "Hidden items can still be accessed directly. They are just hidden from the sidebar."
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:273
-msgid "Hide plugin from the Plugins list ( Plugins → Installed Plugins )"
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:276
-msgid "Hides both the free and Pro versions of this plugin from the WordPress Plugins screen."
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:283
-msgid "Save Changes"
-msgstr ""
-
-#: src/page/white_label/white_label.jsx:291
-msgid "Clear"
-msgstr ""
-
 #: src/services/dashboard/dashboardContent.jsx:30
 #: src/services/dashboard/dashboardContent.jsx:371
 msgid "Last Modified"
@@ -4598,8 +4281,4 @@ msgstr ""
 
 #: src/services/dashboard/dashboardContent.jsx:383
 msgid "Delete"
-msgstr ""
-
-#: src/components/pro_banner/pro_banner.jsx:50
-msgid "Dismiss this banner"
 msgstr ""

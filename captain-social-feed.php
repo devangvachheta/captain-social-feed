@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Captain Social Feed
  * Description:       Display customizable Instagram, Facebook, Twitter, Threads and Pinterest feeds on your WordPress website.
- * Version:           0.3.0
+ * Version:           0.3.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            devangvachheta
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CAPSF_VERSION', '0.3.0' );
+define( 'CAPSF_VERSION', '0.3.1' );
 define( 'CAPSF_DB_VERSION', '2' );
 define( 'CAPSF_FILE', __FILE__ );
 define( 'CAPSF_URL', plugins_url( '/', __FILE__ ) );

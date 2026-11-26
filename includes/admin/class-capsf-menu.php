@@ -66,13 +66,7 @@ if ( ! class_exists( 'Capsf_Menu' ) ) {
 			// column without wrapping/truncating - the page title (browser
 			// tab, submenu "Dashboard" row, etc.) still uses the full name.
 			$menu_label   = __( 'Social Feed', 'captain-social-feed' );
-			$icon_file    = CAPSF_PATH . 'assets/svg/logo/capsf-icon.svg';
-			// Base64 data-URI ensures zero caching lag and immediate render across all browsers.
-			$setting_logo = file_exists( $icon_file )
-				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- Used for clean inline data URI image source.
-				? 'data:image/svg+xml;base64,' . base64_encode( (string) file_get_contents( $icon_file ) )
-				: CAPSF_URL . 'assets/svg/logo/capsf-icon.svg?ver=' . CAPSF_VERSION;
-			$setting_logo = apply_filters( 'capsf_white_label_menu_icon', $setting_logo );
+			$setting_logo = CAPSF_URL . 'assets/svg/logo/capsf-icon.svg';
 
 			if ( current_user_can( $capability ) ) {
 				add_menu_page( $setting_name, $menu_label, 'manage_options', 'captain-social-feed', array( $this, 'capsf_menu_page_template' ), $setting_logo, 69 );
@@ -177,8 +171,7 @@ if ( ! class_exists( 'Capsf_Menu' ) ) {
 				return;
 			}
 
-			$capsf_settings   = get_option( 'capsf_settings', array() );
-			$capsfpro_wl_data = class_exists( 'Capsfpro_White_Label' ) ? Capsfpro_White_Label::capsfpro_get_settings() : array();
+			$capsf_settings = get_option( 'capsf_settings', array() );
 
 			// Dependencies + cache-busting version come from the build itself, so a rebuilt
 			// bundle is never served stale and the script always gets exactly the WP
@@ -213,8 +206,6 @@ if ( ! class_exists( 'Capsf_Menu' ) ) {
 					'capsf_version'       => CAPSF_VERSION,
 					'plugin_url'          => CAPSF_URL,
 					'text_domain'         => 'captain-social-feed',
-					'capsfpro_active'     => class_exists( 'Capsfpro_White_Label' ),
-					'capsfpro_wl'         => $capsfpro_wl_data,
 					'abilities_supported' => class_exists( 'WP_Ability' ),
 					'mcp_adapter_active'  => class_exists( 'WP\MCP\Core\McpAdapter' ),
 				)

@@ -9,7 +9,7 @@
  * The dropdown is rendered via a portal into document.body (positioned from
  * the box's own bounding rect), the same way the dashboard's "Last Modified"
  * tooltip escapes its table's `overflow: hidden` - otherwise any container
- * with rounded-corner clipping (e.g. the White Label section cards) cuts the
+ * with rounded-corner clipping (e.g. rounded section cards) cuts the
  * dropdown off instead of letting it float above everything.
  *
  * Props:

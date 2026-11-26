@@ -200,10 +200,10 @@ if ( class_exists( 'Elementor\Widget_Base' ) && ! class_exists( 'Capsf_Elementor
 			// A full page load (real frontend, or a full editor iframe refresh)
 			// doesn't hit this because wp_head()/wp_footer() print the queue as usual.
 			if ( wp_doing_ajax() && did_action( 'elementor/loaded' ) ) {
-				ob_start();
+				// WP_Dependencies::do_items() prints the already registered, escaped
+				// <link>/<script> tags itself, so nothing is echoed manually here.
 				wp_styles()->do_items( array_diff( wp_styles()->queue, wp_styles()->done ) );
 				wp_scripts()->do_items( array_diff( wp_scripts()->queue, wp_scripts()->done ) );
-				echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 	}

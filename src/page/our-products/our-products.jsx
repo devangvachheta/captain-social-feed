@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { __ } from '@wordpress/i18n';
 import { useSelector } from 'react-redux';
 import './our-products.scss';
-import ProBanner from '../../components/pro_banner/pro_banner.jsx';
 
 const LogoCaptainSocialFeed = ( { color } ) => (
     <svg width="56" height="56" viewBox="0 0 472 474" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -252,7 +251,6 @@ const OurProducts = () => {
                 </a>
             </div>
 
-            <ProBanner />
         </div>
     );
 };

@@ -70,7 +70,7 @@
 	);
 }
 
-/* ── Play circle – shows on hover ─────────────────────── */
+/* ── Play circle - shows on hover ─────────────────────── */
 .capsf-s3-play {
 	position: absolute;
 	top: 50%;
@@ -195,7 +195,7 @@
 }
 
 @media (hover: none) {
-	/* Touch devices – show content always */
+	/* Touch devices - show content always */
 	.capsf-s3-desc {
 		max-height: 100px !important;
 		opacity: 1 !important;

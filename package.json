@@ -1,6 +1,6 @@
 {
   "name": "captain-social-feed",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Display customizable Instagram, Facebook, Twitter, Threads and Pinterest feeds on your WordPress website.",
   "main": "index.js",
   "scripts": {

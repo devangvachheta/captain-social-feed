@@ -1,15 +1,5 @@
 @use '../../style/variables.scss' as *;
 
-// Custom White Label logo icon (light/dark) - applies wherever it renders.
-.capsf-nav-logo-custom-icon {
-    width: 100%;
-    height: 100%;
-    max-width: 36px;
-    max-height: 36px;
-    object-fit: contain;
-    border-radius: 6px;
-}
-
 .capsf-navigation-sidebar {
     width: 220px;
     position: fixed;
@@ -282,29 +272,7 @@
         }
     }
 
-    // ── "PRO" badge on gated nav items ──────────────────────────────
-    .capsf-nav-pro-badge {
-        display: inline-flex;
-        align-items: center;
-        margin-left: auto;
-        padding: 1px 6px;
-        font-size: 9px;
-        font-weight: 700;
-        letter-spacing: 0.03em;
-        line-height: 1.6;
-        color: #fff;
-        text-transform: uppercase;
-        background: linear-gradient(135deg, #f0a217, #e8890a);
-        border-radius: 3px;
-        flex-shrink: 0;
-    }
 
-    .capsf-nav-sublink:has(.capsf-nav-pro-badge) {
-        justify-content: space-between;
-    }
-
-    // ── Upgrade to Pro card lives in its own component now
-    //    (src/components/upgrade_pro_card/) - styles moved there too.
 
     // ── Footer ────────────────────────────────────────────────────
     .capsf-navigation-sidebar-footer {
@@ -365,10 +333,6 @@
     &--collapsed {
         width: 72px;
         box-shadow: none;
-
-        // The card's text/button don't fit an icon-only rail - hide it
-        // entirely when collapsed, same treatment as the VERSION label.
-        .capsf-upgrade-pro-card { display: none !important; }
 
         .capsf-navigation-sidebar-logo {
             padding: 0;

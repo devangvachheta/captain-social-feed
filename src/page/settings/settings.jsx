@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { __, sprintf } from '@wordpress/i18n';
 import './settings.scss';
-import ProBanner from '../../components/pro_banner/pro_banner.jsx';
 
 const CACHE_DURATION_OPTIONS = [
     { value: '1800',  label: __( 'Every 30 minutes', 'captain-social-feed' ) },
@@ -403,7 +402,6 @@ const Settings = () => {
 
             </div>
 
-            <ProBanner />
         </div>
     );
 };

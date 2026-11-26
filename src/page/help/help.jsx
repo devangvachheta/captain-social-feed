@@ -1,7 +1,6 @@
 import React from 'react';
 import { __ } from '@wordpress/i18n';
 import './help.scss';
-import ProBanner from '../../components/pro_banner/pro_banner.jsx';
 
 const Help = () => {
     const faqs = [
@@ -71,7 +70,6 @@ const Help = () => {
                 </div>
             </div>
 
-            <ProBanner />
         </div>
     );
 };

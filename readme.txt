@@ -4,7 +4,7 @@ Tags: instagram feed, facebook feed, twitter feed, social feed, pinterest feed
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.3.0
+Stable tag: 0.3.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,8 +82,8 @@ Yes. Front-end AJAX requests for loading more posts are rate-limited per visitor
 
 This plugin connects to external third-party services to retrieve and display social posts:
 
-1. **Official Platform APIs (Instagram, Facebook, Threads, Pinterest, and Twitter/X):** Connections are established only after you configure a feed and enter the corresponding platform's API credentials (Access Token or Bearer Token).
-2. **Twitter / X oEmbed (publish.twitter.com):** When creating a Twitter/X Testimonials feed without an API Bearer Token (or when API read limits are exhausted), the plugin connects to Twitter/X's public oEmbed service using the specific tweet URLs you paste into the feed. No API credentials are required for this fallback.
+1. **Official Platform APIs (Instagram, Facebook, Threads, Pinterest, and Twitter/X):** Connections to these APIs are made when you configure a feed and enter the corresponding platform's API credentials (Access Token or Bearer Token).
+2. **Twitter / X oEmbed (publish.twitter.com):** This is the only connection that works without credentials. When a Twitter/X Testimonials feed has no API Bearer Token (or the API read limits are exhausted), the plugin sends the specific post URLs you pasted into the feed to X's public oEmbed service. No API credentials are required for this fallback.
 
 No external connections are made upon plugin installation or activation. Requests to fetch feed content only occur when an administrator tests or creates a feed in the admin dashboard, or when a configured feed's shortcode, block, or widget is rendered on the front end and its cache has expired.
 
@@ -192,6 +192,12 @@ Instagram, Facebook, Meta, Twitter, X, Threads, and Pinterest, as well as their 
 
 == Changelog ==
 
+= 0.3.1 =
+* Change: removed the White Label page, the Upgrade page, the Pro banners and all Pro-only code. The plugin is fully free and has no locked or limited features.
+* Change: removed the disabled "Infinity Load" option from the pagination list.
+* Fix: escaping and translator-comment cleanups, and the admin menu icon is now loaded from the plugin file URL.
+* Update: GLightbox 3.3.1.
+
 = 0.3.0 =
 * Change: the feed editor now has a refined step-by-step layout - the Next / Save button sits next to Back at the top (Back goes to the previous step), Settings has its tabs in one row with Live Preview as the last tab, every section is a collapsible card with a summary badge ("3 Cols", "5 of 5 Active", ...), round number chips, a device picker for responsive values and (i) tips on the display toggles, and the Insert Code step has the Shortcode / PHP Snippet tabs, the Multi-Platform Embedding Hub (Block Editor, Elementor, PHP template) and the Feed Diagnostic & Cache Status card.
 * Change: Simple Grid is listed right after the Social Post designs (above Classic Card).
@@ -224,7 +230,7 @@ Instagram, Facebook, Meta, Twitter, X, Threads, and Pinterest, as well as their 
 = 0.1.0 =
 * New: Settings → Layout → Show Posts - list All posts, only Videos, only Photos or Text Only posts.
 * New: MCP page - let AI assistants (Claude, Cursor, ...) list, create, update, duplicate, delete and diagnose feeds through the WordPress Abilities API (WordPress 6.9+). Everything is off until you switch it on; write and delete abilities need their own switch, and access tokens are never shared with the AI client.
-* Change: the plugin menu has an updated layout - collapse button next to the title, General (MCP, Documentation) and Extra Options groups, and the Upgrade to Pro card.
+* Change: the plugin menu has an updated layout - collapse button next to the title, General (MCP, Documentation) and Extra Options groups, and a collapsible sidebar.
 * Fix: Equal Card Height - the images, captions and likes of the cards in a row now line up, and turning the option off really lets each card keep its own height.
 * Fix: the Settings title overlapped its description since the Live Preview button was added.
 

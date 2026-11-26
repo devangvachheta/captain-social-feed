@@ -132,7 +132,7 @@ const HowToUse = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12"/>
                 </svg>
-                <p><strong>{ __( 'Pro tip:', 'captain-social-feed' ) }</strong> { __( 'All three methods display the exact same feed and settings - pick whichever fits your workflow. Any changes you make later to the feed in "Create Feed" will automatically reflect everywhere it is placed.', 'captain-social-feed' ) }</p>
+                <p><strong>{ __( 'Tip:', 'captain-social-feed' ) }</strong> { __( 'All three methods display the exact same feed and settings - pick whichever fits your workflow. Any changes you make later to the feed in "Create Feed" will automatically reflect everywhere it is placed.', 'captain-social-feed' ) }</p>
             </div>
         </article>
     );

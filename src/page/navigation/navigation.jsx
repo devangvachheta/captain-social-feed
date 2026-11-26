@@ -4,7 +4,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme, toggleSidebar } from '../../redux/slice.jsx';
 import { __ } from '@wordpress/i18n';
-import UpgradeProCard from '../../components/upgrade_pro_card/upgrade_pro_card.jsx';
 
 // CAPSF_VERSION from PHP - the same value the Quick Support widget shows.
 const PLUGIN_VERSION = (typeof capsf_data !== 'undefined' && capsf_data?.capsf_version)
@@ -59,30 +58,14 @@ const IconRollback = () => (
         <path d="M3.51 15a9 9 0 1 0 .49-3.35"/>
     </svg>
 );
-const IconWhiteLabel = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.17L4 3a1 1 0 0 0-1 1l.17 5.59a2 2 0 0 0 .66 1.41l9.58 9.59a2 2 0 0 0 2.83 0l4.35-4.35a2 2 0 0 0 0-2.83Z"/>
-        <circle cx="7.5" cy="7.5" r="1.5"/>
-    </svg>
-);
-const IconUpgrade = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M2.5 18.5h19l1-9-5.5 4-4-7-4 7-5.5-4 1 9Z"/>
-        <rect x="2.5" y="19.5" width="19" height="2" rx="1"/>
-    </svg>
-);
 const IconChevron = ({ open }) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
         style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }}>
         <polyline points="6 9 12 15 18 9"/>
     </svg>
 );
-const LogoSVG = ( { theme, customIcon } ) => {
+const LogoSVG = ( { theme } ) => {
     const color = theme === 'dark' ? '#ffffff' : '#2271B1';
-
-    if ( customIcon ) {
-        return <img src={ customIcon } alt="" className="capsf-nav-logo-custom-icon" />;
-    }
 
     return (
         <svg width="36" height="36" viewBox="0 0 472 474" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -141,11 +124,6 @@ const IconSidebarToggle = ( { collapsed = false } ) => (
     </svg>
 );
 
-// ── Small "PRO" badge shown next to gated nav items ─────────────────────
-const ProBadge = () => (
-    <span className="capsf-nav-pro-badge">{ __( 'PRO', 'captain-social-feed' ) }</span>
-);
-
 // ── Main navigation ─────────────────────────────────────────────────────
 const Navigation = () => {
     const location  = useLocation();
@@ -158,16 +136,7 @@ const Navigation = () => {
     const [ creating,   setCreating ]   = useState( false );
     const [ mobileOpen, setMobileOpen ] = useState( false );
     const sidebarStateClass = sidebarCollapsed ? ' capsf-navigation-sidebar--collapsed' : '';
-    const isPro = typeof capsf_data !== 'undefined' && !! capsf_data?.capsfpro_active;
-    const wlSettings   = ( typeof capsf_data !== 'undefined' && capsf_data?.capsfpro_wl ) || {};
-    const hiddenItems  = Array.isArray( wlSettings.hide_items ) ? wlSettings.hide_items : [];
-    const isHidden     = ( key ) => isPro && hiddenItems.includes( key );
-    const displayName  = ( isPro && wlSettings.plugin_name )
-        ? wlSettings.plugin_name
-        : __( 'Captain Social Feed', 'captain-social-feed' );
-    const customLogoIcon = isPro
-        ? ( theme === 'dark' ? wlSettings.menu_icon_dark : wlSettings.menu_icon_light ) || ''
-        : '';
+    const displayName  = __( 'Captain Social Feed', 'captain-social-feed' );
 
     const closeMobile = () => setMobileOpen( false );
 
@@ -221,7 +190,7 @@ const Navigation = () => {
                 {/* ── Logo ── */}
                 <div className="capsf-navigation-sidebar-logo">
                     <span className="capsf-nav-logo-hover-area">
-                        <span className="capsf-nav-logo-icon"><LogoSVG theme={ theme } customIcon={ customLogoIcon } /></span>
+                        <span className="capsf-nav-logo-icon"><LogoSVG theme={ theme } /></span>
                         {/* Only relevant/visible in the collapsed rail - hovering
                             the logo there reveals this to expand back. */}
                         <button
@@ -256,19 +225,15 @@ const Navigation = () => {
                         <span className="capsf-nav-label">{ __( 'Dashboard', 'captain-social-feed' ) }</span>
                     </Link>
 
-                    { ! isHidden( 'create' ) && (
-                        <Link to="/create" className="capsf-nav-link">
+                                            <Link to="/create" className="capsf-nav-link">
                             <span className="capsf-nav-icon"><IconCreate /></span>
                             <span className="capsf-nav-label">{ __( 'Create Feed', 'captain-social-feed' ) }</span>
                         </Link>
-                    ) }
 
-                    { ! isHidden( 'settings' ) && (
-                        <Link to="/settings" className="capsf-nav-link">
+                                            <Link to="/settings" className="capsf-nav-link">
                             <span className="capsf-nav-icon"><IconSettings /></span>
                             <span className="capsf-nav-label">{ __( 'Settings', 'captain-social-feed' ) }</span>
                         </Link>
-                    ) }
 
                     <div className="capsf-nav-group">
                         <button
@@ -280,18 +245,14 @@ const Navigation = () => {
                         </button>
                         { ( generalOpen || sidebarCollapsed ) && (
                             <div className="capsf-nav-group-items">
-                                { ! isHidden( 'mcp' ) && (
-                                    <Link to="/mcp" className="capsf-nav-sublink">
+                                                                    <Link to="/mcp" className="capsf-nav-sublink">
                                         <span className="capsf-nav-icon"><IconAiTools /></span>
                                         <span>{ __( 'MCP', 'captain-social-feed' ) }</span>
                                     </Link>
-                                ) }
-                                { ! isHidden( 'docs' ) && (
-                                    <Link to="/docs/how-to-use" className="capsf-nav-sublink">
+                                                                    <Link to="/docs/how-to-use" className="capsf-nav-sublink">
                                         <span className="capsf-nav-icon"><IconDocs /></span>
                                         <span>{ __( 'Documentation', 'captain-social-feed' ) }</span>
                                     </Link>
-                                ) }
                             </div>
                         ) }
                     </div>
@@ -306,43 +267,24 @@ const Navigation = () => {
                         </button>
                         { ( extraOpen || sidebarCollapsed ) && (
                             <div className="capsf-nav-group-items">
-                                { ! isHidden( 'help' ) && (
-                                    <Link to="/help" className="capsf-nav-sublink">
+                                                                    <Link to="/help" className="capsf-nav-sublink">
                                         <span className="capsf-nav-icon"><IconHelp /></span>
                                         <span>{ __( 'Help', 'captain-social-feed' ) }</span>
                                     </Link>
-                                ) }
-                                { ! isHidden( 'rollback' ) && (
-                                    <Link to="/rollback" className="capsf-nav-sublink">
+                                                                    <Link to="/rollback" className="capsf-nav-sublink">
                                         <span className="capsf-nav-icon"><IconRollback /></span>
                                         <span>{ __( 'Roll Back', 'captain-social-feed' ) }</span>
                                     </Link>
-                                ) }
-                                { isPro && ! isHidden( 'white-label' ) && (
-                                    <Link to="/white-label" className="capsf-nav-sublink">
-                                        <span className="capsf-nav-icon"><IconWhiteLabel /></span>
-                                        <span>{ __( 'White Label', 'captain-social-feed' ) }</span>
-                                    </Link>
-                                ) }
-                                { ! isHidden( 'our-products' ) && (
-                                    <Link to="/our-products" className="capsf-nav-sublink">
+                                                                    <Link to="/our-products" className="capsf-nav-sublink">
                                         <span className="capsf-nav-icon"><IconProducts /></span>
                                         <span>{ __( 'Our Products', 'captain-social-feed' ) }</span>
                                     </Link>
-                                ) }
-                                { ! isPro && ! isHidden( 'upgrade' ) && (
-                                    <Link to="/upgrade" className="capsf-nav-sublink">
-                                        <span className="capsf-nav-icon"><IconUpgrade /></span>
-                                        <span>{ __( 'Upgrade', 'captain-social-feed' ) }</span>
-                                    </Link>
-                                ) }
                             </div>
                         ) }
                     </div>
 
                 </nav>
 
-                <UpgradeProCard />
 
                 <div className="capsf-navigation-sidebar-footer">
                     <span className="capsf-nav-version">
@@ -372,7 +314,7 @@ const Navigation = () => {
             {/* ── Logo ── */}
             <div className="capsf-navigation-sidebar-logo">
                 <span className="capsf-nav-logo-hover-area">
-                    <span className="capsf-nav-logo-icon"><LogoSVG theme={ theme } customIcon={ customLogoIcon } /></span>
+                    <span className="capsf-nav-logo-icon"><LogoSVG theme={ theme } /></span>
                     {/* Only relevant/visible in the collapsed rail - hovering
                         the logo there reveals this to expand back. */}
                     <button
@@ -407,19 +349,15 @@ const Navigation = () => {
                     <span className="capsf-nav-label">{ __( 'Dashboard', 'captain-social-feed' ) }</span>
                 </Link>
 
-                { ! isHidden( 'create' ) && (
-                    <Link to="/create" className={ linkClass( '/create' ) } onClick={ closeMobile }>
+                                    <Link to="/create" className={ linkClass( '/create' ) } onClick={ closeMobile }>
                         <span className="capsf-nav-icon"><IconCreate /></span>
                         <span className="capsf-nav-label">{ __( 'Create Feed', 'captain-social-feed' ) }</span>
                     </Link>
-                ) }
 
-                { ! isHidden( 'settings' ) && (
-                    <Link to="/settings" className={ linkClass( '/settings' ) } onClick={ closeMobile }>
+                                    <Link to="/settings" className={ linkClass( '/settings' ) } onClick={ closeMobile }>
                         <span className="capsf-nav-icon"><IconSettings /></span>
                         <span className="capsf-nav-label">{ __( 'Settings', 'captain-social-feed' ) }</span>
                     </Link>
-                ) }
 
                 {/* ── General accordion ── */}
                 <div className="capsf-nav-group">
@@ -433,18 +371,14 @@ const Navigation = () => {
 
                     { ( generalOpen || sidebarCollapsed ) && (
                         <div className="capsf-nav-group-items">
-                            { ! isHidden( 'mcp' ) && (
-                                <Link to="/mcp" className={ subLinkClass( '/mcp' ) } onClick={ closeMobile }>
+                                                            <Link to="/mcp" className={ subLinkClass( '/mcp' ) } onClick={ closeMobile }>
                                     <span className="capsf-nav-icon"><IconAiTools /></span>
                                     <span>{ __( 'MCP', 'captain-social-feed' ) }</span>
                                 </Link>
-                            ) }
-                            { ! isHidden( 'docs' ) && (
-                                <Link to="/docs/how-to-use" className={ subLinkClass( '/docs' ) } onClick={ closeMobile }>
+                                                            <Link to="/docs/how-to-use" className={ subLinkClass( '/docs' ) } onClick={ closeMobile }>
                                     <span className="capsf-nav-icon"><IconDocs /></span>
                                     <span>{ __( 'Documentation', 'captain-social-feed' ) }</span>
                                 </Link>
-                            ) }
                         </div>
                     ) }
                 </div>
@@ -461,43 +395,24 @@ const Navigation = () => {
 
                     { ( extraOpen || sidebarCollapsed ) && (
                         <div className="capsf-nav-group-items">
-                            { ! isHidden( 'help' ) && (
-                                <Link to="/help" className={ subLinkClass( '/help' ) } onClick={ closeMobile }>
+                                                            <Link to="/help" className={ subLinkClass( '/help' ) } onClick={ closeMobile }>
                                     <span className="capsf-nav-icon"><IconHelp /></span>
                                     <span>{ __( 'Help', 'captain-social-feed' ) }</span>
                                 </Link>
-                            ) }
-                            { ! isHidden( 'rollback' ) && (
-                                <Link to="/rollback" className={ subLinkClass( '/rollback' ) } onClick={ closeMobile }>
+                                                            <Link to="/rollback" className={ subLinkClass( '/rollback' ) } onClick={ closeMobile }>
                                     <span className="capsf-nav-icon"><IconRollback /></span>
                                     <span>{ __( 'Roll Back', 'captain-social-feed' ) }</span>
                                 </Link>
-                            ) }
-                            { isPro && ! isHidden( 'white-label' ) && (
-                                <Link to="/white-label" className={ subLinkClass( '/white-label' ) } onClick={ closeMobile }>
-                                    <span className="capsf-nav-icon"><IconWhiteLabel /></span>
-                                    <span>{ __( 'White Label', 'captain-social-feed' ) }</span>
-                                </Link>
-                            ) }
-                            { ! isHidden( 'our-products' ) && (
-                                <Link to="/our-products" className={ subLinkClass( '/our-products' ) } onClick={ closeMobile }>
+                                                            <Link to="/our-products" className={ subLinkClass( '/our-products' ) } onClick={ closeMobile }>
                                     <span className="capsf-nav-icon"><IconProducts /></span>
                                     <span>{ __( 'Our Products', 'captain-social-feed' ) }</span>
                                 </Link>
-                            ) }
-                            { ! isPro && ! isHidden( 'upgrade' ) && (
-                                <Link to="/upgrade" className={ subLinkClass( '/upgrade' ) } onClick={ closeMobile }>
-                                    <span className="capsf-nav-icon"><IconUpgrade /></span>
-                                    <span>{ __( 'Upgrade', 'captain-social-feed' ) }</span>
-                                </Link>
-                            ) }
                         </div>
                     ) }
                 </div>
 
             </nav>
 
-            <UpgradeProCard />
 
             {/* ── Footer version ── */}
             <div className="capsf-navigation-sidebar-footer">

@@ -7,8 +7,6 @@ import Settings     from '../page/settings/settings.jsx';
 import Docs         from '../page/docs/docs.jsx';
 import OurProducts  from '../page/our-products/our-products.jsx';
 import Rollback     from '../page/rollback/rollback.jsx';
-import WhiteLabel   from '../page/white_label/white_label.jsx';
-import Upgrade       from '../page/upgrade/upgrade.jsx';
 import AiTools      from '../page/ai_tools/ai_tools.jsx';
 
 const routes = [
@@ -20,8 +18,6 @@ const routes = [
     { path: '/docs/*',        element: <Docs /> },
     { path: '/our-products',  element: <OurProducts /> },
     { path: '/rollback',      element: <Rollback /> },
-    { path: '/white-label',   element: <WhiteLabel /> },
-    { path: '/upgrade',       element: <Upgrade /> },
     { path: '/mcp',           element: <AiTools /> },
 ];
 

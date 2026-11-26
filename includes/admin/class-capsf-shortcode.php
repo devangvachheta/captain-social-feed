@@ -655,7 +655,7 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 					?>
 					<div class="capsf-feed capsf-feed-<?php echo absint( $feed_id ); ?> capsf-feed-instance-<?php echo esc_attr( $instance_id ); ?>"
 						data-capsf-instance="<?php echo esc_attr( $instance_id ); ?>"
-						data-capsf-label-slide="<?php esc_attr_e( 'Slide %d', 'captain-social-feed' ); ?>"
+						data-capsf-label-slide="<?php /* translators: %d: slide number. */ echo esc_attr__( 'Slide %d', 'captain-social-feed' ); ?>"
 						data-capsf-label-stop="<?php esc_attr_e( 'Stop video', 'captain-social-feed' ); ?>"
 						data-capsf-label-player="<?php esc_attr_e( 'Video player', 'captain-social-feed' ); ?>"
 						data-capsf-label-close="<?php esc_attr_e( 'Close', 'captain-social-feed' ); ?>"
@@ -932,7 +932,7 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 		 * Return sanitized load-more settings.
 		 *
 		 * Initial Videos and Videos Per Click can be set per-breakpoint
-		 * (desktop/tablet/mobile) - a Pro feature. Since the server has no
+		 * (desktop/tablet/mobile). Since the server has no
 		 * way to know the visitor's real viewport width before any JS
 		 * runs, the *initial* server-side fetch always pulls the LARGEST
 		 * of the three configured counts, and each rendered item is
@@ -955,8 +955,8 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 
 			$initial_desktop = ! empty( $settings['initial_videos'] ) ? absint( $settings['initial_videos'] ) : 6;
 			$initial_desktop = max( 1, min( 50, $initial_desktop ) );
-			// Tablet/Mobile fall back to the desktop value when unset (free
-			// users, or a Pro feed that hasn't customised them) - identical
+			// Tablet/Mobile fall back to the desktop value when unset (when
+			// a feed hasn't customised them) - identical
 			// behaviour across all breakpoints, exactly like before.
 			$initial_tablet = ! empty( $settings['initial_videos_tablet'] ) ? max( 1, min( 50, absint( $settings['initial_videos_tablet'] ) ) ) : $initial_desktop;
 			$initial_mobile = ! empty( $settings['initial_videos_mobile'] ) ? max( 1, min( 50, absint( $settings['initial_videos_mobile'] ) ) ) : $initial_desktop;
@@ -1154,7 +1154,7 @@ JS;
 
 			// The button's own look lives in assets/css/frontend.css.
 			$css = '';
-			// Responsive Initial Videos (Pro) - see get_load_more_item_class().
+			// Responsive Initial Videos - see get_load_more_item_class().
 			// Desktop is the unqualified default (no media query); Tablet and
 			// Mobile each get their own item hidden/shown purely by CSS, so
 			// resizing the viewport updates visibility with no JS involved.

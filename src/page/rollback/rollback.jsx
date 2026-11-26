@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { __, sprintf } from '@wordpress/i18n';
 import './rollback.scss';
-import ProBanner from '../../components/pro_banner/pro_banner.jsx';
 
 const PLUGIN_SLUG   = 'captain-social-feed';
 const CURRENT_VER   = (typeof capsf_data !== 'undefined' && capsf_data?.capsf_version)
@@ -170,7 +169,6 @@ const Rollback = () => {
                 ) }
             </div>
 
-            <ProBanner />
         </div>
     );
 };

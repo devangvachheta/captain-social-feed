@@ -23,8 +23,6 @@ import { useGlobalTooltip } from '../../context/AttentionPingContext.jsx'
 import LivePreview from './live_preview.jsx'
 import './edit_feed.scss'
 
-const isPro = typeof capsf_data !== 'undefined' && !! capsf_data?.capsfpro_active
-
 /* ─── Style Presets ──────────────────────────────────────────────────────── */
 const STYLE_PRESETS = [
     {
@@ -247,7 +245,6 @@ const COLUMNS     = ['1', '2', '3', '4']
 const PAGINATION_OPTIONS = [
     { value: 'none', label: __( 'None', 'captain-social-feed' ) },
     { value: 'load_more', label: __( 'Load More', 'captain-social-feed' ) },
-    { value: 'infinite', label: __( 'Infinity Load (Coming Soon)', 'captain-social-feed' ), disabled: true },
 ]
 
 // Only "none" and "load_more" are rendered by the shortcode; any other saved
@@ -1180,8 +1177,8 @@ const EditFeed = () => {
     const [gutenbergInsertState, setGutenbergInsertState] = useState( 'idle' ) // idle | copied
     const embedCardRef = useRef( null ) // Step 4 - "View PHP Function" scrolls the Embed Code card into view
     const [colDevice,  setColDevice]  = useState( 'desktop' )
-    const [initialVideosDevice, setInitialVideosDevice] = useState( 'desktop' ) // Pro: responsive Initial Videos
-    const [loadMoreDevice,      setLoadMoreDevice]      = useState( 'desktop' ) // Pro: responsive Videos Per Click
+    const [initialVideosDevice, setInitialVideosDevice] = useState( 'desktop' )
+    const [loadMoreDevice,      setLoadMoreDevice]      = useState( 'desktop' )
     const [settingsTab, setSettingsTab] = useState( 'layout' ) // 'layout' | 'behaviors' | 'styles' - Step 4 side tabs
     const [feedCacheStatus,  setFeedCacheStatus]  = useState( 'idle' ) // idle | loading | success | error
     const [feedCacheMessage, setFeedCacheMessage] = useState( '' )
@@ -1487,7 +1484,7 @@ const EditFeed = () => {
         return String( settings.columns ?? 3 )
     }
 
-    /* ── Initial Videos / Videos Per Click responsive helpers (Pro) ───── */
+    /* ── Initial Videos / Videos Per Click responsive helpers ───── */
     const getInitialVideosKey = device => device === 'tablet' ? 'initial_videos_tablet' : device === 'mobile' ? 'initial_videos_mobile' : 'initial_videos'
     const getInitialVideosVal = device => {
         if ( device === 'tablet' ) return String( settings.initial_videos_tablet ?? settings.initial_videos ?? 6 )

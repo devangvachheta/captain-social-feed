@@ -153,7 +153,7 @@ if ( ! class_exists( 'Capsf_Dashboard_Ajax' ) ) {
 					break;
 				default:
 					/**
-					 * Let add-ons (e.g. Pro / White Label) handle their own request types.
+					 * Let add-ons handle their own request types.
 					 * Return an array response to short-circuit, or null to fall through.
 					 */
 					$response = apply_filters( 'capsf_dashboard_ajax_custom_type', null, $type );

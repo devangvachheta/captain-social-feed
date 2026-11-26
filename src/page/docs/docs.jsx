@@ -10,7 +10,6 @@ import TwitterBearerToken from './twitter-bearer-token/twitter-bearer-token.jsx'
 import ThreadsAccessToken from './threads-access-token/threads-access-token.jsx';
 import PinterestAccessToken from './pinterest-access-token/pinterest-access-token.jsx';
 import McpIntegration from './mcp-integration/mcp-integration.jsx';
-import ProBanner from '../../components/pro_banner/pro_banner.jsx';
 
 const DOC_LINKS = [
     { path: '/docs/how-to-use',              label: __( 'How to Use (Shortcode / Elementor / Gutenberg)', 'captain-social-feed' ), icon: null },
@@ -68,7 +67,6 @@ const Docs = () => {
                 </main>
             </div>
 
-            <ProBanner />
         </div>
     );
 };
