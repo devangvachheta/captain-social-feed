@@ -66,7 +66,13 @@ if ( ! class_exists( 'Capsf_Menu' ) ) {
 			// column without wrapping/truncating - the page title (browser
 			// tab, submenu "Dashboard" row, etc.) still uses the full name.
 			$menu_label   = __( 'Social Feed', 'captain-social-feed' );
-			$setting_logo = CAPSF_URL . 'assets/svg/logo/capsf-icon.svg';
+			$icon_file    = CAPSF_PATH . 'assets/svg/logo/capsf-icon.svg';
+			// Base64 data-URI ensures zero caching lag and immediate render across all browsers.
+			$setting_logo = file_exists( $icon_file )
+				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- Used for clean inline data URI image source.
+				? 'data:image/svg+xml;base64,' . base64_encode( (string) file_get_contents( $icon_file ) )
+				: CAPSF_URL . 'assets/svg/logo/capsf-icon.svg?ver=' . CAPSF_VERSION;
+			$setting_logo = apply_filters( 'capsf_white_label_menu_icon', $setting_logo );
 
 			if ( current_user_can( $capability ) ) {
 				add_menu_page( $setting_name, $menu_label, 'manage_options', 'captain-social-feed', array( $this, 'capsf_menu_page_template' ), $setting_logo, 69 );
@@ -111,35 +117,20 @@ if ( ! class_exists( 'Capsf_Menu' ) ) {
 					'manage_options',
 					'admin.php?page=captain-social-feed#/docs'
 				);
-
-				// "Upgrade Now" - free version only, hidden the moment Pro
-				// (White Label add-on) is active, same as the in-app sidebar.
-				if ( ! class_exists( 'Capsfpro_White_Label' ) ) {
-					add_submenu_page(
-						'captain-social-feed',
-						__( 'Upgrade Now', 'captain-social-feed' ),
-						__( 'Upgrade Now', 'captain-social-feed' ) . ' <span class="capsf-menu-crown" aria-hidden="true">&#9813;</span>',
-						'manage_options',
-						'admin.php?page=captain-social-feed#/upgrade'
-					);
-				}
 			}
 		}
 
 		/**
-		 * Two small always-on-every-admin-screen touches for our own
-		 * top-level menu item:
-		 *  1) Give it our brand blue for its "current section" / hover
-		 *     highlight, regardless of whichever Admin Color Scheme the
-		 *     user has picked (WP's built-in schemes range from blue to
-		 *     teal to purple, so without this override our menu item's
-		 *     highlight colour is inconsistent from install to install).
-		 *  2) (Free version only) gold "Upgrade Now" crown + link colour.
+		 * Top-level menu highlight style:
+		 * Give it our brand blue for its "current section" / hover
+		 * highlight, regardless of whichever Admin Color Scheme the
+		 * user has picked (WP's built-in schemes range from blue to
+		 * teal to purple, so without this override our menu item's
+		 * highlight colour is inconsistent from install to install).
 		 *
 		 * @since 1.2.6
 		 */
 		public function capsf_admin_menu_upgrade_style() {
-			$is_pro     = class_exists( 'Capsfpro_White_Label' );
 			$custom_css = '
 				#adminmenu #toplevel_page_captain-social-feed.wp-has-current-submenu > a.wp-has-submenu,
 				#adminmenu #toplevel_page_captain-social-feed.wp-has-current-submenu.opensub > a.wp-has-submenu,
@@ -153,21 +144,6 @@ if ( ! class_exists( 'Capsf_Menu' ) ) {
 				#adminmenu #toplevel_page_captain-social-feed:hover div.wp-menu-image:before {
 					color: #fff !important;
 				}';
-
-			if ( ! $is_pro ) {
-				$custom_css .= '
-				#toplevel_page_captain-social-feed .capsf-menu-crown {
-					color: #ffb900;
-					margin-left: 2px;
-				}
-				#toplevel_page_captain-social-feed ul li a[href$="#/upgrade"] {
-					color: #ffb900 !important;
-					font-weight: 600;
-				}
-				#toplevel_page_captain-social-feed ul li a[href$="#/upgrade"]:hover {
-					color: #ffd75e !important;
-				}';
-			}
 
 			wp_add_inline_style( 'capsf-ad-admin-css', $custom_css );
 		}

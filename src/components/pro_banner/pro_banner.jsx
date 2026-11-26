@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { __ } from '@wordpress/i18n';
 import { Link } from 'react-router-dom';
 import { CAPSF_PRO_URL_BANNER } from '../../constants/pro.js';
 import './pro_banner.scss';
+
+const DISMISS_KEY = 'capsf_pro_banner_dismissed';
 
 const isPro = typeof capsf_data !== 'undefined' && !! capsf_data?.capsfpro_active;
 
@@ -22,10 +24,32 @@ const FEATURES = [
  *    Settings, Help, Roll Back, Our Products) - NOT on Dashboard or
  *    Create Feed, so it doesn't get in the way of the core workflow. ── */
 const ProBanner = () => {
-    if ( isPro ) return null
+    const [ dismissed, setDismissed ] = useState( () => {
+        try {
+            return '1' === window.localStorage.getItem( DISMISS_KEY );
+        } catch ( e ) {
+            return false;
+        }
+    } );
+
+    if ( isPro || dismissed ) return null
+
+    const handleDismiss = () => {
+        try {
+            window.localStorage.setItem( DISMISS_KEY, '1' );
+        } catch ( e ) {
+            // Storage unavailable: the banner only hides for this visit.
+        }
+        setDismissed( true );
+    };
 
     return (
         <div className='capsf-pro-banner'>
+            <button type='button' className='capsf-pro-banner-close' onClick={ handleDismiss } aria-label={ __( 'Dismiss this banner', 'captain-social-feed' ) }>
+                <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.5' strokeLinecap='round' aria-hidden='true' focusable='false'>
+                    <line x1='6' y1='6' x2='18' y2='18'/><line x1='18' y1='6' x2='6' y2='18'/>
+                </svg>
+            </button>
             <div className='capsf-pro-banner-copy'>
                 <span className='capsf-pro-banner-eyebrow'>{ __( 'CAPTAIN SOCIAL FEED - PRO', 'captain-social-feed' ) }</span>
                 <h3 className='capsf-pro-banner-title'>

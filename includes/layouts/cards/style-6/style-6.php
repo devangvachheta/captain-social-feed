@@ -24,7 +24,7 @@ if ( isset( $capsf_s6_index ) && 0 === $capsf_s6_index ) : ?>
 	<!-- First video: large featured player -->
 	<div class="capsf-s6-featured">
 		<a href="<?php echo esc_url( $capsf_s6_href ); ?>"
-			class="capsf-s6-featured-thumb<?php echo '' !== $capsf_s6_embed_src ? ' capsf-inline-play' : ''; ?>"
+			class="<?php echo esc_attr( 'capsf-s6-featured-thumb' . ( '' !== $capsf_s6_embed_src ? ' capsf-inline-play' : '' ) ); ?>"
 			target="_blank" rel="noopener noreferrer"
 			<?php if ( '' !== $capsf_s6_embed_src ) : ?>
 				data-inline-src="<?php echo esc_url( $capsf_s6_embed_src ); ?>"
@@ -34,7 +34,7 @@ if ( isset( $capsf_s6_index ) && 0 === $capsf_s6_index ) : ?>
 				loading="eager" width="640" height="360"
 				alt="<?php echo esc_attr( $title ); ?>">
 			<?php if ( $capsf_card['is_video'] ) : ?>
-				<div class="capsf-s6-featured-play"><?php echo Capsf_Shortcode::play_icons( 'capsf-s6-featured' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?></div>
+				<div class="capsf-s6-featured-play"><?php echo wp_kses( Capsf_Shortcode::play_icons( 'capsf-s6-featured' ), Capsf_Shortcode::allowed_svg_tags() ); ?></div>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $duration_label ) ) : ?>
@@ -60,8 +60,8 @@ if ( isset( $capsf_s6_index ) && 0 === $capsf_s6_index ) : ?>
 				</p>
 			<?php endif; ?>
 			<div class="capsf-s6-featured-channel">
-				<?php echo Capsf_Shortcode::avatar_or_icon( $capsf_card, 20 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper. ?>
-				<?php echo esc_html( $channel ); ?><?php echo Capsf_Shortcode::trailing_platform_icon( $capsf_card ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper. ?>
+				<?php echo wp_kses( Capsf_Shortcode::avatar_or_icon( $capsf_card, 20 ), Capsf_Shortcode::allowed_svg_tags() ); ?>
+				<?php echo esc_html( $channel ); ?><?php echo wp_kses( Capsf_Shortcode::trailing_platform_icon( $capsf_card ), Capsf_Shortcode::allowed_svg_tags() ); ?>
 			</div>
 		</div>
 	</div>

@@ -167,12 +167,16 @@ if ( ! class_exists( 'Capsf_Token_Refresh' ) ) {
 			if ( empty( $failed ) ) {
 				return;
 			}
-			printf(
-				'<div class="notice notice-warning"><p><strong>%1$s</strong> %2$s %3$s</p></div>',
-				esc_html__( 'Captain Social Feed:', 'captain-social-feed' ),
-				esc_html__( 'the access token could not be refreshed automatically for:', 'captain-social-feed' ),
-				esc_html( implode( ', ', $failed ) ) . '. ' . esc_html__( 'Please generate a new token and reconnect the feed before it expires.', 'captain-social-feed' )
-			);
+			?>
+			<div class="notice notice-warning">
+				<p>
+					<strong><?php esc_html_e( 'Captain Social Feed:', 'captain-social-feed' ); ?></strong>
+					<?php esc_html_e( 'the access token could not be refreshed automatically for:', 'captain-social-feed' ); ?>
+					<?php echo esc_html( implode( ', ', $failed ) . '. ' ); ?>
+					<?php esc_html_e( 'Please generate a new token and reconnect the feed before it expires.', 'captain-social-feed' ); ?>
+				</p>
+			</div>
+			<?php
 		}
 	}
 }

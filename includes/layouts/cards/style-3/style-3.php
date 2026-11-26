@@ -17,13 +17,13 @@ $capsf_s3_item_class     = isset( $capsf_item_class ) ? $capsf_item_class : ( is
 $capsf_s3_item_attrs     = isset( $capsf_item_attrs ) ? $capsf_item_attrs : ( isset( $item_attrs ) ? $item_attrs : '' );
 
 // Determine href, target, class based on play mode.
+$capsf_s3_idx    = isset( $capsf_item_index ) ? absint( $capsf_item_index ) : ( isset( $index ) ? absint( $index ) : 0 );
 $capsf_s3_href   = 'capsf-glightbox' === $capsf_s3_link_class ? $capsf_s3_lightbox_href : $video_link;
-$capsf_s3_target = '' !== $capsf_s3_link_target ? esc_attr( $capsf_s3_link_target ) : '_blank';
-$capsf_s3_class  = 'capsf-s3-card' . ( ! empty( $capsf_s3_link_class ) ? ' ' . esc_attr( $capsf_s3_link_class ) : '' ) . ( ! empty( $capsf_s3_item_class ) ? ' ' . esc_attr( $capsf_s3_item_class ) : '' );
-$capsf_s3_extra  = ! empty( $capsf_s3_glightbox_attr ) ? ' ' . $capsf_s3_glightbox_attr : '';
+$capsf_s3_target = '' !== $capsf_s3_link_target ? $capsf_s3_link_target : '_blank';
+$capsf_s3_class  = 'capsf-s3-card' . ( ! empty( $capsf_s3_link_class ) ? ' ' . $capsf_s3_link_class : '' ) . ( ! empty( $capsf_s3_item_class ) ? ' ' . $capsf_s3_item_class : '' );
 ?>
 
-<a href="<?php echo esc_url( $capsf_s3_href ); ?>" class="<?php echo esc_attr( $capsf_s3_class ); ?>" target="<?php echo esc_attr( $capsf_s3_target ); ?>"<?php echo $capsf_s3_extra; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo $capsf_s3_item_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<a href="<?php echo esc_url( $capsf_s3_href ); ?>" class="<?php echo esc_attr( $capsf_s3_class ); ?>" target="<?php echo esc_attr( $capsf_s3_target ); ?>"<?php if ( '_blank' === $capsf_s3_target ) : ?> rel="noopener noreferrer"<?php endif; ?><?php if ( ! empty( $capsf_glightbox ) ) : ?> data-glightbox="<?php echo esc_attr( $capsf_glightbox ); ?>"<?php endif; ?><?php if ( ! empty( $capsf_inline_src ) ) : ?> data-inline-src="<?php echo esc_url( $capsf_inline_src ); ?>"<?php endif; ?> data-capsf-item data-capsf-index="<?php echo absint( $capsf_s3_idx ); ?>">
 
 	<!-- Thumbnail -->
 	<img class="capsf-s3-thumb"
@@ -62,8 +62,8 @@ $capsf_s3_extra  = ! empty( $capsf_s3_glightbox_attr ) ? ' ' . $capsf_s3_glightb
 		<!-- Channel badge -->
 		<div class="capsf-s3-meta">
 			<span class="capsf-s3-channel-badge">
-				<?php echo Capsf_Shortcode::avatar_or_icon( $capsf_card, 16 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper. ?>
-				<?php echo esc_html( $channel ); ?><?php echo Capsf_Shortcode::trailing_platform_icon( $capsf_card ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper. ?>
+				<?php echo wp_kses( Capsf_Shortcode::avatar_or_icon( $capsf_card, 16 ), Capsf_Shortcode::allowed_svg_tags() ); ?>
+				<?php echo esc_html( $channel ); ?><?php echo wp_kses( Capsf_Shortcode::trailing_platform_icon( $capsf_card ), Capsf_Shortcode::allowed_svg_tags() ); ?>
 			</span>
 		</div>
 

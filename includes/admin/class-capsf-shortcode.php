@@ -652,7 +652,18 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 					}
 
 					// ── Outer scoped wrapper ────────────────────────────────────────
-					echo '<div class="capsf-feed capsf-feed-' . absint( $feed_id ) . ' capsf-feed-instance-' . esc_attr( $instance_id ) . '" data-capsf-instance="' . esc_attr( $instance_id ) . '"' . self::get_feed_label_attrs() . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- label attrs are escaped in get_feed_label_attrs().
+					?>
+					<div class="capsf-feed capsf-feed-<?php echo absint( $feed_id ); ?> capsf-feed-instance-<?php echo esc_attr( $instance_id ); ?>"
+						data-capsf-instance="<?php echo esc_attr( $instance_id ); ?>"
+						data-capsf-label-slide="<?php esc_attr_e( 'Slide %d', 'captain-social-feed' ); ?>"
+						data-capsf-label-stop="<?php esc_attr_e( 'Stop video', 'captain-social-feed' ); ?>"
+						data-capsf-label-player="<?php esc_attr_e( 'Video player', 'captain-social-feed' ); ?>"
+						data-capsf-label-close="<?php esc_attr_e( 'Close', 'captain-social-feed' ); ?>"
+						data-capsf-label-prev="<?php esc_attr_e( 'Previous photo', 'captain-social-feed' ); ?>"
+						data-capsf-label-next="<?php esc_attr_e( 'Next photo', 'captain-social-feed' ); ?>"
+						data-capsf-label-prevpost="<?php esc_attr_e( 'Previous post', 'captain-social-feed' ); ?>"
+						data-capsf-label-nextpost="<?php esc_attr_e( 'Next post', 'captain-social-feed' ); ?>">
+					<?php
 
 					// Section title (Settings → Layout), any design.
 					if ( ! empty( $feed_settings['feed_title'] ) ) {
@@ -662,7 +673,9 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 					// X Profile Timeline / Sidebar Widget: profile header + scrolling list.
 					$capsf_x_source = 'twitter' === $feed_type ? Capsf_Api_Twitter::get_source( $feed_settings ) : '';
 					if ( 'x-timeline' === $card_style ) {
-						echo '<div class="capsf-x-timeline' . ( 'sidebar' === $capsf_x_source ? ' capsf-x-timeline--sidebar' : '' ) . '">';
+						?>
+						<div class="<?php echo esc_attr( 'capsf-x-timeline' . ( 'sidebar' === $capsf_x_source ? ' capsf-x-timeline--sidebar' : '' ) ); ?>">
+						<?php
 						$capsf_profile = ! empty( $capsf_loop_data['profile'] ) && is_array( $capsf_loop_data['profile'] ) ? $capsf_loop_data['profile'] : array();
 						if ( $capsf_profile && ( ! isset( $feed_settings['x_show_header'] ) || rest_sanitize_boolean( $feed_settings['x_show_header'] ) ) ) {
 							require CAPSF_PATH . 'includes/layouts/partials/x-profile.php';
@@ -689,15 +702,21 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 						// shown before JS runs matches what JS keeps in sync.
 						$page_count = max( 1, (int) ceil( count( $capsf_loop_data['items'] ) / max( 1, $col_count ) ) );
 
-						echo '<div ' . self::get_carousel_attrs() . ' class="capsf-s5-wrapper' . ( $is_carousel ? ' capsf-s5-wrapper--carousel' : '' ) . '" style="--s5-cols:' . absint( $col_count ) . ';--s5-gap:' . absint( $col_gap ) . 'px" data-auto-slide="' . ( $auto_slide ? '1' : '0' ) . '" data-infinite-loop="' . ( $infinite_loop ? '1' : '0' ) . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- carousel attrs are escaped in get_carousel_attrs().
+						?>
+						<div role="region" aria-roledescription="<?php esc_attr_e( 'carousel', 'captain-social-feed' ); ?>" aria-label="<?php esc_attr_e( 'Posts', 'captain-social-feed' ); ?>" class="<?php echo esc_attr( 'capsf-s5-wrapper' . ( $is_carousel ? ' capsf-s5-wrapper--carousel' : '' ) ); ?>" style="--s5-cols:<?php echo absint( $col_count ); ?>;--s5-gap:<?php echo absint( $col_gap ); ?>px" data-auto-slide="<?php echo esc_attr( $auto_slide ? '1' : '0' ); ?>" data-infinite-loop="<?php echo esc_attr( $infinite_loop ? '1' : '0' ); ?>">
+						<?php
 						if ( $is_carousel ) {
-							echo '<div class="capsf-s5-toolbar">';
-							echo '<span class="capsf-s5-counter" data-total="' . absint( $page_count ) . '">01 / ' . esc_html( str_pad( (string) $page_count, 2, '0', STR_PAD_LEFT ) ) . '</span>';
-							echo self::get_slider_button( 'capsf-s5', 'prev' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in get_slider_button().
-							echo self::get_slider_button( 'capsf-s5', 'next' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in get_slider_button().
-							echo '</div>'; // .capsf-s5-toolbar
+							?>
+							<div class="capsf-s5-toolbar">
+								<span class="capsf-s5-counter" data-total="<?php echo absint( $page_count ); ?>">01 / <?php echo esc_html( str_pad( (string) $page_count, 2, '0', STR_PAD_LEFT ) ); ?></span>
+								<?php
+								self::print_slider_button( 'capsf-s5', 'prev' );
+								self::print_slider_button( 'capsf-s5', 'next' );
+								?>
+							</div>
+							<?php
 						} else {
-							echo self::get_slider_button( 'capsf-s5', 'prev' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in get_slider_button().
+							self::print_slider_button( 'capsf-s5', 'prev' );
 						}
 						echo '<div class="' . esc_attr( $wrapper_class ) . '" data-capsf-grid>';
 					} elseif ( 'slider-2' === $capsf_slider_mode ) {
@@ -706,8 +725,10 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 						// Carousel" / style-7 design used.
 						$auto_slide    = ! isset( $feed_settings['auto_slide'] ) || rest_sanitize_boolean( $feed_settings['auto_slide'] );
 						$infinite_loop = ! isset( $feed_settings['infinite_loop'] ) || rest_sanitize_boolean( $feed_settings['infinite_loop'] );
-						echo '<div ' . self::get_carousel_attrs() . ' class="capsf-s7-wrapper" data-auto-slide="' . ( $auto_slide ? '1' : '0' ) . '" data-infinite-loop="' . ( $infinite_loop ? '1' : '0' ) . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- carousel attrs are escaped in get_carousel_attrs().
-						echo self::get_slider_button( 'capsf-s7', 'prev' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in get_slider_button().
+						?>
+						<div role="region" aria-roledescription="<?php esc_attr_e( 'carousel', 'captain-social-feed' ); ?>" aria-label="<?php esc_attr_e( 'Posts', 'captain-social-feed' ); ?>" class="capsf-s7-wrapper" data-auto-slide="<?php echo esc_attr( $auto_slide ? '1' : '0' ); ?>" data-infinite-loop="<?php echo esc_attr( $infinite_loop ? '1' : '0' ); ?>">
+						<?php
+						self::print_slider_button( 'capsf-s7', 'prev' );
 						echo '<div class="' . esc_attr( $wrapper_class ) . '" data-capsf-grid>';
 					} elseif ( 'style-6' === $card_style ) {
 						// Playlist: open the wrapper div (closed later alongside the other styles).
@@ -764,6 +785,9 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 						$capsf_link_target    = $play['link_target'];
 						$glightbox_attr       = $play['glightbox_attr'];
 						$capsf_glightbox_attr = $play['glightbox_attr'];
+						$capsf_glightbox      = $play['data_glightbox'];
+						$capsf_inline_src     = $play['data_inline_src'];
+						$capsf_item_index     = absint( $index );
 
 						// Style-6 playlist: list-item clicks always swap the featured player and play - independent of Video Play Mode.
 						$s6_embed_src       = $play['embed_raw'];
@@ -797,7 +821,7 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 					// (appended via grid.appendChild) would land after the button.
 					if ( 'style-6' === $card_style ) {
 						echo '</div>'; // .capsf-s6-list
-						echo $this->get_load_more_button_markup( $feed_id, $instance_id, $load_more_settings, count( $capsf_loop_data['items'] ), $capsf_loop_data['nextPageToken'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						$this->print_load_more_button( $feed_id, $instance_id, $load_more_settings, count( $capsf_loop_data['items'] ), $capsf_loop_data['nextPageToken'] );
 						echo '</div>'; // .capsf-s6-list-col
 					}
 
@@ -807,7 +831,7 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 					// old standalone "Slider" / style-5 design used (also
 					// reused, unchanged, for "Single Videos" 2+ videos).
 					if ( 'slider-1' === $capsf_slider_mode ) {
-						echo self::get_slider_button( 'capsf-s5', 'next' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in get_slider_button().
+						self::print_slider_button( 'capsf-s5', 'next' );
 						echo '<div class="capsf-s5-dots"></div>';
 						echo '</div>'; // .capsf-s5-wrapper
 					} elseif ( 'slider-3' === $capsf_slider_mode ) {
@@ -819,7 +843,7 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 						// Slider style 2: next button + dots - same mechanism
 						// the old standalone "Centered Carousel" / style-7
 						// design used.
-						echo self::get_slider_button( 'capsf-s7', 'next' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in get_slider_button().
+						self::print_slider_button( 'capsf-s7', 'next' );
 						echo '<div class="capsf-s7-dots"></div>';
 						echo '</div>'; // .capsf-s7-wrapper
 					}
@@ -829,7 +853,7 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 					}
 
 					if ( 'style-6' !== $card_style && ! $capsf_is_slider_layout ) {
-						echo $this->get_load_more_button_markup( $feed_id, $instance_id, $load_more_settings, count( $capsf_loop_data['items'] ), $capsf_loop_data['nextPageToken'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						$this->print_load_more_button( $feed_id, $instance_id, $load_more_settings, count( $capsf_loop_data['items'] ), $capsf_loop_data['nextPageToken'] );
 					}
 
 					// Close outer scoped feed wrapper.
@@ -874,6 +898,24 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 		}
 
 		/**
+		 * Render one slider arrow button directly.
+		 *
+		 * @param string $prefix    Class prefix ('capsf-s5' | 'capsf-s7').
+		 * @param string $direction 'prev' | 'next'.
+		 * @return void
+		 */
+		public static function print_slider_button( $prefix, $direction ) {
+			$is_prev = 'prev' === $direction;
+			?>
+			<button type="button" class="<?php echo esc_attr( $prefix . '-btn ' . $prefix . '-' . ( $is_prev ? 'prev' : 'next' ) ); ?>" aria-label="<?php echo esc_attr( $is_prev ? __( 'Previous', 'captain-social-feed' ) : __( 'Next', 'captain-social-feed' ) ); ?>">
+				<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+					<polyline points="<?php echo esc_attr( $is_prev ? '15 18 9 12 15 6' : '9 18 15 12 9 6' ); ?>"/>
+				</svg>
+			</button>
+			<?php
+		}
+
+		/**
 		 * Markup of one slider arrow button.
 		 *
 		 * @param string $prefix    Class prefix ('capsf-s5' | 'capsf-s7').
@@ -881,14 +923,9 @@ if ( ! class_exists( 'Capsf_Shortcode' ) ) {
 		 * @return string
 		 */
 		private static function get_slider_button( $prefix, $direction ) {
-			$is_prev = 'prev' === $direction;
-			return sprintf(
-				'<button type="button" class="%1$s-btn %1$s-%2$s" aria-label="%3$s"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="%4$s"/></svg></button>',
-				esc_attr( $prefix ),
-				$is_prev ? 'prev' : 'next',
-				$is_prev ? esc_attr__( 'Previous', 'captain-social-feed' ) : esc_attr__( 'Next', 'captain-social-feed' ),
-				$is_prev ? '15 18 9 12 15 6' : '9 18 15 12 9 6'
-			);
+			ob_start();
+			self::print_slider_button( $prefix, $direction );
+			return ob_get_clean();
 		}
 
 		/**
@@ -1132,6 +1169,41 @@ JS;
 		}
 
 		/**
+		 * Render load-more button directly.
+		 *
+		 * @param int    $feed_id Feed ID.
+		 * @param string $instance_id Shortcode instance ID.
+		 * @param array  $settings Load-more settings.
+		 * @param int    $loaded_items Loaded item count.
+		 * @param string $next_page_token Next page token.
+		 * @return void
+		 */
+		public function print_load_more_button( $feed_id, $instance_id, $settings, $loaded_items, $next_page_token ) {
+			if ( empty( $settings['enabled'] ) || empty( $next_page_token ) || $loaded_items >= $settings['max'] ) {
+				return;
+			}
+			?>
+			<div class="capsf-load-more-wrap">
+				<button type="button" class="capsf-load-more-btn"
+					data-capsf-load-more="<?php echo esc_attr( $instance_id ); ?>"
+					data-feed-id="<?php echo absint( $feed_id ); ?>"
+					data-page-token="<?php echo esc_attr( $next_page_token ); ?>"
+					data-loaded="<?php echo absint( $loaded_items ); ?>"
+					data-count="<?php echo absint( $settings['per_load_desktop'] ?? $settings['per_load'] ); ?>"
+					data-count-desktop="<?php echo absint( $settings['per_load_desktop'] ?? $settings['per_load'] ); ?>"
+					data-count-tablet="<?php echo absint( $settings['per_load_tablet'] ?? $settings['per_load'] ); ?>"
+					data-count-mobile="<?php echo absint( $settings['per_load_mobile'] ?? $settings['per_load'] ); ?>"
+					data-nonce="<?php echo esc_attr( wp_create_nonce( 'capsf_load_more_' . absint( $feed_id ) ) ); ?>"
+					data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>"
+					data-loading-text="<?php esc_attr_e( 'Loading...', 'captain-social-feed' ); ?>"
+					data-error-text="<?php esc_attr_e( 'Try again', 'captain-social-feed' ); ?>">
+					<?php esc_html_e( 'Load More', 'captain-social-feed' ); ?>
+				</button>
+			</div>
+			<?php
+		}
+
+		/**
 		 * Build load-more button markup.
 		 *
 		 * @param int    $feed_id Feed ID.
@@ -1142,25 +1214,9 @@ JS;
 		 * @return string
 		 */
 		private function get_load_more_button_markup( $feed_id, $instance_id, $settings, $loaded_items, $next_page_token ) {
-			if ( empty( $settings['enabled'] ) || empty( $next_page_token ) || $loaded_items >= $settings['max'] ) {
-				return '';
-			}
-
-			return sprintf(
-				'<div class="capsf-load-more-wrap"><button type="button" class="capsf-load-more-btn" data-capsf-load-more="%1$s" data-feed-id="%2$d" data-page-token="%3$s" data-loaded="%4$d" data-count="%5$d" data-count-desktop="%5$d" data-count-tablet="%6$d" data-count-mobile="%7$d" data-nonce="%8$s" data-ajax-url="%9$s" data-loading-text="%10$s" data-error-text="%11$s">%12$s</button></div>',
-				esc_attr( $instance_id ),
-				absint( $feed_id ),
-				esc_attr( $next_page_token ),
-				absint( $loaded_items ),
-				absint( $settings['per_load_desktop'] ?? $settings['per_load'] ),
-				absint( $settings['per_load_tablet'] ?? $settings['per_load'] ),
-				absint( $settings['per_load_mobile'] ?? $settings['per_load'] ),
-				esc_attr( wp_create_nonce( 'capsf_load_more_' . absint( $feed_id ) ) ),
-				esc_url( admin_url( 'admin-ajax.php' ) ),
-				esc_attr__( 'Loading...', 'captain-social-feed' ),
-				esc_attr__( 'Try again', 'captain-social-feed' ),
-				esc_html__( 'Load More', 'captain-social-feed' )
-			);
+			ob_start();
+			$this->print_load_more_button( $feed_id, $instance_id, $settings, $loaded_items, $next_page_token );
+			return ob_get_clean();
 		}
 
 		/**
@@ -1317,6 +1373,9 @@ JS;
 				$capsf_link_target    = $play['link_target'];
 				$glightbox_attr       = $play['glightbox_attr'];
 				$capsf_glightbox_attr = $play['glightbox_attr'];
+				$capsf_glightbox      = $play['data_glightbox'];
+				$capsf_inline_src     = $play['data_inline_src'];
+				$capsf_item_index     = absint( $index );
 
 				// Style-6 playlist: list-item clicks always swap the featured player and play.
 				$s6_embed_src       = $play['embed_raw'];
@@ -1688,35 +1747,35 @@ JS;
 			}
 
 			$out = array(
-				'link_class'     => '',
-				'link_target'    => '_blank',
-				'glightbox_attr' => '',
-				'lightbox_href'  => $video_link,
-				'embed_raw'      => $embed_raw,
+				'link_class'      => '',
+				'link_target'     => '_blank',
+				'glightbox_attr'  => '',
+				'data_glightbox'  => '',
+				'data_inline_src' => '',
+				'lightbox_href'   => $video_link,
+				'embed_raw'       => $embed_raw,
 			);
 
 			if ( 'lightbox' === $mode ) {
 				if ( $embed_raw ) {
-					$out['link_class']    = 'capsf-glightbox';
-					$out['link_target']   = '';
-					$out['lightbox_href'] = $embed_raw;
-					// Always GLightbox's iframe ("external") slide: platform players
-					// load in it, and a video FILE plays in the browser's own player.
-					// GLightbox's "video" slide is avoided on purpose - it loads the
-					// Plyr player from cdn.plyr.io, an external request (GDPR).
-					// iframe slides need an explicit height - "auto" collapses them.
-					$out['glightbox_attr'] = 'data-glightbox="type: external; height: 80vh; description: ' . esc_attr( $item['title'] ) . '"';
+					$out['link_class']     = 'capsf-glightbox';
+					$out['link_target']    = '';
+					$out['lightbox_href']  = $embed_raw;
+					$out['data_glightbox'] = 'type: external; height: 80vh; description: ' . (string) ( $item['title'] ?? '' );
+					$out['glightbox_attr'] = 'data-glightbox="' . esc_attr( $out['data_glightbox'] ) . '"';
 				} elseif ( $image_raw && ! $is_video ) {
 					// A video we can't play opens the original post, never its still image.
 					$out['link_class']     = 'capsf-glightbox';
 					$out['link_target']    = '';
 					$out['lightbox_href']  = $image_raw;
-					$out['glightbox_attr'] = 'data-glightbox="type: image; description: ' . esc_attr( $item['title'] ) . '"';
+					$out['data_glightbox'] = 'type: image; description: ' . (string) ( $item['title'] ?? '' );
+					$out['glightbox_attr'] = 'data-glightbox="' . esc_attr( $out['data_glightbox'] ) . '"';
 				}
 			} elseif ( 'inline' === $mode && $embed_raw ) {
-				$out['link_class']     = 'capsf-inline-play';
-				$out['link_target']    = '';
-				$out['glightbox_attr'] = 'data-inline-src="' . esc_url( $embed_raw ) . '"';
+				$out['link_class']      = 'capsf-inline-play';
+				$out['link_target']     = '';
+				$out['data_inline_src'] = $embed_raw;
+				$out['glightbox_attr']  = 'data-inline-src="' . esc_url( $embed_raw ) . '"';
 			}
 
 			return $out;
@@ -1977,6 +2036,145 @@ JS;
 		 */
 		public static function x_linkify( $text ) {
 			return self::linkify( $text, 'twitter' );
+		}
+
+		/**
+		 * Allowed SVG tags and attributes for wp_kses.
+		 *
+		 * @return array
+		 */
+		public static function allowed_svg_tags() {
+			return array(
+				'svg'      => array(
+					'class'           => true,
+					'viewbox'         => true,
+					'width'           => true,
+					'height'          => true,
+					'fill'            => true,
+					'stroke'          => true,
+					'stroke-width'    => true,
+					'stroke-linecap'  => true,
+					'stroke-linejoin' => true,
+					'xmlns'           => true,
+					'role'            => true,
+					'aria-hidden'     => true,
+					'aria-label'      => true,
+					'focusable'       => true,
+				),
+				'circle'   => array(
+					'cx'   => true,
+					'cy'   => true,
+					'r'    => true,
+					'fill' => true,
+				),
+				'path'     => array(
+					'd'               => true,
+					'fill'            => true,
+					'stroke'          => true,
+					'stroke-width'    => true,
+					'stroke-linecap'  => true,
+					'stroke-linejoin' => true,
+				),
+				'rect'     => array(
+					'x'      => true,
+					'y'      => true,
+					'width'  => true,
+					'height' => true,
+					'fill'   => true,
+					'rx'     => true,
+					'ry'     => true,
+				),
+				'polygon'  => array(
+					'points' => true,
+					'fill'   => true,
+				),
+				'polyline' => array(
+					'points'          => true,
+					'fill'            => true,
+					'stroke'          => true,
+					'stroke-width'    => true,
+					'stroke-linecap'  => true,
+					'stroke-linejoin' => true,
+				),
+				'line'     => array(
+					'x1'             => true,
+					'y1'             => true,
+					'x2'             => true,
+					'y2'             => true,
+					'stroke'         => true,
+					'stroke-width'   => true,
+					'stroke-linecap' => true,
+				),
+				'span'     => array(
+					'class'       => true,
+					'role'        => true,
+					'aria-label'  => true,
+					'aria-hidden' => true,
+				),
+				'img'      => array(
+					'class'          => true,
+					'src'            => true,
+					'alt'            => true,
+					'width'          => true,
+					'height'         => true,
+					'loading'        => true,
+					'referrerpolicy' => true,
+				),
+			);
+		}
+
+		/**
+		 * Allowed HTML tags for shortcode markup and feed previews.
+		 *
+		 * @return array Allowed tags.
+		 */
+		public static function allowed_html_tags() {
+			$post_tags = wp_kses_allowed_html( 'post' );
+			$svg_tags  = self::allowed_svg_tags();
+			$extra     = array(
+				'template' => array(
+					'class' => true,
+					'id'    => true,
+				),
+				'iframe'   => array(
+					'src'             => true,
+					'data-src'        => true,
+					'title'           => true,
+					'allow'           => true,
+					'allowfullscreen' => true,
+					'width'           => true,
+					'height'          => true,
+					'loading'         => true,
+					'frameborder'     => true,
+				),
+				'video'    => array(
+					'src'         => true,
+					'poster'      => true,
+					'controls'    => true,
+					'playsinline' => true,
+					'preload'     => true,
+					'autoplay'    => true,
+					'muted'       => true,
+					'loop'        => true,
+					'width'       => true,
+					'height'      => true,
+				),
+				'source'   => array(
+					'src'  => true,
+					'type' => true,
+				),
+			);
+			return array_merge( $post_tags, $svg_tags, $extra );
+		}
+
+		/**
+		 * Safely escape SVG markup and icons.
+		 *
+		 * @param string $svg SVG or icon HTML.
+		 * @return string Sanitized markup.
+		 */
+		public static function esc_svg( $svg ) {
+			return wp_kses( (string) $svg, self::allowed_svg_tags() );
 		}
 
 		/**

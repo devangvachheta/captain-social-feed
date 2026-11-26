@@ -19,15 +19,14 @@ $capsf_reel_gb_attr    = isset( $capsf_glightbox_attr ) ? $capsf_glightbox_attr 
 $capsf_reel_it_cl      = isset( $capsf_item_class ) ? $capsf_item_class : ( isset( $item_class ) ? $item_class : '' );
 $capsf_reel_it_at      = isset( $capsf_item_attrs ) ? $capsf_item_attrs : ( isset( $item_attrs ) ? $item_attrs : '' );
 
-$capsf_reel_href    = 'capsf-glightbox' === $capsf_reel_link_cl ? $capsf_reel_lb_href : $video_link;
-$capsf_reel_target  = '' !== $capsf_reel_target_raw ? esc_attr( $capsf_reel_target_raw ) : '_blank';
-$capsf_reel_class   = 'capsf-reel-thumb-wrap' . ( ! empty( $capsf_reel_link_cl ) ? ' ' . esc_attr( $capsf_reel_link_cl ) : '' );
-$capsf_reel_extra   = ! empty( $capsf_reel_gb_attr ) ? ' ' . $capsf_reel_gb_attr : '';
-$capsf_reel_item_cl = ! empty( $capsf_reel_it_cl ) ? ' ' . esc_attr( $capsf_reel_it_cl ) : '';
-$capsf_reel_attrs   = ! empty( $capsf_reel_it_at ) ? $capsf_reel_it_at : '';
+$capsf_reel_idx    = isset( $capsf_item_index ) ? absint( $capsf_item_index ) : ( isset( $index ) ? absint( $index ) : 0 );
+$capsf_reel_href   = 'capsf-glightbox' === $capsf_reel_link_cl ? $capsf_reel_lb_href : $video_link;
+$capsf_reel_target = '' !== $capsf_reel_target_raw ? $capsf_reel_target_raw : '_blank';
+$capsf_reel_class  = 'capsf-reel-thumb-wrap' . ( ! empty( $capsf_reel_link_cl ) ? ' ' . $capsf_reel_link_cl : '' );
+$capsf_reel_card_c = 'capsf-reel-card' . ( ! empty( $capsf_reel_it_cl ) ? ' ' . $capsf_reel_it_cl : '' );
 ?>
-<div class="capsf-reel-card<?php echo $capsf_reel_item_cl; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"<?php echo $capsf_reel_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<a class="<?php echo esc_attr( $capsf_reel_class ); ?>" href="<?php echo esc_url( $capsf_reel_href ); ?>" target="<?php echo esc_attr( $capsf_reel_target ); ?>"<?php echo $capsf_reel_extra; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<div class="<?php echo esc_attr( $capsf_reel_card_c ); ?>" data-capsf-item data-capsf-index="<?php echo absint( $capsf_reel_idx ); ?>">
+	<a class="<?php echo esc_attr( $capsf_reel_class ); ?>" href="<?php echo esc_url( $capsf_reel_href ); ?>" target="<?php echo esc_attr( $capsf_reel_target ); ?>"<?php if ( '_blank' === $capsf_reel_target ) : ?> rel="noopener noreferrer"<?php endif; ?><?php if ( ! empty( $capsf_glightbox ) ) : ?> data-glightbox="<?php echo esc_attr( $capsf_glightbox ); ?>"<?php endif; ?><?php if ( ! empty( $capsf_inline_src ) ) : ?> data-inline-src="<?php echo esc_url( $capsf_inline_src ); ?>"<?php endif; ?>>
 		<img class="capsf-reel-thumbnail"
 			src="<?php echo esc_url( $medium ); ?>"
 			srcset="
@@ -41,7 +40,7 @@ $capsf_reel_attrs   = ! empty( $capsf_reel_it_at ) ? $capsf_reel_it_at : '';
 			alt="<?php echo esc_attr( $title ); ?>">
 
 		<?php if ( $capsf_card['is_video'] ) : ?>
-			<div class="capsf-reel-play-btn"><?php echo Capsf_Shortcode::play_icons( 'capsf-reel' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?></div>
+			<div class="capsf-reel-play-btn"><?php echo wp_kses( Capsf_Shortcode::play_icons( 'capsf-reel' ), Capsf_Shortcode::allowed_svg_tags() ); ?></div>
 		<?php endif; ?>
 
 		<?php if ( ! empty( $duration_label ) ) : ?>
@@ -51,7 +50,7 @@ $capsf_reel_attrs   = ! empty( $capsf_reel_it_at ) ? $capsf_reel_it_at : '';
 
 	<div class="capsf-reel-content">
 		<h3 class="capsf-reel-title" dir="auto"><?php echo esc_html( $title ); ?></h3>
-		<?php echo Capsf_Shortcode::platform_icon( $capsf_card['platform'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in platform_icon(). ?>
+		<?php echo wp_kses( Capsf_Shortcode::platform_icon( $capsf_card['platform'] ), Capsf_Shortcode::allowed_svg_tags() ); ?>
 	</div>
 
 	<?php if ( ! empty( $views_label ) ) : ?>

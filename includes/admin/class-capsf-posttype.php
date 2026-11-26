@@ -172,7 +172,7 @@ if ( ! class_exists( 'Capsf_Posttype' ) ) {
 	<title><?php echo $feed_name ? esc_html( $feed_name ) : esc_html__( 'Feed Preview', 'captain-social-feed' ); ?> &mdash; <?php esc_html_e( 'Captain Social Feed', 'captain-social-feed' ); ?></title>
 			<?php wp_head(); ?>
 </head>
-<body class="capsf-preview-page<?php echo $is_embed ? ' capsf-preview-embed' : ''; ?>">
+<body class="capsf-preview-page<?php if ( $is_embed ) : ?> capsf-preview-embed<?php endif; ?>">
 
 			<?php if ( ! $is_embed ) : ?>
 	<!-- ── Top bar ── -->
@@ -215,7 +215,7 @@ if ( ! class_exists( 'Capsf_Posttype' ) ) {
 	<div class="capsf-prev-canvas">
 		<div class="capsf-prev-frame" id="capsfFrame">
 			<?php if ( ! empty( $shortcode_output ) && strlen( trim( wp_strip_all_tags( $shortcode_output ) ) ) > 0 ) : ?>
-				<?php echo $shortcode_output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo wp_kses( $shortcode_output, Capsf_Shortcode::allowed_html_tags() ); ?>
 			<?php elseif ( $feed_id > 0 ) : ?>
 				<div class="capsf-prev-empty">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">

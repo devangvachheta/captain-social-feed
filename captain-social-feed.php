@@ -4,7 +4,6 @@
  * Description:       Display customizable Instagram, Facebook, Twitter, Threads and Pinterest feeds on your WordPress website.
  * Version:           0.3.0
  * Requires at least: 6.6
- * Tested up to:      7.1
  * Requires PHP:      7.4
  * Author:            devangvachheta
  * Author URI:        https://profiles.wordpress.org/devangvachheta/

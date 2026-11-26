@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<a class="capsf-sc-platform" href="<?php echo esc_url( $capsf_card['permalink'] ); ?>" target="_blank" rel="noopener noreferrer">
 			<?php
 			/* translators: %s: platform name, e.g. "Facebook". */
-			echo Capsf_Shortcode::platform_icon( $capsf_card['platform'], sprintf( __( 'View on %s', 'captain-social-feed' ), $capsf_card['platform_label'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in platform_icon().
+			echo wp_kses( Capsf_Shortcode::platform_icon( $capsf_card['platform'], sprintf( __( 'View on %s', 'captain-social-feed' ), $capsf_card['platform_label'] ) ), Capsf_Shortcode::allowed_svg_tags() );
 			?>
 		</a>
 	<?php endif; ?>

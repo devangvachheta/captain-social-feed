@@ -41,7 +41,7 @@ Add the feed to any page using a shortcode, or with the built-in Elementor widge
 = How It Works =
 
 1. Go to Captain Social Feed → Create Feed and choose a platform.
-2. Enter that platform's Access Token/Bearer Token and account/page/board ID (a setup guide is linked for each platform).
+2. For Instagram, Facebook, Threads, Pinterest, and Twitter/X Timeline/Hashtag feeds, enter the platform's API credentials (a setup guide is linked for each platform). For Twitter/X Testimonials, you can also paste public post URLs directly, which can display using X's public oEmbed service even without a Bearer Token.
 3. Pick a card layout and configure display options.
 4. Copy the shortcode, or use the Elementor widget/Gutenberg block, to place the feed on any page.
 
@@ -80,7 +80,12 @@ Yes. Front-end AJAX requests for loading more posts are rate-limited per visitor
 
 == External Services ==
 
-This plugin connects to the following third-party services to fetch the posts you choose to display. Each connection is only made after you enter that platform's credentials for a specific feed, and only when that feed's shortcode/widget/block is rendered (or its cache has expired).
+This plugin connects to external third-party services to retrieve and display social posts:
+
+1. **Official Platform APIs (Instagram, Facebook, Threads, Pinterest, and Twitter/X):** Connections are established only after you configure a feed and enter the corresponding platform's API credentials (Access Token or Bearer Token).
+2. **Twitter / X oEmbed (publish.twitter.com):** When creating a Twitter/X Testimonials feed without an API Bearer Token (or when API read limits are exhausted), the plugin connects to Twitter/X's public oEmbed service using the specific tweet URLs you paste into the feed. No API credentials are required for this fallback.
+
+No external connections are made upon plugin installation or activation. Requests to fetch feed content only occur when an administrator tests or creates a feed in the admin dashboard, or when a configured feed's shortcode, block, or widget is rendered on the front end and its cache has expired.
 
 Images and videos of the posts you display are loaded by your visitors' browsers directly from the platform's own content-delivery network (for example Meta, X or Pinterest CDNs), so those services receive the visitor's IP address. When the Click Action is "Open in Popup" or "Play Inline on Page" and a video has no direct file, the platform's own video player is loaded in a frame only after the visitor clicks it: Facebook (www.facebook.com/plugins/video.php), X (platform.twitter.com) or Pinterest (assets.pinterest.com). Instagram and Threads access tokens are refreshed automatically once every ~20 days via the platform's token-refresh endpoint.
 
@@ -140,7 +145,7 @@ Data sent: URL or caption of the post to share, only when a visitor clicks the l
 
 Captain Social Feed bundles and incorporates the following open-source software:
 
-* **GLightbox** (v3.3.0)
+* **GLightbox** (v3.3.1)
   License: MIT (https://opensource.org/licenses/MIT)
   Author: Biati Digital (https://biatidigital.com)
   Source: https://github.com/biati-digital/glightbox

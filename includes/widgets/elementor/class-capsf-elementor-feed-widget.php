@@ -176,22 +176,17 @@ if ( class_exists( 'Elementor\Widget_Base' ) && ! class_exists( 'Capsf_Elementor
 
 			if ( ! $feed_id ) {
 				$create_feed_url = admin_url( 'admin.php?page=captain-social-feed#/create' );
-				printf(
-					'<div class="capsf-editor-placeholder" style="padding:40px;text-align:center;background:#ffffff;border:2px dashed #cbd5e1;border-radius:12px;max-width:450px;margin:20px auto;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,sans-serif;">
-						<h3 style="font-size:16px;font-weight:600;color:#0f172a;margin:0 0 8px;">%s</h3>
-						<p style="font-size:13px;color:#64748b;line-height:1.5;margin:0 0 20px;">%s</p>
-						<a href="%s" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;background:#2271b1;color:#fff;font-weight:600;font-size:13px;text-decoration:none;padding:10px 18px;border-radius:6px;">%s</a>
-					</div>',
-					esc_html__( 'Captain Social Feed', 'captain-social-feed' ),
-					esc_html__( 'Select a Feed from the widget settings panel on the left.', 'captain-social-feed' ),
-					esc_url( $create_feed_url ),
-					esc_html__( 'Create a Feed', 'captain-social-feed' )
-				);
+				?>
+				<div class="capsf-editor-placeholder" style="padding:40px;text-align:center;background:#ffffff;border:2px dashed #cbd5e1;border-radius:12px;max-width:450px;margin:20px auto;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+					<h3 style="font-size:16px;font-weight:600;color:#0f172a;margin:0 0 8px;"><?php esc_html_e( 'Captain Social Feed', 'captain-social-feed' ); ?></h3>
+					<p style="font-size:13px;color:#64748b;line-height:1.5;margin:0 0 20px;"><?php esc_html_e( 'Select a Feed from the widget settings panel on the left.', 'captain-social-feed' ); ?></p>
+					<a href="<?php echo esc_url( $create_feed_url ); ?>" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;background:#2271b1;color:#fff;font-weight:600;font-size:13px;text-decoration:none;padding:10px 18px;border-radius:6px;"><?php esc_html_e( 'Create a Feed', 'captain-social-feed' ); ?></a>
+				</div>
+				<?php
 				return;
 			}
 
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo do_shortcode( '[captain-social-feed id="' . absint( $feed_id ) . '"]' );
+			echo wp_kses( do_shortcode( '[captain-social-feed id="' . absint( $feed_id ) . '"]' ), Capsf_Shortcode::allowed_html_tags() );
 
 			// ── Elementor editor fix: print newly-queued assets on AJAX partial renders ──
 			// When a widget is dragged into the canvas without a full page reload,

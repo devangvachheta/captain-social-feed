@@ -18,13 +18,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $capsf_x_popup    = ! empty( $link_class ) && 'capsf-glightbox' === $link_class;
 $capsf_x_target   = isset( $link_target ) && '' !== $link_target ? $link_target : '_blank';
-$capsf_x_rel      = '_blank' === $capsf_x_target ? ' rel="noopener noreferrer"' : '';
 $capsf_x_images   = $capsf_card['images'] ? $capsf_card['images'] : ( '' !== $capsf_card['image'] ? array( $capsf_card['image'] ) : array() );
 $capsf_x_share    = rawurlencode( $capsf_card['permalink'] );
 $capsf_x_gallery  = 'capsf-x-' . sanitize_html_class( (string) ( $item['video_id'] ?? '' ) );
 $capsf_x_verified = '<svg class="capsf-x-verified" viewBox="0 0 24 24" role="img" aria-label="' . esc_attr__( 'Verified account', 'captain-social-feed' ) . '" focusable="false"><path d="M22.5 12.5c0-1.58-.88-2.95-2.18-3.65.15-.44.23-.91.23-1.4 0-2.21-1.71-4-3.83-4-.47 0-.92.08-1.34.25C14.77 2.38 13.48 1.5 12 1.5s-2.77.88-3.38 2.19c-.42-.17-.87-.25-1.34-.25-2.12 0-3.83 1.79-3.83 4 0 .49.08.96.23 1.4C2.38 9.55 1.5 10.92 1.5 12.5c0 1.5.79 2.8 1.98 3.52-.04.24-.06.49-.06.73 0 2.21 1.71 4 3.83 4 .47 0 .92-.09 1.34-.25.61 1.31 1.9 2.19 3.38 2.19 1.49 0 2.78-.88 3.38-2.19.42.16.87.25 1.34.25 2.12 0 3.83-1.79 3.83-4 0-.24-.02-.49-.06-.73 1.19-.72 1.98-2.02 1.98-3.52zm-6.13-3.6-5.12 7.13-3.3-3.3 1.06-1.06 2.06 2.06 4.08-5.68z"/></svg>';
+$capsf_x_index    = isset( $capsf_item_index ) ? $capsf_item_index : ( isset( $index ) ? $index : 0 );
 ?>
-<article class="capsf-x-card<?php echo ! empty( $item_class ) ? ' ' . esc_attr( $item_class ) : ''; ?>"<?php echo ! empty( $item_attrs ) ? $item_attrs : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built with esc_attr() in the shortcode. ?>>
+<article class="capsf-x-card<?php echo ! empty( $item_class ) ? ' ' . esc_attr( $item_class ) : ''; ?>" data-capsf-item data-capsf-index="<?php echo absint( $capsf_x_index ); ?>">
 	<?php if ( '' !== $capsf_card['reposted_by'] ) : ?>
 		<p class="capsf-x-repost">
 			<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 3.88l4.43 4.14-1.37 1.46L5.5 7.55V16c0 1.1.9 2 2 2H13v2H7.5c-2.21 0-4-1.79-4-4V7.55L1.44 9.48.07 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.21 0 4 1.79 4 4v8.45l2.06-1.93 1.37 1.46-4.43 4.14-4.43-4.14 1.37-1.46 2.06 1.93V8c0-1.1-.9-2-2-2z"/></svg>
@@ -42,7 +42,7 @@ $capsf_x_verified = '<svg class="capsf-x-verified" viewBox="0 0 24 24" role="img
 			<span class="capsf-x-avatar capsf-x-avatar--initial" aria-hidden="true"><?php echo esc_html( $capsf_card['initial'] ); ?></span>
 		<?php endif; ?>
 		<div class="capsf-x-names">
-			<span class="capsf-x-name" dir="auto"><?php echo esc_html( $capsf_card['author'] ); ?><?php echo $capsf_card['verified'] ? $capsf_x_verified : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?></span>
+			<span class="capsf-x-name" dir="auto"><?php echo esc_html( $capsf_card['author'] ); ?><?php if ( $capsf_card['verified'] ) : echo wp_kses( $capsf_x_verified, Capsf_Shortcode::allowed_svg_tags() ); endif; ?></span>
 			<span class="capsf-x-meta">
 				<?php if ( '' !== $capsf_card['username'] ) : ?>
 					<span class="capsf-x-handle">@<?php echo esc_html( $capsf_card['username'] ); ?></span>
@@ -66,13 +66,13 @@ $capsf_x_verified = '<svg class="capsf-x-verified" viewBox="0 0 24 24" role="img
 	<?php endif; ?>
 
 	<?php if ( '' !== $capsf_card['caption'] ) : ?>
-		<p class="capsf-x-text" dir="auto"><?php echo Capsf_Shortcode::x_linkify( $capsf_card['caption'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in x_linkify(). ?></p>
+		<p class="capsf-x-text" dir="auto"><?php echo wp_kses_post( Capsf_Shortcode::x_linkify( $capsf_card['caption'] ) ); ?></p>
 	<?php endif; ?>
 
 	<?php if ( $capsf_card['is_video'] && '' !== $capsf_card['image'] ) : ?>
-		<a class="capsf-x-media capsf-x-media--video<?php echo ! empty( $link_class ) ? ' ' . esc_attr( $link_class ) : ''; ?>" href="<?php echo esc_url( $capsf_x_popup && ! empty( $lightbox_href ) ? $lightbox_href : $video_link ); ?>" target="<?php echo esc_attr( $capsf_x_target ); ?>"<?php echo $capsf_x_rel; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static. ?> aria-label="<?php esc_attr_e( 'Play video', 'captain-social-feed' ); ?>"<?php echo ! empty( $glightbox_attr ) ? ' ' . $glightbox_attr : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped parts in get_play_attrs(). ?>>
+		<a class="capsf-x-media capsf-x-media--video<?php echo ! empty( $link_class ) ? ' ' . esc_attr( $link_class ) : ''; ?>" href="<?php echo esc_url( $capsf_x_popup && ! empty( $lightbox_href ) ? $lightbox_href : $video_link ); ?>" target="<?php echo esc_attr( $capsf_x_target ); ?>"<?php if ( '_blank' === $capsf_x_target ) : ?> rel="noopener noreferrer"<?php endif; ?> aria-label="<?php esc_attr_e( 'Play video', 'captain-social-feed' ); ?>"<?php if ( ! empty( $capsf_glightbox ) ) : ?> data-glightbox="<?php echo esc_attr( $capsf_glightbox ); ?>"<?php endif; ?><?php if ( ! empty( $capsf_inline_src ) ) : ?> data-inline-src="<?php echo esc_url( $capsf_inline_src ); ?>"<?php endif; ?>>
 			<img src="<?php echo esc_url( $capsf_card['image'] ); ?>" alt="" loading="lazy" width="600" height="338">
-			<span class="capsf-x-play"><?php echo Capsf_Shortcode::play_icons( 'capsf-x' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?></span>
+			<span class="capsf-x-play"><?php echo wp_kses( Capsf_Shortcode::play_icons( 'capsf-x' ), Capsf_Shortcode::allowed_svg_tags() ); ?></span>
 		</a>
 	<?php elseif ( $capsf_x_images ) : ?>
 		<div class="capsf-x-media capsf-x-media--<?php echo absint( count( $capsf_x_images ) ); ?>">

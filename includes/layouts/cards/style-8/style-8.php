@@ -25,12 +25,10 @@ $capsf_s8_label    = sprintf(
 	__( 'Open post by %s', 'captain-social-feed' ),
 	$capsf_card['author']
 );
-$capsf_s8_heart   = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20.3s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.4-7.5 10-7.5 10z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
-$capsf_s8_comment = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.4A8.5 8.5 0 1 1 20.5 11.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
 $capsf_s8_item_cl = ! empty( $capsf_item_class ) ? $capsf_item_class : ( ! empty( $item_class ) ? $item_class : '' );
-$capsf_s8_item_at = ! empty( $capsf_item_attrs ) ? $capsf_item_attrs : ( ! empty( $item_attrs ) ? $item_attrs : '' );
+$capsf_s8_index   = isset( $capsf_item_index ) ? $capsf_item_index : ( isset( $index ) ? $index : 0 );
 ?>
-<div class="capsf-s8-item<?php echo ! empty( $capsf_s8_item_cl ) ? ' ' . esc_attr( $capsf_s8_item_cl ) : ''; ?>"<?php echo ! empty( $capsf_s8_item_at ) ? $capsf_s8_item_at : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built with esc_attr() in the shortcode. ?>>
+<div class="capsf-s8-item<?php echo ! empty( $capsf_s8_item_cl ) ? ' ' . esc_attr( $capsf_s8_item_cl ) : ''; ?>" data-capsf-item data-capsf-index="<?php echo absint( $capsf_s8_index ); ?>">
 	<a class="capsf-s8-card capsf-pp-open" href="<?php echo esc_url( $capsf_card['permalink'] ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo esc_attr( $capsf_s8_label ); ?>" aria-haspopup="dialog">
 		<?php if ( '' !== $capsf_s8_image ) : ?>
 			<img class="capsf-s8-thumbnail" src="<?php echo esc_url( $capsf_s8_image ); ?>" loading="lazy" width="480" height="480" alt="<?php echo esc_attr( $title ); ?>">
@@ -53,8 +51,8 @@ $capsf_s8_item_at = ! empty( $capsf_item_attrs ) ? $capsf_item_attrs : ( ! empty
 		<span class="capsf-s8-overlay" aria-hidden="true">
 			<?php if ( $capsf_card['show_stats'] && empty( $capsf_card['no_metrics'] ) ) : ?>
 				<span class="capsf-s8-stats">
-					<span><?php echo $capsf_s8_heart; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?><?php echo esc_html( $capsf_card['likes'] ); ?></span>
-					<span><?php echo $capsf_s8_comment; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?><?php echo esc_html( $capsf_card['comments'] ); ?></span>
+					<span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20.3s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.4-7.5 10-7.5 10z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><?php echo esc_html( $capsf_card['likes'] ); ?></span>
+					<span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.4A8.5 8.5 0 1 1 20.5 11.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><?php echo esc_html( $capsf_card['comments'] ); ?></span>
 				</span>
 			<?php endif; ?>
 			<?php if ( '' !== $capsf_s8_caption && '' !== $capsf_s8_image ) : ?>
@@ -64,7 +62,7 @@ $capsf_s8_item_at = ! empty( $capsf_item_attrs ) ? $capsf_item_attrs : ( ! empty
 	</a>
 
 	<template class="capsf-pp-data">
-		<div class="capsf-pp<?php echo $capsf_card['dark'] ? ' capsf-pp--dark' : ''; ?>">
+		<div class="<?php echo esc_attr( 'capsf-pp' . ( $capsf_card['dark'] ? ' capsf-pp--dark' : '' ) ); ?>">
 			<header class="capsf-pp-head">
 				<?php if ( '' !== $capsf_card['avatar'] ) : ?>
 					<img class="capsf-pp-avatar" src="<?php echo esc_url( $capsf_card['avatar'] ); ?>" alt="" width="40" height="40" referrerpolicy="no-referrer">
@@ -76,7 +74,7 @@ $capsf_s8_item_at = ! empty( $capsf_item_attrs ) ? $capsf_item_attrs : ( ! empty
 					<a class="capsf-pp-follow" href="<?php echo esc_url( $capsf_card['profile_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Follow', 'captain-social-feed' ); ?></a>
 				<?php endif; ?>
 				<a class="capsf-pp-platform" href="<?php echo esc_url( $capsf_card['permalink'] ); ?>" target="_blank" rel="noopener noreferrer">
-					<?php echo Capsf_Shortcode::platform_icon( $capsf_card['platform'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in platform_icon(). ?>
+					<?php echo wp_kses( Capsf_Shortcode::platform_icon( $capsf_card['platform'] ), Capsf_Shortcode::allowed_svg_tags() ); ?>
 					<span class="screen-reader-text">
 						<?php
 						/* translators: %s: platform name, e.g. Instagram. */
@@ -98,7 +96,7 @@ $capsf_s8_item_at = ! empty( $capsf_item_attrs ) ? $capsf_item_attrs : ( ! empty
 								<?php elseif ( ! empty( $capsf_slide['is_video'] ) ) : ?>
 									<a class="capsf-pp-video-link" href="<?php echo esc_url( $capsf_card['permalink'] ); ?>" target="_blank" rel="noopener noreferrer">
 										<img src="<?php echo esc_url( $capsf_slide['src'] ); ?>" alt="">
-										<?php echo Capsf_Shortcode::play_icons( 'capsf-pp' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?>
+										<?php echo wp_kses( Capsf_Shortcode::play_icons( 'capsf-pp' ), Capsf_Shortcode::allowed_svg_tags() ); ?>
 										<span class="screen-reader-text"><?php esc_html_e( 'Play video on the original post', 'captain-social-feed' ); ?></span>
 									</a>
 								<?php else : ?>
@@ -113,8 +111,8 @@ $capsf_s8_item_at = ! empty( $capsf_item_attrs ) ? $capsf_item_attrs : ( ! empty
 			<footer class="capsf-pp-foot">
 				<?php if ( empty( $capsf_card['no_metrics'] ) ) : ?>
 					<div class="capsf-pp-stats">
-						<span><?php echo $capsf_s8_heart; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?><?php echo esc_html( $capsf_card['likes'] ); ?><span class="screen-reader-text"><?php esc_html_e( 'likes', 'captain-social-feed' ); ?></span></span>
-						<span><?php echo $capsf_s8_comment; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?><?php echo esc_html( $capsf_card['comments'] ); ?><span class="screen-reader-text"><?php esc_html_e( 'comments', 'captain-social-feed' ); ?></span></span>
+						<span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20.3s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.4-7.5 10-7.5 10z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><?php echo esc_html( $capsf_card['likes'] ); ?><span class="screen-reader-text"><?php esc_html_e( 'likes', 'captain-social-feed' ); ?></span></span>
+						<span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.4A8.5 8.5 0 1 1 20.5 11.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><?php echo esc_html( $capsf_card['comments'] ); ?><span class="screen-reader-text"><?php esc_html_e( 'comments', 'captain-social-feed' ); ?></span></span>
 						<button type="button" class="capsf-pp-share" data-url="<?php echo esc_url( $capsf_card['permalink'] ); ?>" data-copied="<?php esc_attr_e( 'Link copied', 'captain-social-feed' ); ?>">
 							<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21.5 3 3 10.2l7 2.8M21.5 3l-7.2 18.5-3.3-8.5M21.5 3 11 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>
 							<span class="screen-reader-text"><?php esc_html_e( 'Share', 'captain-social-feed' ); ?></span>
@@ -122,7 +120,7 @@ $capsf_s8_item_at = ! empty( $capsf_item_attrs ) ? $capsf_item_attrs : ( ! empty
 					</div>
 				<?php endif; ?>
 				<?php if ( '' !== $capsf_card['caption'] ) : ?>
-					<p class="capsf-pp-caption" dir="auto"><strong><?php echo esc_html( $capsf_card['author'] ); ?></strong> <?php echo Capsf_Shortcode::linkify( $capsf_card['caption'], $capsf_card['platform'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in linkify(). ?></p>
+					<p class="capsf-pp-caption" dir="auto"><strong><?php echo esc_html( $capsf_card['author'] ); ?></strong> <?php echo wp_kses_post( Capsf_Shortcode::linkify( $capsf_card['caption'], $capsf_card['platform'] ) ); ?></p>
 				<?php endif; ?>
 				<?php if ( '' !== $capsf_card['date_full'] ) : ?>
 					<p class="capsf-pp-date"><?php echo esc_html( $capsf_card['date_full'] ); ?></p>

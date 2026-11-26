@@ -24,9 +24,9 @@ $capsf_media_target = isset( $link_target ) && '' !== $link_target ? $link_targe
 $capsf_media_class  = 'capsf-sc-media' . ( ! empty( $link_class ) ? ' ' . $link_class : '' ) . ( $capsf_card['is_video'] ? ' capsf-sc-media--video' : '' );
 $capsf_media_label  = $capsf_card['is_video'] ? __( 'Play video', 'captain-social-feed' ) : __( 'Open post', 'captain-social-feed' );
 ?>
-<a class="<?php echo esc_attr( $capsf_media_class ); ?>" href="<?php echo esc_url( $capsf_media_href ); ?>" target="<?php echo esc_attr( $capsf_media_target ); ?>"<?php echo '_blank' === $capsf_media_target ? ' rel="noopener noreferrer"' : ''; ?> aria-label="<?php echo esc_attr( $capsf_media_label ); ?>"<?php echo ! empty( $glightbox_attr ) ? ' ' . $glightbox_attr : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped parts in get_play_attrs(). ?>>
+<a class="<?php echo esc_attr( $capsf_media_class ); ?>" href="<?php echo esc_url( $capsf_media_href ); ?>" target="<?php echo esc_attr( $capsf_media_target ); ?>"<?php if ( '_blank' === $capsf_media_target ) : ?> rel="noopener noreferrer"<?php endif; ?> aria-label="<?php echo esc_attr( $capsf_media_label ); ?>"<?php if ( ! empty( $capsf_glightbox ) ) : ?> data-glightbox="<?php echo esc_attr( $capsf_glightbox ); ?>"<?php endif; ?><?php if ( ! empty( $capsf_inline_src ) ) : ?> data-inline-src="<?php echo esc_url( $capsf_inline_src ); ?>"<?php endif; ?>>
 	<img class="capsf-sc-image" src="<?php echo esc_url( $capsf_card['image'] ); ?>" alt="<?php echo esc_attr( $title ); ?>" loading="lazy" width="600" height="600">
 	<?php if ( $capsf_card['is_video'] ) : ?>
-		<span class="capsf-sc-play"><?php echo Capsf_Shortcode::play_icons( 'capsf-sc' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?></span>
+		<span class="capsf-sc-play"><?php echo wp_kses( Capsf_Shortcode::play_icons( 'capsf-sc' ), Capsf_Shortcode::allowed_svg_tags() ); ?></span>
 	<?php endif; ?>
 </a>

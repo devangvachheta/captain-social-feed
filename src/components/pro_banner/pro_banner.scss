@@ -16,6 +16,33 @@
     overflow: hidden;
     position: relative;
 
+    .capsf-pro-banner-close {
+        position: absolute;
+        inset-block-start: 10px;
+        inset-inline-end: 10px;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+        cursor: pointer;
+
+        svg { width: 14px; height: 14px; }
+
+        &:hover { background: rgba(255, 255, 255, 0.24); }
+
+        &:focus-visible {
+            outline: 2px solid #ffffff;
+            outline-offset: 2px;
+        }
+    }
+
     &::before {
         content: '';
         position: absolute;

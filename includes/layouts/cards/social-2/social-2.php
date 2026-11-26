@@ -15,10 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $capsf_sc_item_cl = ! empty( $capsf_item_class ) ? $capsf_item_class : ( ! empty( $item_class ) ? $item_class : '' );
-$capsf_sc_attrs   = ! empty( $capsf_item_attrs ) ? $capsf_item_attrs : ( ! empty( $item_attrs ) ? $item_attrs : '' );
+$capsf_sc_idx     = isset( $capsf_item_index ) ? absint( $capsf_item_index ) : ( isset( $index ) ? absint( $index ) : 0 );
 $capsf_sc_class   = 'capsf-sc-card capsf-sc-card--header-top' . ( '' === $capsf_card['image'] ? ' capsf-sc-card--text' : '' ) . ( ! empty( $capsf_sc_item_cl ) ? ' ' . $capsf_sc_item_cl : '' );
 ?>
-<article class="<?php echo esc_attr( $capsf_sc_class ); ?>"<?php echo ! empty( $capsf_sc_attrs ) ? $capsf_sc_attrs : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built with esc_attr() in the shortcode. ?>>
+<article class="<?php echo esc_attr( $capsf_sc_class ); ?>" data-capsf-item data-capsf-index="<?php echo absint( $capsf_sc_idx ); ?>">
 	<header class="capsf-sc-head">
 		<?php require CAPSF_PATH . 'includes/layouts/partials/author.php'; ?>
 	</header>

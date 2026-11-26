@@ -17,14 +17,14 @@ $capsf_s1_glightbox_attr = isset( $capsf_glightbox_attr ) ? $capsf_glightbox_att
 $capsf_s1_item_class     = isset( $capsf_item_class ) ? $capsf_item_class : ( isset( $item_class ) ? $item_class : '' );
 $capsf_s1_item_attrs     = isset( $capsf_item_attrs ) ? $capsf_item_attrs : ( isset( $item_attrs ) ? $item_attrs : '' );
 
-$capsf_s1_href    = 'capsf-glightbox' === $capsf_s1_link_class ? $capsf_s1_lightbox_href : $video_link;
-$capsf_s1_target  = '' !== $capsf_s1_link_target ? esc_attr( $capsf_s1_link_target ) : '_blank';
-$capsf_s1_class   = 'capsf-s1-thumb-wrap' . ( ! empty( $capsf_s1_link_class ) ? ' ' . esc_attr( $capsf_s1_link_class ) : '' );
-$capsf_s1_extra   = ! empty( $capsf_s1_glightbox_attr ) ? ' ' . $capsf_s1_glightbox_attr : '';
-$capsf_s1_item_cl = ! empty( $capsf_s1_item_class ) ? ' ' . esc_attr( $capsf_s1_item_class ) : '';
+$capsf_s1_idx    = isset( $capsf_item_index ) ? absint( $capsf_item_index ) : ( isset( $index ) ? absint( $index ) : 0 );
+$capsf_s1_href   = 'capsf-glightbox' === $capsf_s1_link_class ? $capsf_s1_lightbox_href : $video_link;
+$capsf_s1_target = '' !== $capsf_s1_link_target ? $capsf_s1_link_target : '_blank';
+$capsf_s1_class  = 'capsf-s1-thumb-wrap' . ( ! empty( $capsf_s1_link_class ) ? ' ' . $capsf_s1_link_class : '' );
+$capsf_s1_card_c = 'capsf-s1-card' . ( ! empty( $capsf_s1_item_class ) ? ' ' . $capsf_s1_item_class : '' );
 ?>
-<div class="capsf-s1-card<?php echo $capsf_s1_item_cl; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"<?php echo $capsf_s1_item_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<a class="<?php echo esc_attr( $capsf_s1_class ); ?>" href="<?php echo esc_url( $capsf_s1_href ); ?>" target="<?php echo esc_attr( $capsf_s1_target ); ?>"<?php echo $capsf_s1_extra; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<div class="<?php echo esc_attr( $capsf_s1_card_c ); ?>" data-capsf-item data-capsf-index="<?php echo absint( $capsf_s1_idx ); ?>">
+	<a class="<?php echo esc_attr( $capsf_s1_class ); ?>" href="<?php echo esc_url( $capsf_s1_href ); ?>" target="<?php echo esc_attr( $capsf_s1_target ); ?>"<?php if ( '_blank' === $capsf_s1_target ) : ?> rel="noopener noreferrer"<?php endif; ?><?php if ( ! empty( $capsf_glightbox ) ) : ?> data-glightbox="<?php echo esc_attr( $capsf_glightbox ); ?>"<?php endif; ?><?php if ( ! empty( $capsf_inline_src ) ) : ?> data-inline-src="<?php echo esc_url( $capsf_inline_src ); ?>"<?php endif; ?>>
 		<img class="capsf-s1-thumbnail"
 			src="<?php echo esc_url( $medium ); ?>"
 			srcset="
@@ -39,7 +39,7 @@ $capsf_s1_item_cl = ! empty( $capsf_s1_item_class ) ? ' ' . esc_attr( $capsf_s1_
 			alt="<?php echo esc_attr( $title ); ?>">
 
 		<?php if ( $capsf_card['is_video'] ) : ?>
-			<div class="capsf-s1-play-btn"><?php echo Capsf_Shortcode::play_icons( 'capsf-s1' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG. ?></div>
+			<div class="capsf-s1-play-btn"><?php echo wp_kses( Capsf_Shortcode::play_icons( 'capsf-s1' ), Capsf_Shortcode::allowed_svg_tags() ); ?></div>
 		<?php endif; ?>
 
 		<?php if ( ! empty( $duration_label ) ) : ?>
@@ -71,9 +71,9 @@ $capsf_s1_item_cl = ! empty( $capsf_s1_item_class ) ? ' ' . esc_attr( $capsf_s1_
 		<?php endif; ?>
 
 		<div class="capsf-s1-channel-info">
-			<div class="capsf-s1-channel-dot"><?php echo Capsf_Shortcode::avatar_or_icon( $capsf_card, 28 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper. ?></div>
+			<div class="capsf-s1-channel-dot"><?php echo wp_kses( Capsf_Shortcode::avatar_or_icon( $capsf_card, 28 ), Capsf_Shortcode::allowed_svg_tags() ); ?></div>
 			<span class="capsf-s1-channel-name"><?php echo esc_html( $channel ); ?></span>
-			<span class="capsf-s1-channel-platform"><?php echo Capsf_Shortcode::trailing_platform_icon( $capsf_card ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper. ?></span>
+			<span class="capsf-s1-channel-platform"><?php echo wp_kses( Capsf_Shortcode::trailing_platform_icon( $capsf_card ), Capsf_Shortcode::allowed_svg_tags() ); ?></span>
 		</div>
 	</div>
 </div>

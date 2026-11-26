@@ -15,10 +15,8 @@ export const MobileIcon  = () => <svg viewBox='0 0 24 24' fill='none' stroke='cu
 // current device that opens a small dropdown menu, instead of a 3-button
 // row that's always fully visible. Shared/global - reused wherever a
 // field needs a per-device value (Columns, Initial Videos, Videos Per
-// Click, and any new one going forward). Pass `proGated` to lock the
-// Tablet/Mobile options behind Pro (onLockedClick fires instead of
-// onChange); omit it where every device is free to pick, like Columns.
-const DeviceSelect = ( { value, onChange, proGated = false, isPro = false, onLockedClick } ) => {
+// Click, and any new one going forward).
+const DeviceSelect = ( { value, onChange } ) => {
     const [ open, setOpen ] = useState( false )
     const wrapRef = useRef( null )
 
@@ -54,26 +52,20 @@ const DeviceSelect = ( { value, onChange, proGated = false, isPro = false, onLoc
             </button>
             { open && (
                 <div className='capsf-device-select-menu'>
-                    { DEVICES.map( ( { key, Icon, label } ) => {
-                        const locked = proGated && key !== 'desktop' && ! isPro
-                        return (
-                            <button
-                                key={ key }
-                                type='button'
-                                className={ `capsf-device-select-option${ value === key ? ' active' : '' }${ locked ? ' locked' : '' }` }
-                                onClick={ () => {
-                                    setOpen( false )
-                                    if ( locked ) { onLockedClick && onLockedClick() } else { onChange( key ) }
-                                } }
-                            >
-                                <Icon />
-                                <span>{ label }</span>
-                                { locked && (
-                                    <svg className='capsf-device-select-lock' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.4' strokeLinecap='round' strokeLinejoin='round'><rect x='3' y='11' width='18' height='11' rx='2'/><path d='M7 11V7a5 5 0 0 1 10 0v4'/></svg>
-                                ) }
-                            </button>
-                        )
-                    } ) }
+                    { DEVICES.map( ( { key, Icon, label } ) => (
+                        <button
+                            key={ key }
+                            type='button'
+                            className={ `capsf-device-select-option${ value === key ? ' active' : '' }` }
+                            onClick={ () => {
+                                setOpen( false )
+                                onChange( key )
+                            } }
+                        >
+                            <Icon />
+                            <span>{ label }</span>
+                        </button>
+                    ) ) }
                 </div>
             ) }
         </div>

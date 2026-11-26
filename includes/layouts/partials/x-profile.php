@@ -21,7 +21,7 @@ $capsf_stats      = array(
 );
 ?>
 <header class="capsf-x-profile">
-	<div class="capsf-x-banner"<?php echo ! empty( $capsf_profile['banner'] ) ? ' style="background-image:url(' . esc_url( $capsf_profile['banner'] ) . ')"' : ''; ?>></div>
+	<div class="capsf-x-banner"<?php if ( ! empty( $capsf_profile['banner'] ) ) : ?> style="background-image:url(<?php echo esc_url( $capsf_profile['banner'] ); ?>)"<?php endif; ?>></div>
 	<div class="capsf-x-profile-row">
 		<?php if ( ! empty( $capsf_profile['avatar'] ) ) : ?>
 			<img class="capsf-x-profile-avatar" src="<?php echo esc_url( $capsf_profile['avatar'] ); ?>" alt="" width="80" height="80" loading="lazy" referrerpolicy="no-referrer">

@@ -340,16 +340,6 @@ const InfoTip = ( { text } ) => {
     )
 }
 
-// "Custom" chip after Columns / Max Posts - a Pro feature; free users go to Upgrade.
-const ProCustomChip = ( { onClick } ) => (
-    <button type='button' className='capsf-col-chip capsf-col-chip--text capsf-col-chip--locked capsf-col-chip--custom' onClick={ onClick } title={ __( 'Available on Pro', 'captain-social-feed' ) }>
-        { __( 'Custom', 'captain-social-feed' ) }
-        <svg viewBox='0 0 24 24' fill='currentColor' width='11' height='11' aria-hidden='true'>
-            <path d='M2.5 18.5h19l1-9-5.5 4-4-7-4 7-5.5-4 1 9Z'/>
-            <rect x='2.5' y='19.5' width='19' height='2' rx='1'/>
-        </svg>
-    </button>
-)
 
 const WizardProgress = ( { current, onStepClick, maxReached, onBack, saving, onNextSlotMount, showNext = true } ) => (
     <div className='capsf-wiz-progress'>
@@ -1511,32 +1501,25 @@ const EditFeed = () => {
         return String( settings.load_more_count ?? 3 )
     }
 
-    // Shared Desktop/Tablet/Mobile tab row for Pro-gated responsive fields
-    // (Initial Videos, Videos Per Click). Tablet/Mobile are locked on free -
-    // clicking sends the user to Upgrade instead of switching the tab.
+    // Shared Desktop/Tablet/Mobile tab row for responsive fields
+    // (Initial Videos, Videos Per Click).
     const renderResponsiveDeviceTabs = ( device, setDevice ) => (
         <div className='capsf-col-device-tabs'>
             { [
                 { key: 'desktop', Icon: DesktopIcon, tip: __( 'Desktop', 'captain-social-feed' ) },
                 { key: 'tablet',  Icon: TabletIcon,  tip: __( 'Tablet ≤1024px', 'captain-social-feed' ) },
                 { key: 'mobile',  Icon: MobileIcon,  tip: __( 'Mobile ≤640px', 'captain-social-feed' ) },
-            ].map( ( { key, Icon, tip } ) => {
-                const locked = key !== 'desktop' && !isPro
-                return (
-                    <button
-                        key={ key }
-                        type='button'
-                        title={ locked ? __( 'Available on Pro', 'captain-social-feed' ) : tip }
-                        className={ `capsf-col-device-btn${ device === key ? ' active' : '' }${ locked ? ' capsf-col-device-btn--locked' : '' }` }
-                        onClick={ () => locked ? navigate( '/upgrade' ) : setDevice( key ) }
-                    >
-                        <Icon />
-                        { locked && (
-                            <svg className='capsf-col-device-lock' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.4' strokeLinecap='round' strokeLinejoin='round'><rect x='3' y='11' width='18' height='11' rx='2'/><path d='M7 11V7a5 5 0 0 1 10 0v4'/></svg>
-                        ) }
-                    </button>
-                )
-            } ) }
+            ].map( ( { key, Icon, tip } ) => (
+                <button
+                    key={ key }
+                    type='button'
+                    title={ tip }
+                    className={ `capsf-col-device-btn${ device === key ? ' active' : '' }` }
+                    onClick={ () => setDevice( key ) }
+                >
+                    <Icon />
+                </button>
+            ) ) }
         </div>
     )
 
@@ -2026,7 +2009,6 @@ if ( ! function_exists( '${ phpFunctionName }' ) ) {
                                                                     { c }
                                                                 </label>
                                                             ) ) }
-                                                            <ProCustomChip onClick={ () => navigate( '/upgrade' ) } />
                                                             <span className='capsf-col-breakpoint'>
                                                                 { colDevice === 'desktop' && __( 'All screens', 'captain-social-feed' ) }
                                                                 { colDevice === 'tablet'  && __( '≤ 1024px',    'captain-social-feed' ) }
@@ -2047,7 +2029,6 @@ if ( ! function_exists( '${ phpFunctionName }' ) ) {
                                                                 { n }
                                                             </label>
                                                         ) ) }
-                                                        <ProCustomChip onClick={ () => navigate( '/upgrade' ) } />
                                                     </div>
                                                 </div>
                                             </div>

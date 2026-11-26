@@ -4599,3 +4599,7 @@ msgstr ""
 #: src/services/dashboard/dashboardContent.jsx:383
 msgid "Delete"
 msgstr ""
+
+#: src/components/pro_banner/pro_banner.jsx:50
+msgid "Dismiss this banner"
+msgstr ""
